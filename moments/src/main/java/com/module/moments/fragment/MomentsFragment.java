@@ -83,7 +83,7 @@ public class MomentsFragment extends Fragment implements MomentsContract.View, E
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity=this.getActivity();
-        if (container==null){
+        if (view==null){
             view = inflater.inflate(R.layout.fragment_moments, container, false);
             presenter = new MomentsPresenter(this);
             initView();

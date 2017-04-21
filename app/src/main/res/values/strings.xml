@@ -40,6 +40,7 @@
     <!-- home activity -->
     <string name="home_conversation_tab">会话</string>
     <string name="home_setting_tab">设置</string>
+    <string name="home_moments_tab">朋友圈</string>
 
     <!-- conversation fragment -->
     <string name="conversation_system">系统消息</string>

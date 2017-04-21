@@ -13,6 +13,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.module.moments.fragment.MomentsFragment;
 import com.tencent.TIMManager;
 import com.tencent.TIMUserStatusListener;
 import com.tencent.qcloud.presentation.event.MessageEvent;
@@ -31,10 +32,10 @@ public class HomeActivity extends FragmentActivity {
     private static final String TAG = HomeActivity.class.getSimpleName();
     private LayoutInflater layoutInflater;
     private FragmentTabHost mTabHost;
-    private final Class fragmentArray[] = {ConversationFragment.class, ContactFragment.class, SettingFragment.class};
-    private int mTitleArray[] = {R.string.home_conversation_tab, R.string.home_contact_tab, R.string.home_setting_tab};
-    private int mImageViewArray[] = {R.drawable.tab_conversation, R.drawable.tab_contact, R.drawable.tab_setting};
-    private String mTextviewArray[] = {"contact", "conversation", "setting"};
+    private final Class fragmentArray[] = {ConversationFragment.class, ContactFragment.class, MomentsFragment.class,SettingFragment.class};
+    private int mTitleArray[] = {R.string.home_conversation_tab, R.string.home_contact_tab,R.string.home_moments_tab, R.string.home_setting_tab};
+    private int mImageViewArray[] = {R.drawable.tab_conversation, R.drawable.tab_contact,R.drawable.tab_moments, R.drawable.tab_setting};
+    private String mTextviewArray[] = {"contact", "conversation", "moments","setting"};
     private ImageView msgUnread;
 
 
