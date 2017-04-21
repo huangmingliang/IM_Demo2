@@ -13,21 +13,21 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.module.moments.MyApplication;
 import com.module.moments.R;
 import com.module.moments.activity.ImagePagerActivity;
-import com.module.moments.adapter.viewholder.CircleViewHolder;
+import com.module.moments.adapter.viewholder.MomentsViewHolder;
 import com.module.moments.adapter.viewholder.ImageViewHolder;
 import com.module.moments.adapter.viewholder.URLViewHolder;
 import com.module.moments.adapter.viewholder.VideoViewHolder;
 import com.module.moments.bean.ActionItem;
-import com.module.moments.bean.CircleItem;
+import com.module.moments.bean.MomentsItem;
 import com.module.moments.bean.CommentConfig;
 import com.module.moments.bean.CommentItem;
 import com.module.moments.bean.FavortItem;
 import com.module.moments.bean.PhotoInfo;
-import com.module.moments.mvp.presenter.CirclePresenter;
+import com.module.moments.mvp.presenter.MomentsPresenter;
 import com.module.moments.utils.DatasUtil;
-import com.module.moments.utils.GlideCircleTransform;
+import com.module.moments.utils.GlideMomentsTransform;
 import com.module.moments.utils.UrlUtils;
-import com.module.moments.widgets.CircleVideoView;
+import com.module.moments.widgets.MomentsVideoView;
 import com.module.moments.widgets.CommentListView;
 import com.module.moments.widgets.ExpandTextView;
 import com.module.moments.widgets.MultiImageView;
@@ -53,9 +53,9 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
 
     int curPlayIndex=-1;
 
-    private CirclePresenter presenter;
+    private MomentsPresenter presenter;
     private Context context;
-    public void setCirclePresenter(CirclePresenter presenter){
+    public void setMomentsPresenter(MomentsPresenter presenter){
         this.presenter = presenter;
     }
 
@@ -70,13 +70,13 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
         }
 
         int itemType = 0;
-        CircleItem item = (CircleItem) datas.get(position-1);
-        if (CircleItem.TYPE_URL.equals(item.getType())) {
-            itemType = CircleViewHolder.TYPE_URL;
-        } else if (CircleItem.TYPE_IMG.equals(item.getType())) {
-            itemType = CircleViewHolder.TYPE_IMAGE;
-        } else if(CircleItem.TYPE_VIDEO.equals(item.getType())){
-            itemType = CircleViewHolder.TYPE_VIDEO;
+        MomentsItem item = (MomentsItem) datas.get(position-1);
+        if (MomentsItem.TYPE_URL.equals(item.getType())) {
+            itemType = MomentsViewHolder.TYPE_URL;
+        } else if (MomentsItem.TYPE_IMG.equals(item.getType())) {
+            itemType = MomentsViewHolder.TYPE_IMAGE;
+        } else if(MomentsItem.TYPE_VIDEO.equals(item.getType())){
+            itemType = MomentsViewHolder.TYPE_VIDEO;
         }
         return itemType;
     }
@@ -85,16 +85,16 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
         if(viewType == TYPE_HEAD){
-            View headView = LayoutInflater.from(parent.getContext()).inflate(R.layout.head_circle, parent, false);
+            View headView = LayoutInflater.from(parent.getContext()).inflate(R.layout.head_moments, parent, false);
             viewHolder = new HeaderViewHolder(headView);
         }else{
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_circle_item, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_moments_item, parent, false);
 
-            if(viewType == CircleViewHolder.TYPE_URL){
+            if(viewType == MomentsViewHolder.TYPE_URL){
                 viewHolder = new URLViewHolder(view);
-            }else if(viewType == CircleViewHolder.TYPE_IMAGE){
+            }else if(viewType == MomentsViewHolder.TYPE_IMAGE){
                 viewHolder = new ImageViewHolder(view);
-            }else if(viewType == CircleViewHolder.TYPE_VIDEO){
+            }else if(viewType == MomentsViewHolder.TYPE_VIDEO){
                 viewHolder = new VideoViewHolder(view);
             }
         }
@@ -109,30 +109,30 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
             //HeaderViewHolder holder = (HeaderViewHolder) viewHolder;
         }else{
 
-            final int circlePosition = position - HEADVIEW_SIZE;
-            final CircleViewHolder holder = (CircleViewHolder) viewHolder;
-            final CircleItem circleItem = (CircleItem) datas.get(circlePosition);
-            final String circleId = circleItem.getId();
-            String name = circleItem.getUser().getName();
-            String headImg = circleItem.getUser().getHeadUrl();
-            final String content = circleItem.getContent();
-            String createTime = circleItem.getCreateTime();
-            final List<FavortItem> favortDatas = circleItem.getFavorters();
-            final List<CommentItem> commentsDatas = circleItem.getComments();
-            boolean hasFavort = circleItem.hasFavort();
-            boolean hasComment = circleItem.hasComment();
+            final int MomentsPosition = position - HEADVIEW_SIZE;
+            final MomentsViewHolder holder = (MomentsViewHolder) viewHolder;
+            final MomentsItem MomentsItem = (MomentsItem) datas.get(MomentsPosition);
+            final String MomentsId = MomentsItem.getId();
+            String name = MomentsItem.getUser().getName();
+            String headImg = MomentsItem.getUser().getHeadUrl();
+            final String content = MomentsItem.getContent();
+            String createTime = MomentsItem.getCreateTime();
+            final List<FavortItem> favortDatas = MomentsItem.getFavorters();
+            final List<CommentItem> commentsDatas = MomentsItem.getComments();
+            boolean hasFavort = MomentsItem.hasFavort();
+            boolean hasComment = MomentsItem.hasComment();
 
-            Glide.with(context).load(headImg).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.color.bg_no_photo).transform(new GlideCircleTransform(context)).into(holder.headIv);
+            Glide.with(context).load(headImg).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.color.bg_no_photo).transform(new GlideMomentsTransform(context)).into(holder.headIv);
 
             holder.nameTv.setText(name);
             holder.timeTv.setText(createTime);
 
             if(!TextUtils.isEmpty(content)){
-                holder.contentTv.setExpand(circleItem.isExpand());
+                holder.contentTv.setExpand(MomentsItem.isExpand());
                 holder.contentTv.setExpandStatusListener(new ExpandTextView.ExpandStatusListener() {
                     @Override
                     public void statusChange(boolean isExpand) {
-                        circleItem.setExpand(isExpand);
+                        MomentsItem.setExpand(isExpand);
                     }
                 });
 
@@ -140,7 +140,7 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
             }
             holder.contentTv.setVisibility(TextUtils.isEmpty(content) ? View.GONE : View.VISIBLE);
 
-            if(DatasUtil.curUser.getId().equals(circleItem.getUser().getId())){
+            if(DatasUtil.curUser.getId().equals(MomentsItem.getUser().getId())){
                 holder.deleteBtn.setVisibility(View.VISIBLE);
             }else{
                 holder.deleteBtn.setVisibility(View.GONE);
@@ -150,7 +150,7 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
                 public void onClick(View v) {
                     //删除
                     if(presenter!=null){
-                        presenter.deleteCircle(circleId);
+                        presenter.deleteMoments(MomentsId);
                     }
                 }
             });
@@ -177,12 +177,12 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
                             CommentItem commentItem = commentsDatas.get(commentPosition);
                             if(DatasUtil.curUser.getId().equals(commentItem.getUser().getId())){//复制或者删除自己的评论
 
-                                CommentDialog dialog = new CommentDialog(context, presenter, commentItem, circlePosition);
+                                CommentDialog dialog = new CommentDialog(context, presenter, commentItem, MomentsPosition);
                                 dialog.show();
                             }else{//回复别人的评论
                                 if(presenter != null){
                                     CommentConfig config = new CommentConfig();
-                                    config.circlePosition = circlePosition;
+                                    config.MomentsPosition = MomentsPosition;
                                     config.commentPosition = commentPosition;
                                     config.commentType = CommentConfig.Type.REPLY;
                                     config.replyUser = commentItem.getUser();
@@ -196,7 +196,7 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
                         public void onItemLongClick(int commentPosition) {
                             //长按进行复制或者删除
                             CommentItem commentItem = commentsDatas.get(commentPosition);
-                            CommentDialog dialog = new CommentDialog(context, presenter, commentItem, circlePosition);
+                            CommentDialog dialog = new CommentDialog(context, presenter, commentItem, MomentsPosition);
                             dialog.show();
                         }
                     });
@@ -215,14 +215,14 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
 
             final SnsPopupWindow snsPopupWindow = holder.snsPopupWindow;
             //判断是否已点赞
-            String curUserFavortId = circleItem.getCurUserFavortId(DatasUtil.curUser.getId());
+            String curUserFavortId = MomentsItem.getCurUserFavortId(DatasUtil.curUser.getId());
             if(!TextUtils.isEmpty(curUserFavortId)){
                 snsPopupWindow.getmActionItems().get(0).mTitle = "取消";
             }else{
                 snsPopupWindow.getmActionItems().get(0).mTitle = "赞";
             }
             snsPopupWindow.update();
-            snsPopupWindow.setmItemClickListener(new PopupItemClickListener(circlePosition, circleItem, curUserFavortId));
+            snsPopupWindow.setmItemClickListener(new PopupItemClickListener(MomentsPosition, MomentsItem, curUserFavortId));
             holder.snsBtn.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
@@ -233,10 +233,10 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
 
             holder.urlTipTv.setVisibility(View.GONE);
             switch (holder.viewType) {
-                case CircleViewHolder.TYPE_URL:// 处理链接动态的链接内容和和图片
+                case MomentsViewHolder.TYPE_URL:// 处理链接动态的链接内容和和图片
                     if(holder instanceof URLViewHolder){
-                        String linkImg = circleItem.getLinkImg();
-                        String linkTitle = circleItem.getLinkTitle();
+                        String linkImg = MomentsItem.getLinkImg();
+                        String linkTitle = MomentsItem.getLinkTitle();
                         Glide.with(context).load(linkImg).into(((URLViewHolder)holder).urlImageIv);
                         ((URLViewHolder)holder).urlContentTv.setText(linkTitle);
                         ((URLViewHolder)holder).urlBody.setVisibility(View.VISIBLE);
@@ -244,9 +244,9 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
                     }
 
                     break;
-                case CircleViewHolder.TYPE_IMAGE:// 处理图片
+                case MomentsViewHolder.TYPE_IMAGE:// 处理图片
                     if(holder instanceof ImageViewHolder){
-                        final List<PhotoInfo> photos = circleItem.getPhotos();
+                        final List<PhotoInfo> photos = MomentsItem.getPhotos();
                         if (photos != null && photos.size() > 0) {
                             ((ImageViewHolder)holder).multiImageView.setVisibility(View.VISIBLE);
                             ((ImageViewHolder)holder).multiImageView.setList(photos);
@@ -271,12 +271,12 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
                     }
 
                     break;
-                case CircleViewHolder.TYPE_VIDEO:
+                case MomentsViewHolder.TYPE_VIDEO:
                     if(holder instanceof VideoViewHolder){
-                        ((VideoViewHolder)holder).videoView.setVideoUrl(circleItem.getVideoUrl());
-                        ((VideoViewHolder)holder).videoView.setVideoImgUrl(circleItem.getVideoImgUrl());//视频封面图片
+                        ((VideoViewHolder)holder).videoView.setVideoUrl(MomentsItem.getVideoUrl());
+                        ((VideoViewHolder)holder).videoView.setVideoImgUrl(MomentsItem.getVideoImgUrl());//视频封面图片
                         ((VideoViewHolder)holder).videoView.setPostion(position);
-                        ((VideoViewHolder)holder).videoView.setOnPlayClickListener(new CircleVideoView.OnPlayClickListener() {
+                        ((VideoViewHolder)holder).videoView.setOnPlayClickListener(new MomentsVideoView.OnPlayClickListener() {
                             @Override
                             public void onPlayClick(int pos) {
                                 curPlayIndex = pos;
@@ -311,14 +311,14 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
     private class PopupItemClickListener implements SnsPopupWindow.OnItemClickListener{
         private String mFavorId;
         //动态在列表中的位置
-        private int mCirclePosition;
+        private int mMomentsPosition;
         private long mLasttime = 0;
-        private CircleItem mCircleItem;
+        private MomentsItem mMomentsItem;
 
-        public PopupItemClickListener(int circlePosition, CircleItem circleItem, String favorId){
+        public PopupItemClickListener(int MomentsPosition, MomentsItem MomentsItem, String favorId){
             this.mFavorId = favorId;
-            this.mCirclePosition = circlePosition;
-            this.mCircleItem = circleItem;
+            this.mMomentsPosition = MomentsPosition;
+            this.mMomentsItem = MomentsItem;
         }
 
         @Override
@@ -330,16 +330,16 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
                     mLasttime = System.currentTimeMillis();
                     if(presenter != null){
                         if ("赞".equals(actionitem.mTitle.toString())) {
-                            presenter.addFavort(mCirclePosition);
+                            presenter.addFavort(mMomentsPosition);
                         } else {//取消点赞
-                            presenter.deleteFavort(mCirclePosition, mFavorId);
+                            presenter.deleteFavort(mMomentsPosition, mFavorId);
                         }
                     }
                     break;
                 case 1://发布评论
                     if(presenter != null){
                         CommentConfig config = new CommentConfig();
-                        config.circlePosition = mCirclePosition;
+                        config.MomentsPosition = mMomentsPosition;
                         config.commentType = CommentConfig.Type.PUBLIC;
                         presenter.showEditTextBody(config);
                     }

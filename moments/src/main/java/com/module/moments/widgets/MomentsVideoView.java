@@ -30,7 +30,7 @@ import java.io.InputStream;
 /**
  * Created by yiwei on 16/5/23.
  */
-public class CircleVideoView extends LinearLayout implements VideoLoadMvpView, ListItem {
+public class MomentsVideoView extends LinearLayout implements VideoLoadMvpView, ListItem {
 
     public TextureVideoView videoPlayer;
     public ImageView videoFrame;
@@ -51,17 +51,17 @@ public class CircleVideoView extends LinearLayout implements VideoLoadMvpView, L
     private OnPlayClickListener onPlayClickListener;
     private String videoLocalPath;
 
-    public CircleVideoView(Context context) {
+    public MomentsVideoView(Context context) {
         super(context);
         init();
     }
 
-    public CircleVideoView(Context context, AttributeSet attrs) {
+    public MomentsVideoView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public CircleVideoView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public MomentsVideoView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }

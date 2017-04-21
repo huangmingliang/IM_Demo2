@@ -4,14 +4,14 @@ import android.view.View;
 import android.view.ViewStub;
 
 import com.module.moments.R;
-import com.module.moments.widgets.CircleVideoView;
+import com.module.moments.widgets.MomentsVideoView;
 
 /**
  * Created by suneee on 2016/8/16.
  */
-public class VideoViewHolder extends CircleViewHolder {
+public class VideoViewHolder extends MomentsViewHolder {
 
-    public CircleVideoView videoView;
+    public MomentsVideoView videoView;
 
     public VideoViewHolder(View itemView){
         super(itemView, TYPE_VIDEO);
@@ -26,7 +26,7 @@ public class VideoViewHolder extends CircleViewHolder {
         viewStub.setLayoutResource(R.layout.viewstub_videobody);
         View subView = viewStub.inflate();
 
-        CircleVideoView videoBody = (CircleVideoView) subView.findViewById(R.id.videoView);
+        MomentsVideoView videoBody = (MomentsVideoView) subView.findViewById(R.id.videoView);
         if(videoBody!=null){
             this.videoView = videoBody;
         }

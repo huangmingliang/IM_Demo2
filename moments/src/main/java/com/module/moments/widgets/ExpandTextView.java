@@ -3,7 +3,6 @@ package com.module.moments.widgets;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -11,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.module.moments.R;
-import com.module.moments.spannable.CircleMovementMethod;
+import com.module.moments.spannable.MomentsMovementMethod;
 
 /**
  * Created by yiwei on 16/7/10.
@@ -113,7 +112,7 @@ public class ExpandTextView extends LinearLayout {
 
         });
         contentText.setText(content);
-        contentText.setMovementMethod(new CircleMovementMethod(getResources().getColor(R.color.name_selector_color)));
+        contentText.setMovementMethod(new MomentsMovementMethod(getResources().getColor(R.color.name_selector_color)));
     }
 
     public void setExpand(boolean isExpand){

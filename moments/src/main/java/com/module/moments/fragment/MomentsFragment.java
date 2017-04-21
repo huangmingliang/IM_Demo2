@@ -28,12 +28,12 @@ import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.module.moments.R;
 import com.module.moments.adapter.MomentsAdapter;
-import com.module.moments.bean.CircleItem;
+import com.module.moments.bean.MomentsItem;
 import com.module.moments.bean.CommentConfig;
 import com.module.moments.bean.CommentItem;
 import com.module.moments.bean.FavortItem;
-import com.module.moments.mvp.contract.CircleContract;
-import com.module.moments.mvp.presenter.CirclePresenter;
+import com.module.moments.mvp.contract.MomentsContract;
+import com.module.moments.mvp.presenter.MomentsPresenter;
 import com.module.moments.utils.CommonUtils;
 import com.module.moments.widgets.CommentListView;
 import com.module.moments.widgets.DivItemDecoration;
@@ -49,7 +49,7 @@ import pub.devrel.easypermissions.EasyPermissions;
  * Created by huangmingliang on 2017/4/20.
  */
 
-public class MomentsFragment extends Fragment implements CircleContract.View, EasyPermissions.PermissionCallbacks{
+public class MomentsFragment extends Fragment implements MomentsContract.View, EasyPermissions.PermissionCallbacks{
 
     private final String TAG = "MomentsFragment";
 
@@ -64,10 +64,10 @@ public class MomentsFragment extends Fragment implements CircleContract.View, Ea
     private int screenHeight;
     private int editTextBodyHeight;
     private int currentKeyboardH;
-    private int selectCircleItemH;
+    private int selectMomentsItemH;
     private int selectCommentItemOffset;
 
-    private CirclePresenter presenter;
+    private MomentsPresenter presenter;
     private CommentConfig commentConfig;
     private SuperRecyclerView recyclerView;
     private RelativeLayout bodyLayout;
@@ -85,7 +85,7 @@ public class MomentsFragment extends Fragment implements CircleContract.View, Ea
         activity=this.getActivity();
         if (container==null){
             view = inflater.inflate(R.layout.fragment_moments, container, false);
-            presenter = new CirclePresenter(this);
+            presenter = new MomentsPresenter(this);
             initView();
             initPermission();
 
@@ -117,11 +117,11 @@ public class MomentsFragment extends Fragment implements CircleContract.View, Ea
     }
 
     @Override
-    public void update2DeleteCircle(String circleId) {
-        List<CircleItem> circleItems = momentsAdapter.getDatas();
-        for(int i=0; i<circleItems.size(); i++){
-            if(circleId.equals(circleItems.get(i).getId())){
-                circleItems.remove(i);
+    public void update2DeleteMoments(String MomentsId) {
+        List<MomentsItem> MomentsItems = momentsAdapter.getDatas();
+        for(int i=0; i<MomentsItems.size(); i++){
+            if(MomentsId.equals(MomentsItems.get(i).getId())){
+                MomentsItems.remove(i);
                 momentsAdapter.notifyDataSetChanged();
                 //momentsAdapter.notifyItemRemoved(i+1);
                 return;
@@ -131,50 +131,50 @@ public class MomentsFragment extends Fragment implements CircleContract.View, Ea
     }
 
     @Override
-    public void update2AddFavorite(int circlePosition, FavortItem addItem) {
+    public void update2AddFavorite(int MomentsPosition, FavortItem addItem) {
         if(addItem != null){
-            CircleItem item = (CircleItem) momentsAdapter.getDatas().get(circlePosition);
+            MomentsItem item = (MomentsItem) momentsAdapter.getDatas().get(MomentsPosition);
             item.getFavorters().add(addItem);
             momentsAdapter.notifyDataSetChanged();
-            //momentsAdapter.notifyItemChanged(circlePosition+1);
+            //momentsAdapter.notifyItemChanged(MomentsPosition+1);
         }
     }
 
     @Override
-    public void update2DeleteFavort(int circlePosition, String favortId) {
-        CircleItem item = (CircleItem) momentsAdapter.getDatas().get(circlePosition);
+    public void update2DeleteFavort(int MomentsPosition, String favortId) {
+        MomentsItem item = (MomentsItem) momentsAdapter.getDatas().get(MomentsPosition);
         List<FavortItem> items = item.getFavorters();
         for(int i=0; i<items.size(); i++){
             if(favortId.equals(items.get(i).getId())){
                 items.remove(i);
                 momentsAdapter.notifyDataSetChanged();
-                //momentsAdapter.notifyItemChanged(circlePosition+1);
+                //momentsAdapter.notifyItemChanged(MomentsPosition+1);
                 return;
             }
         }
     }
 
     @Override
-    public void update2AddComment(int circlePosition, CommentItem addItem) {
+    public void update2AddComment(int MomentsPosition, CommentItem addItem) {
         if(addItem != null){
-            CircleItem item = (CircleItem) momentsAdapter.getDatas().get(circlePosition);
+            MomentsItem item = (MomentsItem) momentsAdapter.getDatas().get(MomentsPosition);
             item.getComments().add(addItem);
             momentsAdapter.notifyDataSetChanged();
-            //momentsAdapter.notifyItemChanged(circlePosition+1);
+            //momentsAdapter.notifyItemChanged(MomentsPosition+1);
         }
         //清空评论文本
         editText.setText("");
     }
 
     @Override
-    public void update2DeleteComment(int circlePosition, String commentId) {
-        CircleItem item = (CircleItem) momentsAdapter.getDatas().get(circlePosition);
+    public void update2DeleteComment(int MomentsPosition, String commentId) {
+        MomentsItem item = (MomentsItem) momentsAdapter.getDatas().get(MomentsPosition);
         List<CommentItem> items = item.getComments();
         for(int i=0; i<items.size(); i++){
             if(commentId.equals(items.get(i).getId())){
                 items.remove(i);
                 momentsAdapter.notifyDataSetChanged();
-                //momentsAdapter.notifyItemChanged(circlePosition+1);
+                //momentsAdapter.notifyItemChanged(MomentsPosition+1);
                 return;
             }
         }
@@ -185,7 +185,7 @@ public class MomentsFragment extends Fragment implements CircleContract.View, Ea
         this.commentConfig = commentConfig;
         edittextbody.setVisibility(visibility);
 
-        measureCircleItemHighAndCommentItemOffset(commentConfig);
+        measureMomentsItemHighAndCommentItemOffset(commentConfig);
 
         if(View.VISIBLE==visibility){
             editText.requestFocus();
@@ -199,7 +199,7 @@ public class MomentsFragment extends Fragment implements CircleContract.View, Ea
     }
 
     @Override
-    public void update2loadData(int loadType, List<CircleItem> datas) {
+    public void update2loadData(int loadType, List<MomentsItem> datas) {
         if (loadType == TYPE_PULLREFRESH){
             recyclerView.setRefreshing(false);
             momentsAdapter.setDatas(datas);
@@ -262,11 +262,11 @@ public class MomentsFragment extends Fragment implements CircleContract.View, Ea
         });
 
         momentsAdapter = new MomentsAdapter(this.getContext());
-        momentsAdapter.setCirclePresenter(presenter);
+        momentsAdapter.setMomentsPresenter(presenter);
         recyclerView.setAdapter(momentsAdapter);
 
         edittextbody = (LinearLayout) view.findViewById(R.id.editTextBodyLl);
-        editText = (EditText) view.findViewById(R.id.circleEt);
+        editText = (EditText) view.findViewById(R.id.momentsEt);
         sendIv = (ImageView) view.findViewById(R.id.sendIv);
         sendIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -355,7 +355,7 @@ public class MomentsFragment extends Fragment implements CircleContract.View, Ea
                 }
                 //偏移listview
                 if(layoutManager!=null && commentConfig != null){
-                    layoutManager.scrollToPositionWithOffset(commentConfig.circlePosition + MomentsAdapter.HEADVIEW_SIZE, getListviewOffset(commentConfig));
+                    layoutManager.scrollToPositionWithOffset(commentConfig.MomentsPosition + MomentsAdapter.HEADVIEW_SIZE, getListviewOffset(commentConfig));
                 }
             }
         });
@@ -383,8 +383,8 @@ public class MomentsFragment extends Fragment implements CircleContract.View, Ea
         if(commentConfig == null)
             return 0;
         //这里如果你的listview上面还有其它占高度的控件，则需要减去该控件高度，listview的headview除外。
-        //int listviewOffset = mScreenHeight - mSelectCircleItemH - mCurrentKeyboardH - mEditTextBodyHeight;
-        int listviewOffset = screenHeight - selectCircleItemH - currentKeyboardH - editTextBodyHeight - titleBar.getHeight();
+        //int listviewOffset = mScreenHeight - mSelectMomentsItemH - mCurrentKeyboardH - mEditTextBodyHeight;
+        int listviewOffset = screenHeight - selectMomentsItemH - currentKeyboardH - editTextBodyHeight - titleBar.getHeight();
         if(commentConfig.commentType == CommentConfig.Type.REPLY){
             //回复评论的情况
             listviewOffset = listviewOffset + selectCommentItemOffset;
@@ -393,26 +393,26 @@ public class MomentsFragment extends Fragment implements CircleContract.View, Ea
         return listviewOffset;
     }
 
-    private void measureCircleItemHighAndCommentItemOffset(CommentConfig commentConfig){
+    private void measureMomentsItemHighAndCommentItemOffset(CommentConfig commentConfig){
         if(commentConfig == null)
             return;
 
         int firstPosition = layoutManager.findFirstVisibleItemPosition();
         //只能返回当前可见区域（列表可滚动）的子项
-        View selectCircleItem = layoutManager.getChildAt(commentConfig.circlePosition + MomentsAdapter.HEADVIEW_SIZE - firstPosition);
+        View selectMomentsItem = layoutManager.getChildAt(commentConfig.MomentsPosition + MomentsAdapter.HEADVIEW_SIZE - firstPosition);
 
-        if(selectCircleItem != null){
-            selectCircleItemH = selectCircleItem.getHeight();
+        if(selectMomentsItem != null){
+            selectMomentsItemH = selectMomentsItem.getHeight();
         }
 
         if(commentConfig.commentType == CommentConfig.Type.REPLY){
             //回复评论的情况
-            CommentListView commentLv = (CommentListView) selectCircleItem.findViewById(R.id.commentList);
+            CommentListView commentLv = (CommentListView) selectMomentsItem.findViewById(R.id.commentList);
             if(commentLv!=null){
                 //找到要回复的评论view,计算出该view距离所属动态底部的距离
                 View selectCommentItem = commentLv.getChildAt(commentConfig.commentPosition);
                 if(selectCommentItem != null){
-                    //选择的commentItem距选择的CircleItem底部的距离
+                    //选择的commentItem距选择的MomentsItem底部的距离
                     selectCommentItemOffset = 0;
                     View parentView = selectCommentItem;
                     do {
@@ -421,7 +421,7 @@ public class MomentsFragment extends Fragment implements CircleContract.View, Ea
                         if(parentView != null){
                             selectCommentItemOffset += (parentView.getHeight() - subItemBottom);
                         }
-                    } while (parentView != null && parentView != selectCircleItem);
+                    } while (parentView != null && parentView != selectMomentsItem);
                 }
             }
         }

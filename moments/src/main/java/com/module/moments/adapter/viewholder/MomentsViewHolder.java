@@ -19,7 +19,7 @@ import com.module.moments.widgets.videolist.widget.TextureVideoView;
 /**
  * Created by yiw on 2016/8/16.
  */
-public abstract class CircleViewHolder extends RecyclerView.ViewHolder implements VideoLoadMvpView {
+public abstract class MomentsViewHolder extends RecyclerView.ViewHolder implements VideoLoadMvpView {
 
     public final static int TYPE_URL = 1;
     public final static int TYPE_IMAGE = 2;
@@ -46,7 +46,7 @@ public abstract class CircleViewHolder extends RecyclerView.ViewHolder implement
     // ===========================
     public SnsPopupWindow snsPopupWindow;
 
-    public CircleViewHolder(View itemView, int viewType) {
+    public MomentsViewHolder(View itemView, int viewType) {
         super(itemView);
         this.viewType = viewType;
 

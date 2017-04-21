@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.module.moments.MyApplication;
 import com.module.moments.R;
 import com.module.moments.bean.CommentItem;
-import com.module.moments.spannable.CircleMovementMethod;
+import com.module.moments.spannable.MomentsMovementMethod;
 import com.module.moments.spannable.SpannableClickable;
 import com.module.moments.utils.UrlUtils;
 
@@ -116,7 +116,7 @@ public class CommentListView extends LinearLayout {
         View convertView = layoutInflater.inflate(R.layout.item_comment, null, false);
 
         TextView commentTv = (TextView) convertView.findViewById(R.id.commentTv);
-        final CircleMovementMethod circleMovementMethod = new CircleMovementMethod(itemSelectorColor, itemSelectorColor);
+        final MomentsMovementMethod momentsMovementMethod = new MomentsMovementMethod(itemSelectorColor, itemSelectorColor);
 
         final CommentItem bean = mDatas.get(position);
         String name = bean.getUser().getName();
@@ -140,11 +140,11 @@ public class CommentListView extends LinearLayout {
         builder.append(UrlUtils.formatUrlString(contentBodyStr));
         commentTv.setText(builder);
 
-        commentTv.setMovementMethod(circleMovementMethod);
+        commentTv.setMovementMethod(momentsMovementMethod);
         commentTv.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (circleMovementMethod.isPassToTv()) {
+                if (momentsMovementMethod.isPassToTv()) {
                     if(onItemClickListener!=null){
                         onItemClickListener.onItemClick(position);
                     }
@@ -154,7 +154,7 @@ public class CommentListView extends LinearLayout {
         commentTv.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (circleMovementMethod.isPassToTv()) {
+                if (momentsMovementMethod.isPassToTv()) {
                     if(onItemLongClickListener!=null){
                         onItemLongClickListener.onItemLongClick(position);
                     }

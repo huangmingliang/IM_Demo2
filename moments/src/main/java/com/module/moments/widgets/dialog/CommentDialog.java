@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.module.moments.R;
 import com.module.moments.bean.CommentItem;
-import com.module.moments.mvp.presenter.CirclePresenter;
+import com.module.moments.mvp.presenter.MomentsPresenter;
 import com.module.moments.utils.DatasUtil;
 /**
  * 
@@ -27,17 +27,17 @@ public class CommentDialog extends Dialog implements
 		View.OnClickListener {
 
 	private Context mContext;
-	private CirclePresenter mPresenter;
+	private MomentsPresenter mPresenter;
 	private CommentItem mCommentItem;
-	private int mCirclePosition;
+	private int mMomentsPosition;
 
-	public CommentDialog(Context context, CirclePresenter presenter,
-			CommentItem commentItem, int circlePosition) {
+	public CommentDialog(Context context, MomentsPresenter presenter,
+			CommentItem commentItem, int MomentsPosition) {
 		super(context, R.style.comment_dialog);
 		mContext = context;
 		this.mPresenter = presenter;
 		this.mCommentItem = commentItem;
-		this.mCirclePosition = circlePosition;
+		this.mMomentsPosition = MomentsPosition;
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class CommentDialog extends Dialog implements
 
 		} else if (i == R.id.deleteTv) {
 			if (mPresenter != null && mCommentItem != null) {
-				mPresenter.deleteComment(mCirclePosition, mCommentItem.getId());
+				mPresenter.deleteComment(mMomentsPosition, mCommentItem.getId());
 			}
 			dismiss();
 

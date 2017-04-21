@@ -12,18 +12,18 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 /**
  * Created by yiw on 2016/6/6.
  */
-public class GlideCircleTransform extends BitmapTransformation {
+public class GlideMomentsTransform extends BitmapTransformation {
 
-    public GlideCircleTransform(Context context){
+    public GlideMomentsTransform(Context context){
         super(context);
     }
 
     @Override
     protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
-        return circleCrop(pool, toTransform);
+        return MomentsCrop(pool, toTransform);
     }
 
-    private Bitmap circleCrop(BitmapPool pool, Bitmap source) {
+    private Bitmap MomentsCrop(BitmapPool pool, Bitmap source) {
         if (source == null) return null;
 
         int size = Math.min(source.getWidth(), source.getHeight());

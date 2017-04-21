@@ -6,15 +6,15 @@ import com.module.moments.listener.IDataRequestListener;
 
 /**
  * 
-* @ClassName: CircleModel 
+* @ClassName: MomentsModel
 * @Description: 因为逻辑简单，这里我就不写model的接口了
 * @author yiw
 * @date 2015-12-28 下午3:54:55 
  */
-public class CircleModel {
+public class MomentsModel {
 	
 	
-	public CircleModel(){
+	public MomentsModel(){
 		//
 	}
 
@@ -22,7 +22,7 @@ public class CircleModel {
 		requestServer(listener);
 	}
 	
-	public void deleteCircle( final IDataRequestListener listener) {
+	public void deleteMoments( final IDataRequestListener listener) {
 		requestServer(listener);
 	}
 

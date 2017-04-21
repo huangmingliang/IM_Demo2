@@ -9,7 +9,7 @@ import com.module.moments.widgets.MultiImageView;
 /**
  * Created by suneee on 2016/8/16.
  */
-public class ImageViewHolder extends CircleViewHolder {
+public class ImageViewHolder extends MomentsViewHolder {
     /** 图片*/
     public MultiImageView multiImageView;
 

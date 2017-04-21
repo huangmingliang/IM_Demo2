@@ -14,7 +14,7 @@ public class CommentConfig {
 
     }
 
-    public int circlePosition;
+    public int MomentsPosition;
     public int commentPosition;
     public Type commentType;
     public User replyUser;
@@ -25,7 +25,7 @@ public class CommentConfig {
         if(replyUser != null){
             replyUserStr = replyUser.toString();
         }
-        return "circlePosition = " + circlePosition
+        return "MomentsPosition = " + MomentsPosition
                 + "; commentPosition = " + commentPosition
                 + "; commentType ＝ " + commentType
                 + "; replyUser = " + replyUserStr;

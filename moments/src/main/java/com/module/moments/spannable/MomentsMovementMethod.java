@@ -18,8 +18,8 @@ import com.module.moments.R;
  * @Description:
  * @date 16/1/2 16:54
  */
-public class CircleMovementMethod extends BaseMovementMethod {
-    public final String TAG = CircleMovementMethod.class.getSimpleName();
+public class MomentsMovementMethod extends BaseMovementMethod {
+    public final String TAG = MomentsMovementMethod.class.getSimpleName();
     private final static int DEFAULT_COLOR_ID = R.color.transparent;
     private final static int DEFAULT_CLICKABLEA_COLOR_ID = R.color.default_clickable_color;
     /**整个textView的背景色*/
@@ -40,7 +40,7 @@ public class CircleMovementMethod extends BaseMovementMethod {
         this.isPassToTv = isPassToTv;
     }
 
-    public CircleMovementMethod(){
+    public MomentsMovementMethod(){
         this.textViewBgColor = MyApplication.getContext().getResources().getColor(DEFAULT_COLOR_ID);
         this.clickableSpanBgClor = MyApplication.getContext().getResources().getColor(DEFAULT_CLICKABLEA_COLOR_ID);
     }
@@ -49,7 +49,7 @@ public class CircleMovementMethod extends BaseMovementMethod {
      *
      * @param clickableSpanBgClor  点击选中部分时的背景色
      */
-    public CircleMovementMethod(int clickableSpanBgClor){
+    public MomentsMovementMethod(int clickableSpanBgClor){
         this.clickableSpanBgClor = clickableSpanBgClor;
         this.textViewBgColor = MyApplication.getContext().getResources().getColor(DEFAULT_COLOR_ID);
     }
@@ -59,7 +59,7 @@ public class CircleMovementMethod extends BaseMovementMethod {
      * @param clickableSpanBgClor 点击选中部分时的背景色
      * @param textViewBgColor 整个textView点击时的背景色
      */
-    public CircleMovementMethod(int clickableSpanBgClor, int textViewBgColor){
+    public MomentsMovementMethod(int clickableSpanBgClor, int textViewBgColor){
         this.textViewBgColor = textViewBgColor;
         this.clickableSpanBgClor = clickableSpanBgClor;
     }

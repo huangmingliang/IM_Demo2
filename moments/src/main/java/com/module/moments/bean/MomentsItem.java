@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import java.util.List;
 
 
-public class CircleItem extends BaseBean{
+public class MomentsItem extends BaseBean{
 
 	public final static String TYPE_URL = "1";
 	public final static String TYPE_IMG = "2";

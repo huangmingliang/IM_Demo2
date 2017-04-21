@@ -11,7 +11,7 @@ import com.module.moments.R;
 /**
  * Created by suneee on 2016/8/16.
  */
-public class URLViewHolder extends CircleViewHolder{
+public class URLViewHolder extends MomentsViewHolder{
     public LinearLayout urlBody;
     /** 链接的图片 */
     public ImageView urlImageIv;

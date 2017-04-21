@@ -1,6 +1,6 @@
 package com.module.moments.utils;
 
-import com.module.moments.bean.CircleItem;
+import com.module.moments.bean.MomentsItem;
 import com.module.moments.bean.CommentItem;
 import com.module.moments.bean.FavortItem;
 import com.module.moments.bean.PhotoInfo;
@@ -60,7 +60,7 @@ public class DatasUtil {
 	/**
 	 * 动态id自增长
 	 */
-	private static int circleId = 0;
+	private static int MomentsId = 0;
 	/**
 	 * 点赞id自增长
 	 */
@@ -150,12 +150,12 @@ public class DatasUtil {
 		PHOTOS.add(p10);
 	}
 
-	public static List<CircleItem> createCircleDatas() {
-		List<CircleItem> circleDatas = new ArrayList<CircleItem>();
+	public static List<MomentsItem> createMomentsDatas() {
+		List<MomentsItem> MomentsDatas = new ArrayList<MomentsItem>();
 		for (int i = 0; i < 15; i++) {
-			CircleItem item = new CircleItem();
+			MomentsItem item = new MomentsItem();
 			User user = getUser();
-			item.setId(String.valueOf(circleId++));
+			item.setId(String.valueOf(MomentsId++));
 			item.setUser(user);
 			item.setContent(getContent());
 			item.setCreateTime("12月24日");
@@ -177,10 +177,10 @@ public class DatasUtil {
 				item.setVideoUrl(videoUrl);
                 item.setVideoImgUrl(videoImgUrl);
 			}
-			circleDatas.add(item);
+			MomentsDatas.add(item);
 		}
 
-		return circleDatas;
+		return MomentsDatas;
 	}
 
 	public static User getUser() {
@@ -304,9 +304,9 @@ public class DatasUtil {
 	}
 	
 	
-	public static CircleItem createVideoItem(String videoUrl, String imgUrl){
-		CircleItem item = new CircleItem();
-		item.setId(String.valueOf(circleId++));
+	public static MomentsItem createVideoItem(String videoUrl, String imgUrl){
+		MomentsItem item = new MomentsItem();
+		item.setId(String.valueOf(MomentsId++));
 		item.setUser(curUser);
 		//item.setContent(getContent());
 		item.setCreateTime("12月24日");

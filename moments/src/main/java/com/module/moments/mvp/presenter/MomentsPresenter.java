@@ -2,12 +2,12 @@ package com.module.moments.mvp.presenter;
 
 import android.view.View;
 
-import com.module.moments.bean.CircleItem;
+import com.module.moments.bean.MomentsItem;
 import com.module.moments.bean.CommentConfig;
 import com.module.moments.bean.CommentItem;
 import com.module.moments.bean.FavortItem;
-import com.module.moments.mvp.contract.CircleContract;
-import com.module.moments.mvp.modle.CircleModel;
+import com.module.moments.mvp.contract.MomentsContract;
+import com.module.moments.mvp.modle.MomentsModel;
 import com.module.moments.listener.IDataRequestListener;
 import com.module.moments.utils.DatasUtil;
 
@@ -15,24 +15,24 @@ import java.util.List;
 
 /**
  * 
-* @ClassName: CirclePresenter 
+* @ClassName: MomentsPresenter
 * @Description: 通知model请求服务器和通知view更新
 * @author yiw
 * @date 2015-12-28 下午4:06:03 
 *
  */
-public class CirclePresenter implements CircleContract.Presenter{
-	private CircleModel circleModel;
-	private CircleContract.View view;
+public class MomentsPresenter implements MomentsContract.Presenter{
+	private MomentsModel MomentsModel;
+	private MomentsContract.View view;
 
-	public CirclePresenter(CircleContract.View view){
-		circleModel = new CircleModel();
+	public MomentsPresenter(MomentsContract.View view){
+		MomentsModel = new MomentsModel();
 		this.view = view;
 	}
 
 	public void loadData(int loadType){
 
-        List<CircleItem> datas = DatasUtil.createCircleDatas();
+        List<MomentsItem> datas = DatasUtil.createMomentsDatas();
         if(view!=null){
             view.update2loadData(loadType, datas);
         }
@@ -41,19 +41,19 @@ public class CirclePresenter implements CircleContract.Presenter{
 
 	/**
 	 * 
-	* @Title: deleteCircle 
+	* @Title: deleteMoments
 	* @Description: 删除动态 
-	* @param  circleId     
+	* @param  MomentsId
 	* @return void    返回类型 
 	* @throws
 	 */
-	public void deleteCircle(final String circleId){
-		circleModel.deleteCircle(new IDataRequestListener() {
+	public void deleteMoments(final String MomentsId){
+		MomentsModel.deleteMoments(new IDataRequestListener() {
 
 			@Override
 			public void loadSuccess(Object object) {
                 if(view!=null){
-                    view.update2DeleteCircle(circleId);
+                    view.update2DeleteMoments(MomentsId);
                 }
 			}
 		});
@@ -62,18 +62,18 @@ public class CirclePresenter implements CircleContract.Presenter{
 	 * 
 	* @Title: addFavort 
 	* @Description: 点赞
-	* @param  circlePosition     
+	* @param  MomentsPosition
 	* @return void    返回类型 
 	* @throws
 	 */
-	public void addFavort(final int circlePosition){
-		circleModel.addFavort(new IDataRequestListener() {
+	public void addFavort(final int MomentsPosition){
+		MomentsModel.addFavort(new IDataRequestListener() {
 
 			@Override
 			public void loadSuccess(Object object) {
 				FavortItem item = DatasUtil.createCurUserFavortItem();
                 if(view !=null ){
-                    view.update2AddFavorite(circlePosition, item);
+                    view.update2AddFavorite(MomentsPosition, item);
                 }
 
 			}
@@ -83,18 +83,18 @@ public class CirclePresenter implements CircleContract.Presenter{
 	 * 
 	* @Title: deleteFavort 
 	* @Description: 取消点赞 
-	* @param @param circlePosition
+	* @param @param MomentsPosition
 	* @param @param favortId     
 	* @return void    返回类型 
 	* @throws
 	 */
-	public void deleteFavort(final int circlePosition, final String favortId){
-		circleModel.deleteFavort(new IDataRequestListener() {
+	public void deleteFavort(final int MomentsPosition, final String favortId){
+		MomentsModel.deleteFavort(new IDataRequestListener() {
 
 			@Override
 			public void loadSuccess(Object object) {
                 if(view !=null ){
-                    view.update2DeleteFavort(circlePosition, favortId);
+                    view.update2DeleteFavort(MomentsPosition, favortId);
                 }
 			}
 		});
@@ -113,7 +113,7 @@ public class CirclePresenter implements CircleContract.Presenter{
 		if(config == null){
 			return;
 		}
-		circleModel.addComment(new IDataRequestListener() {
+		MomentsModel.addComment(new IDataRequestListener() {
 
 			@Override
 			public void loadSuccess(Object object) {
@@ -124,7 +124,7 @@ public class CirclePresenter implements CircleContract.Presenter{
 					newItem = DatasUtil.createReplyComment(config.replyUser, content);
 				}
                 if(view!=null){
-                    view.update2AddComment(config.circlePosition, newItem);
+                    view.update2AddComment(config.MomentsPosition, newItem);
                 }
 			}
 
@@ -135,18 +135,18 @@ public class CirclePresenter implements CircleContract.Presenter{
 	 * 
 	* @Title: deleteComment 
 	* @Description: 删除评论 
-	* @param @param circlePosition
+	* @param @param MomentsPosition
 	* @param @param commentId     
 	* @return void    返回类型 
 	* @throws
 	 */
-	public void deleteComment(final int circlePosition, final String commentId){
-		circleModel.deleteComment(new IDataRequestListener(){
+	public void deleteComment(final int MomentsPosition, final String commentId){
+		MomentsModel.deleteComment(new IDataRequestListener(){
 
 			@Override
 			public void loadSuccess(Object object) {
                 if(view!=null){
-                    view.update2DeleteComment(circlePosition, commentId);
+                    view.update2DeleteComment(MomentsPosition, commentId);
                 }
 			}
 			

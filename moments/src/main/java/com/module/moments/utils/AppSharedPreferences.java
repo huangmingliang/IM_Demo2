@@ -19,7 +19,7 @@ public class AppSharedPreferences {
 	private static AppSharedPreferences appSharedPreferences;
 
 	private AppSharedPreferences(Context context) {
-		sharedPreferences = context.getSharedPreferences("CIRCLEDEMO", Activity.MODE_PRIVATE);
+		sharedPreferences = context.getSharedPreferences("MomentsDEMO", Activity.MODE_PRIVATE);
 	}
 
 	public static AppSharedPreferences getInstance(Context context) {

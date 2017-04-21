@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.module.moments.MyApplication;
 import com.module.moments.R;
 import com.module.moments.bean.FavortItem;
-import com.module.moments.spannable.CircleMovementMethod;
+import com.module.moments.spannable.MomentsMovementMethod;
 import com.module.moments.spannable.SpannableClickable;
 
 import java.util.List;
@@ -92,7 +92,7 @@ public class PraiseListView extends TextView{
         }
 
         setText(builder);
-        setMovementMethod(new CircleMovementMethod(itemSelectorColor));
+        setMovementMethod(new MomentsMovementMethod(itemSelectorColor));
     }
 
 
