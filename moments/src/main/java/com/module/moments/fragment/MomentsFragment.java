@@ -244,7 +244,7 @@ public class MomentsFragment extends Fragment implements MomentsContract.View, E
 
     private void initView() {
 
-        initTitle();
+        //initTitle();
         initUploadDialog();
 
         recyclerView = (SuperRecyclerView) view.findViewById(R.id.recyclerView);

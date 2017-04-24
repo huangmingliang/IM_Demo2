@@ -67,12 +67,12 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        if(position == 0){
+        /*if(position == 0){
             return TYPE_HEAD;
-        }
+        }*/
 
         int itemType = 0;
-        MomentsItem item = (MomentsItem) datas.get(position-1);
+        MomentsItem item = (MomentsItem) datas.get(position);
         Log.e(TAG,"HML getType="+item.getType());
         if (MomentsItem.TYPE_URL.equals(item.getType())) {
             itemType = MomentsViewHolder.TYPE_URL;
@@ -112,7 +112,7 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
             //HeaderViewHolder holder = (HeaderViewHolder) viewHolder;
         }else{
 
-            final int MomentsPosition = position - HEADVIEW_SIZE;
+            final int MomentsPosition = position;      //有头部时此减一
             final MomentsViewHolder holder = (MomentsViewHolder) viewHolder;
             final MomentsItem MomentsItem = (MomentsItem) datas.get(MomentsPosition);
             final String MomentsId = MomentsItem.getId();
@@ -298,7 +298,7 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
 
     @Override
     public int getItemCount() {
-        return datas.size()+1;//有head需要加1
+        return datas.size();//有head需要加1
     }
 
     @Override
