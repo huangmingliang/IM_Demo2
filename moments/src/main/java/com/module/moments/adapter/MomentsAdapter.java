@@ -3,6 +3,7 @@ package com.module.moments.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ import java.util.List;
  */
 public class MomentsAdapter extends BaseRecycleViewAdapter {
 
+    private String TAG="MomentsAdapter";
     public final static int TYPE_HEAD = 0;
 
     private static final int STATE_IDLE = 0;
@@ -71,6 +73,7 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
 
         int itemType = 0;
         MomentsItem item = (MomentsItem) datas.get(position-1);
+        Log.e(TAG,"HML getType="+item.getType());
         if (MomentsItem.TYPE_URL.equals(item.getType())) {
             itemType = MomentsViewHolder.TYPE_URL;
         } else if (MomentsItem.TYPE_IMG.equals(item.getType())) {
@@ -164,7 +167,9 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
                             Toast.makeText(MyApplication.getContext(), userName + " &id = " + userId, Toast.LENGTH_SHORT).show();
                         }
                     });
+                    Log.e(TAG,"HML 170");
                     holder.praiseListView.setDatas(favortDatas);
+                    Log.e(TAG,"HML 172");
                     holder.praiseListView.setVisibility(View.VISIBLE);
                 }else{
                     holder.praiseListView.setVisibility(View.GONE);

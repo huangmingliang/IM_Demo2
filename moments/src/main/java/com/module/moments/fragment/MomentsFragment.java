@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.module.moments.R;
@@ -97,6 +99,7 @@ public class MomentsFragment extends Fragment implements MomentsContract.View, E
                     refreshListener.onRefresh();//执行数据加载操作
                 }
             });
+
         }
         return view;
     }
@@ -200,6 +203,7 @@ public class MomentsFragment extends Fragment implements MomentsContract.View, E
 
     @Override
     public void update2loadData(int loadType, List<MomentsItem> datas) {
+        Log.e(TAG,"HML update2loadData loadType="+loadType);
         if (loadType == TYPE_PULLREFRESH){
             recyclerView.setRefreshing(false);
             momentsAdapter.setDatas(datas);
@@ -257,6 +261,37 @@ public class MomentsFragment extends Fragment implements MomentsContract.View, E
                     return true;
                 }
                 return false;
+
+            }
+        });
+
+        refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        presenter.loadData(TYPE_PULLREFRESH);
+                    }
+                }, 2000);
+            }
+        };
+        recyclerView.setRefreshListener(refreshListener);
+
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(newState == RecyclerView.SCROLL_STATE_IDLE){
+                    Glide.with(activity).resumeRequests();
+                }else{
+                    Glide.with(activity).pauseRequests();
+                }
 
             }
         });

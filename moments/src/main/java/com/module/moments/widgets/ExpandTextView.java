@@ -17,6 +17,7 @@ import com.module.moments.spannable.MomentsMovementMethod;
  */
 public class ExpandTextView extends LinearLayout {
     public static final int DEFAULT_MAX_LINES = 3;
+    private Context context;
     private TextView contentText;
     private TextView textPlus;
 
@@ -27,6 +28,7 @@ public class ExpandTextView extends LinearLayout {
 
     public ExpandTextView(Context context) {
         super(context);
+        this.context=context;
         initView();
     }
 
@@ -112,7 +114,7 @@ public class ExpandTextView extends LinearLayout {
 
         });
         contentText.setText(content);
-        contentText.setMovementMethod(new MomentsMovementMethod(getResources().getColor(R.color.name_selector_color)));
+        contentText.setMovementMethod(new MomentsMovementMethod(getResources().getColor(R.color.name_selector_color),getContext()));
     }
 
     public void setExpand(boolean isExpand){

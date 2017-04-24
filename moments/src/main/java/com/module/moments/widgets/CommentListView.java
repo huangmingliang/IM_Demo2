@@ -35,6 +35,7 @@ public class CommentListView extends LinearLayout {
     private OnItemLongClickListener onItemLongClickListener;
     private List<CommentItem> mDatas;
     private LayoutInflater layoutInflater ;
+    private Context context;
 
     public OnItemClickListener getOnItemClickListener() {
         return onItemClickListener;
@@ -66,15 +67,18 @@ public class CommentListView extends LinearLayout {
 
     public CommentListView(Context context) {
         super(context);
+        this.context=context;
     }
 
     public CommentListView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context=context;
         initAttrs(attrs);
     }
 
     public CommentListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.context=context;
         initAttrs(attrs);
     }
 
@@ -173,7 +177,7 @@ public class CommentListView extends LinearLayout {
         subjectSpanText.setSpan(new SpannableClickable(itemColor){
                                     @Override
                                     public void onClick(View widget) {
-                                        Toast.makeText(MyApplication.getContext(), textStr + " &id = " + id, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, textStr + " &id = " + id, Toast.LENGTH_SHORT).show();
                                     }
                                 }, 0, subjectSpanText.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

@@ -9,6 +9,7 @@ import android.text.SpannableStringBuilder;
 import android.text.style.DynamicDrawableSpan;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -26,10 +27,12 @@ import java.util.List;
 public class PraiseListView extends TextView{
 
 
+    private String TAG="PraiseListView";
     private int itemColor;
     private int itemSelectorColor;
     private List<FavortItem> datas;
     private OnItemClickListener onItemClickListener;
+    private Context context;
 
     public OnItemClickListener getOnItemClickListener() {
         return onItemClickListener;
@@ -41,15 +44,18 @@ public class PraiseListView extends TextView{
 
     public PraiseListView(Context context) {
         super(context);
+        this.context=context;
     }
 
     public PraiseListView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context=context;
         initAttrs(attrs);
     }
 
     public PraiseListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.context=context;
         initAttrs(attrs);
     }
 
@@ -90,16 +96,18 @@ public class PraiseListView extends TextView{
                 }
             }
         }
-
+        Log.e(TAG,"HML 95");
         setText(builder);
-        setMovementMethod(new MomentsMovementMethod(itemSelectorColor));
+        Log.e(TAG,"HML 97");
+        setMovementMethod(new MomentsMovementMethod(itemSelectorColor,getContext()));
+        Log.e(TAG,"HML 99");
     }
 
 
     private SpannableString setImageSpan(){
         String text = "  ";
         SpannableString imgSpanText = new SpannableString(text);
-        imgSpanText.setSpan(new ImageSpan(MyApplication.getContext(), R.drawable.icon_praise, DynamicDrawableSpan.ALIGN_BASELINE),
+        imgSpanText.setSpan(new ImageSpan(context, R.drawable.icon_praise, DynamicDrawableSpan.ALIGN_BASELINE),
                 0 , 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return imgSpanText;
     }

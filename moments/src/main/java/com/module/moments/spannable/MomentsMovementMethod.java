@@ -1,5 +1,6 @@
 package com.module.moments.spannable;
 
+import android.content.Context;
 import android.text.Layout;
 import android.text.Selection;
 import android.text.Spannable;
@@ -49,9 +50,9 @@ public class MomentsMovementMethod extends BaseMovementMethod {
      *
      * @param clickableSpanBgClor  点击选中部分时的背景色
      */
-    public MomentsMovementMethod(int clickableSpanBgClor){
+    public MomentsMovementMethod(int clickableSpanBgClor, Context context){
         this.clickableSpanBgClor = clickableSpanBgClor;
-        this.textViewBgColor = MyApplication.getContext().getResources().getColor(DEFAULT_COLOR_ID);
+        this.textViewBgColor = context.getResources().getColor(DEFAULT_COLOR_ID);
     }
 
     /**
