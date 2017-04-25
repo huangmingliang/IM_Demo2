@@ -2,7 +2,9 @@ package com.example.demo_im.model;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 
+import com.example.demo_im.utils.PinyinUtils;
 import com.tencent.TIMUserProfile;
 import com.example.demo_im.MyApplication;
 import com.example.demo_im.R;
@@ -17,6 +19,7 @@ public class FriendProfile implements ProfileSummary {
 
     private TIMUserProfile profile;
     private boolean isSelected;
+    private char section='#';
 
     public FriendProfile(TIMUserProfile profile){
         this.profile = profile;
@@ -97,7 +100,11 @@ public class FriendProfile implements ProfileSummary {
      * 获取用户备注名
      */
     public String getRemark(){
-        return profile.getRemark();
+        if (TextUtils.isEmpty(profile.getRemark())){
+            return getName();
+        }else {
+            return profile.getRemark();
+        }
     }
 
 
@@ -111,5 +118,22 @@ public class FriendProfile implements ProfileSummary {
             return profile.getFriendGroups().get(0);
         }
     }
+
+    /*
+    * 获取好友备注名字首字母
+    * */
+    public String getSortLetters(){
+        return PinyinUtils.getLetters(getRemark());
+    }
+
+    public char getSection(){
+        return section;
+    }
+
+    public void setSection(char section){
+        this.section=section;
+    }
+
+
 
 }

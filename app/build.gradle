@@ -28,5 +28,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':ui')
     compile project(':moments')
+    compile project(':sdk')
 }
 

@@ -10,11 +10,15 @@ import com.tencent.TIMUserProfile;
 import com.tencent.qcloud.presentation.event.FriendshipEvent;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 好友列表缓存数据结构
@@ -26,12 +30,14 @@ public class FriendshipInfo extends Observable implements Observer {
 
     private List<String> groups;
     private Map<String, List<FriendProfile>> friends;
+    private List<FriendProfile> friendProfiles;
 
     private static FriendshipInfo instance;
 
     private FriendshipInfo(){
         groups = new ArrayList<>();
         friends = new HashMap<>();
+        friendProfiles=new ArrayList<>();
         FriendshipEvent.getInstance().addObserver(this);
         refresh();
     }
@@ -86,6 +92,7 @@ public class FriendshipInfo extends Observable implements Observer {
             for (TIMUserProfile profile : group.getProfiles()){
                 friendItemList.add(new FriendProfile(profile));
             }
+            friendProfiles.addAll(friendItemList);
             friends.put(group.getGroupName(), friendItemList);
         }
         setChanged();
@@ -109,6 +116,26 @@ public class FriendshipInfo extends Observable implements Observer {
      */
     public Map<String, List<FriendProfile>> getFriends(){
         return friends;
+    }
+    /*
+    * 获取好友列表不分组
+    * */
+    public  List<FriendProfile> getFriendProfiles(){
+        List<FriendProfile> newFriends=new ArrayList<>();
+        for (FriendProfile profile:friendProfiles){
+            char temp=profile.getSortLetters().charAt(0);
+            if (temp>=65&&temp<=90){       //首字符是字母
+                profile.setSection(temp);
+            }else if (temp>=97&&temp<=122){
+                profile.setSection((char) (temp-32));
+            }else {
+                profile.setSection('#');
+            }
+            newFriends.add(profile);
+        }
+        PinyinComparator pinyinComparator=new PinyinComparator();
+        Collections.sort(newFriends, pinyinComparator);
+        return  newFriends;
     }
 
     /**
@@ -148,6 +175,23 @@ public class FriendshipInfo extends Observable implements Observer {
         groups.clear();
         friends.clear();
         instance = null;
+    }
+
+    /*
+    * 好友列表按首字母进行排序
+    * */
+    class PinyinComparator implements Comparator<FriendProfile> {
+
+        public int compare(FriendProfile o1, FriendProfile o2) {
+            //这里主要是用来对ListView里面的数据根据ABCDEFG...来排序
+            if (o2.getSection()=='#') {
+                return -1;
+            } else if (o1.getSection()=='#') {
+                return 1;
+            } else {
+                return o1.getSection()-o2.getSection();
+            }
+        }
     }
 
 
