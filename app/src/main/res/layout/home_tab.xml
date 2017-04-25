@@ -12,18 +12,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <!--<ImageView
             android:id="@id/icon"
             android:layout_width="23dp"
             android:layout_height="23dp"
             android:layout_gravity="center"
-            android:focusable="false" />
+            android:focusable="false" />-->
 
         <TextView
             android:id="@id/title"
             android:focusable="false"
             android:layout_gravity="center"
-            android:textSize="12sp"
+            android:textSize="18sp"
             android:textColor="@drawable/bg_tab_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

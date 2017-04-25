@@ -47,8 +47,6 @@ public class ContactFragment2 extends Fragment implements View.OnClickListener,O
     @Override
     public void onResume(){
         super.onResume();
-        refresh();
-        adapter.notifyDataSetChanged();
     }
 
     @Override

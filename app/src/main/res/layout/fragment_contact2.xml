@@ -5,12 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.tencent.qcloud.ui.TemplateTitle
+    <!--<com.tencent.qcloud.ui.TemplateTitle
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:canBack="true"
-        app:titleText="@string/home_contact_tab2"
-        app:moreImg="@drawable/search"/>
+        app:titleText="@string/home_contact_tab2" />-->
     <ListView
         android:id="@+id/friendList"
         android:layout_width="match_parent"
