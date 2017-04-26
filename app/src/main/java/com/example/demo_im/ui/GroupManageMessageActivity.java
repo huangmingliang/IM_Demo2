@@ -1,6 +1,8 @@
 package com.example.demo_im.ui;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
 
@@ -59,5 +61,10 @@ public class GroupManageMessageActivity extends Activity implements GroupManageM
         list.addAll(futures);
         adapter.notifyDataSetChanged();
 
+    }
+
+    public static void navToGroupManageMessage(Context context){
+        Intent intent = new Intent(context, GroupManageMessageActivity.class);
+        context.startActivity(intent);
     }
 }

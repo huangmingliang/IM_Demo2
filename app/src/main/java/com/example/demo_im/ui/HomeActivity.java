@@ -32,10 +32,10 @@ public class HomeActivity extends FragmentActivity {
     private static final String TAG = HomeActivity.class.getSimpleName();
     private LayoutInflater layoutInflater;
     private FragmentTabHost mTabHost;
-    private final Class fragmentArray[] = {ConversationFragment.class, ContactFragment2.class};
-    private int mTitleArray[] = {R.string.home_conversation_tab, R.string.home_contact_tab};
+    private final Class fragmentArray[] = {ConversationFragment.class, ContactFragment2.class,SettingFragment.class};
+    private int mTitleArray[] = {R.string.home_conversation_tab, R.string.home_contact_tab,R.string.home_setting_tab};
     //private int mImageViewArray[] = {R.drawable.tab_conversation, R.drawable.tab_contact,R.drawable.tab_moments, R.drawable.tab_setting};
-    private String mTextviewArray[] = {"contact", "conversation"};
+    private String mTextviewArray[] = {"contact", "conversation","setting"};
     private ImageView msgUnread;
 
 

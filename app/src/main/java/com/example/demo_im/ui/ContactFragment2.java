@@ -6,7 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.demo_im.R;
 import com.example.demo_im.adapters.ContactAdapter;
@@ -38,6 +40,19 @@ public class ContactFragment2 extends Fragment implements View.OnClickListener,O
             refresh();
             adapter=new ContactAdapter(getActivity(),friends);
             mFriendListView.setAdapter(adapter);
+            mFriendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (position==0){
+                        FriendshipManageMessageActivity.navToFriendshipManageMessage(getActivity());
+                    }else if(position==1){
+                        //GroupManageMessageActivity.navToGroupManageMessage(getActivity());
+                        Toast.makeText(getActivity(),"敬请期待...",Toast.LENGTH_SHORT).show();
+                    }else {
+                        friends.get(position-2).onClick(getActivity());
+                    }
+                }
+            });
             FriendshipInfo.getInstance().addObserver(this);
             adapter.notifyDataSetChanged();
         }

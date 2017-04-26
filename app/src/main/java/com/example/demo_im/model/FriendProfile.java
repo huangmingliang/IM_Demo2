@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
+import com.example.demo_im.ui.ChatActivity;
 import com.example.demo_im.utils.PinyinUtils;
+import com.tencent.TIMConversationType;
 import com.tencent.TIMUserProfile;
 import com.example.demo_im.MyApplication;
 import com.example.demo_im.R;
@@ -71,7 +73,8 @@ public class FriendProfile implements ProfileSummary {
     @Override
     public void onClick(Context context) {
         if (FriendshipInfo.getInstance().isFriend(profile.getIdentifier())){
-            ProfileActivity.navToProfile(context, profile.getIdentifier());
+            //ProfileActivity.navToProfile(context, profile.getIdentifier());
+            ChatActivity.navToChat(context,getIdentify(),TIMConversationType.C2C);
         }else{
             Intent person = new Intent(context,AddFriendActivity.class);
             person.putExtra("id",profile.getIdentifier());

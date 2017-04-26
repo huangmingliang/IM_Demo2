@@ -7,9 +7,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.tencent.qcloud.timchat.ui.FriendshipManageMessageActivity">
     <com.tencent.qcloud.ui.TemplateTitle
+        android:id="@+id/friendshipManageMsgTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:canBack="true"
+        app:moreText="@string/home_contact_tab"
         app:titleText="@string/conversation_system_friend" />
 
 

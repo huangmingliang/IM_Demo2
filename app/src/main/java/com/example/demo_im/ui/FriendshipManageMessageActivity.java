@@ -1,6 +1,7 @@
 package com.example.demo_im.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.tencent.qcloud.presentation.viewfeatures.FriendshipMessageView;
 import com.example.demo_im.R;
 import com.example.demo_im.adapters.FriendManageMessageAdapter;
 import com.example.demo_im.model.FriendFuture;
+import com.tencent.qcloud.ui.TemplateTitle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +27,11 @@ public class FriendshipManageMessageActivity extends Activity implements Friends
     private FriendshipManagerPresenter presenter;
     private ListView listView;
     private List<FriendFuture> list= new ArrayList<>();
+    private TemplateTitle title;
     private FriendManageMessageAdapter adapter;
     private final int FRIENDSHIP_REQ = 100;
     private int index;
+
 
 
     @Override
@@ -35,6 +39,7 @@ public class FriendshipManageMessageActivity extends Activity implements Friends
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friendship_manage_message);
         listView = (ListView) findViewById(R.id.list);
+        title=(TemplateTitle)findViewById(R.id.friendshipManageMsgTitle);
         adapter = new FriendManageMessageAdapter(this, R.layout.item_two_line, list);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -48,6 +53,14 @@ public class FriendshipManageMessageActivity extends Activity implements Friends
                     startActivityForResult(intent, FRIENDSHIP_REQ);
                 }
 
+            }
+        });
+
+        title.setMoreTextAction(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FriendshipManageMessageActivity.this, SearchFriendActivity.class);
+                startActivity(intent);
             }
         });
         presenter = new FriendshipManagerPresenter(this);
@@ -97,5 +110,10 @@ public class FriendshipManageMessageActivity extends Activity implements Friends
             }
         }
 
+    }
+
+    public static void navToFriendshipManageMessage(Context context){
+        Intent intent = new Intent(context, FriendshipManageMessageActivity.class);
+        context.startActivity(intent);
     }
 }
