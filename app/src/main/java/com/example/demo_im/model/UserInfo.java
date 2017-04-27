@@ -7,7 +7,6 @@ public class UserInfo {
 
     private String id;
     private String userSig;
-
     private static UserInfo ourInstance = new UserInfo();
 
     public static UserInfo getInstance() {

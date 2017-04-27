@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.tencent.qcloud.tlslibrary.helper.MResource;
+import com.tencent.qcloud.tlslibrary.http.YnlService;
 import com.tencent.qcloud.tlslibrary.service.Constants;
 import com.tencent.qcloud.tlslibrary.service.TLSService;
 
@@ -19,6 +20,7 @@ public class IndependentLoginActivity extends Activity {
     private final static String TAG = "IndependentLoginActivity";
 
     private TLSService tlsService;
+    private YnlService ynlService;
     //private int login_way = Constants.USRPWD_LOGIN | Constants.QQ_LOGIN | Constants.WX_LOGIN;
     private int login_way = Constants.USRPWD_LOGIN;
 
@@ -41,6 +43,7 @@ public class IndependentLoginActivity extends Activity {
             Constants.thirdappClassNameFail = intent.getStringExtra(Constants.EXTRA_THIRDAPP_CLASS_NAME_FAIL);
 
         tlsService = TLSService.getInstance();
+        ynlService=YnlService.getInstance();
 
         if ((login_way & Constants.USRPWD_LOGIN) != 0) { // 账号密码登录
             initAccountLoginService();
@@ -79,7 +82,7 @@ public class IndependentLoginActivity extends Activity {
     }
 
     private void initAccountLoginService() {
-        tlsService.initAccountLoginService(this,
+        ynlService.initAccountLoginService(this,
                 (EditText) findViewById(MResource.getIdByName(getApplication(), "id", "username")),
                 (EditText) findViewById(MResource.getIdByName(getApplication(), "id", "password")),
                 (Button) findViewById(MResource.getIdByName(getApplication(), "id", "btn_login")));
