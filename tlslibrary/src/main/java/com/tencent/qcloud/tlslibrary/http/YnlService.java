@@ -16,15 +16,15 @@ public class YnlService {
     private YnlAccountHelper loginHelper;
     private YnlAccountLoginService ynlAccountLoginService;
 
+    public YnlService(){
+        loginHelper=YnlAccountHelper.getInstance();
+    }
+
     public static YnlService getInstance() {
         if (ynlService == null) {
             ynlService = new YnlService();
         }
         return ynlService;
-    }
-
-    public void initYnl(){
-        loginHelper=YnlAccountHelper.getInstance();
     }
 
     public void YnlService(String identifier, String password, YnlPwdLoginListener listener) {

@@ -36,7 +36,13 @@ public class YnlAccountHelper {
         call.enqueue(new Callback<YnlResult>() {
             @Override
             public void onResponse(Call<YnlResult> call, Response<YnlResult> response) {
-                listener.OnPwdLoginSuccess(response.body());
+                YnlResult result=response.body();
+                String msg=result.getMsg();
+                if ("ok".equalsIgnoreCase(msg)){
+                    listener.OnPwdLoginSuccess(result);
+                }else {
+                    listener.OnPwdLoginFail(result.getError());
+                }
             }
 
             @Override

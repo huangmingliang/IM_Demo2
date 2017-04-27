@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import com.tencent.qcloud.tlslibrary.helper.Util;
 import com.tencent.qcloud.tlslibrary.service.Constants;
+import com.tencent.qcloud.tlslibrary.service.TLSService;
 
 /**
  * Created by huangmingliang on 2017/4/27.
@@ -36,7 +37,6 @@ public class YnlAccountLoginService {
         this.txt_password = txt_password;
 
         ynlService = YnlService.getInstance();
-        ynlService.initYnl();
 
         pwdLoginListener = new PwdLoginListener();
 
@@ -61,15 +61,15 @@ public class YnlAccountLoginService {
         @Override
         public void OnPwdLoginSuccess(YnlResult var1) {
             Util.showToast(context, "登录成功");
+            Log.d(TAG,"token:"+var1.getData().getImtoken());
             //TLSService.getInstance().setLastErrno(0);
-            Log.e(TAG,"hml msg="+var1.getMsg()+" id="+var1.getData().getMobile()+" sign="+var1.getData().getImtoken());
             //jumpToSuccActivity();
         }
 
         @Override
         public void OnPwdLoginFail(String var1) {
-            Log.e(TAG,"hml error:"+var1);
             Util.showToast(context, "登录失败");
+            Log.e(TAG,"error:"+var1);
         }
     }
 

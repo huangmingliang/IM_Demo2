@@ -46,7 +46,8 @@ public class IndependentLoginActivity extends Activity {
         ynlService=YnlService.getInstance();
 
         if ((login_way & Constants.USRPWD_LOGIN) != 0) { // 账号密码登录
-            initAccountLoginService();
+            //initAccountLoginService();
+            initYnlAccountLoginService();
         }
 
         if ((login_way & Constants.QQ_LOGIN) != 0) { // QQ登录
@@ -80,9 +81,16 @@ public class IndependentLoginActivity extends Activity {
             }
         });
     }
+    //登录自有服务器
+    private void initYnlAccountLoginService(){
+        ynlService.initAccountLoginService(this,
+                (EditText) findViewById(MResource.getIdByName(getApplication(), "id", "username")),
+                (EditText) findViewById(MResource.getIdByName(getApplication(), "id", "password")),
+                (Button) findViewById(MResource.getIdByName(getApplication(), "id", "btn_login")));
+    }
 
     private void initAccountLoginService() {
-        ynlService.initAccountLoginService(this,
+        tlsService.initAccountLoginService(this,
                 (EditText) findViewById(MResource.getIdByName(getApplication(), "id", "username")),
                 (EditText) findViewById(MResource.getIdByName(getApplication(), "id", "password")),
                 (Button) findViewById(MResource.getIdByName(getApplication(), "id", "btn_login")));

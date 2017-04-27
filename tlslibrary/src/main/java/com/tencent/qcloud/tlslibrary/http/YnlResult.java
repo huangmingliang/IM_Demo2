@@ -12,7 +12,17 @@ public class YnlResult {
     private YnUserInfo data;
     @SerializedName("msg")
     private String msg;
+    @SerializedName("error")
+    private String error;
 
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
 
     public YnlResult(YnUserInfo ynUserInfo, String msg) {
         this.data = ynUserInfo;
