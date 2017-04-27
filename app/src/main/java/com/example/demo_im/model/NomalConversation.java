@@ -45,6 +45,7 @@ public class NomalConversation extends Conversation {
         return 0;
     }
 
+
     /**
      * 跳转到聊天界面或会话详情
      *

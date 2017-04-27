@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.demo_im.R;
 import com.example.demo_im.model.FriendProfile;
+import com.squareup.picasso.Picasso;
 import com.tencent.qcloud.ui.CircleImageView;
 
 import java.util.List;
@@ -67,7 +68,7 @@ public class ContactAdapter extends BaseAdapter {
         if (getItem(position).equals("HEADER")){
             viewHolder.sectionLayout.setVisibility(View.GONE);
             viewHolder.friendName.setText(position==0?"新的朋友":"群聊");
-            viewHolder.friendImg.setImageResource(R.drawable.head_other);
+            viewHolder.friendImg.setImageResource(position==0?R.drawable.new_friend:R.drawable.group_chat);
         }else {
             FriendProfile friend = friends.get(position-HEADER_SIZE);
             //根据position获取分类的首字母的char ascii值
@@ -83,7 +84,13 @@ public class ContactAdapter extends BaseAdapter {
             }
             viewHolder.friendName.setText(friend.getRemark());
 
-            viewHolder.friendImg.setImageResource(R.drawable.head_other);
+            //viewHolder.friendImg.setImageResource(R.drawable.head_other);
+            Picasso.with(context)
+                    .load(friend.getAvatarUrl())
+                    .placeholder(friend.getAvatarRes())
+                    .error(friend.getAvatarRes())
+                    .centerCrop()
+                    .into(viewHolder.friendImg);
         }
         return convertView;
     }
