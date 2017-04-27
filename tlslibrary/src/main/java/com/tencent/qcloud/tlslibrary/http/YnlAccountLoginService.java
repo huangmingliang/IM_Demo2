@@ -10,7 +10,6 @@ import android.widget.EditText;
 
 import com.tencent.qcloud.tlslibrary.helper.Util;
 import com.tencent.qcloud.tlslibrary.service.Constants;
-import com.tencent.qcloud.tlslibrary.service.TLSService;
 
 /**
  * Created by huangmingliang on 2017/4/27.
@@ -52,7 +51,7 @@ public class YnlAccountLoginService {
                     return;
                 }
 
-                ynlService.YnlService(username, password, pwdLoginListener);
+                ynlService.PwdLogin(username, password, pwdLoginListener);
             }
         });
     }
@@ -61,9 +60,9 @@ public class YnlAccountLoginService {
         @Override
         public void OnPwdLoginSuccess(YnlResult var1) {
             Util.showToast(context, "登录成功");
-            Log.d(TAG,"token:"+var1.getData().getImtoken());
             //TLSService.getInstance().setLastErrno(0);
-            //jumpToSuccActivity();
+            YnlService.getInstance().setLastErrno(0);
+            jumpToSuccActivity();
         }
 
         @Override

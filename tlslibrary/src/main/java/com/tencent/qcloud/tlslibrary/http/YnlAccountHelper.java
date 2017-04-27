@@ -1,5 +1,8 @@
 package com.tencent.qcloud.tlslibrary.http;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -16,6 +19,14 @@ import retrofit2.http.POST;
 public class YnlAccountHelper {
     private String TAG="YnlAccountHelper";
     private static YnlAccountHelper ynlAccountHelper;
+    private String identifier;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
+    private final String IM="ImConfig";
+    private final String ID="identifier";
+    private final String SIGN="userSig";
+    private Context context;
+
     static  public YnlAccountHelper getInstance(){
         synchronized (YnlAccountHelper.class){
             if (ynlAccountHelper==null){
@@ -25,7 +36,23 @@ public class YnlAccountHelper {
         return ynlAccountHelper;
     }
 
-    public void ynlLogin(String identifier, String password, final YnlPwdLoginListener listener){
+    public void init(Context context){
+        this.context=context.getApplicationContext();
+        preferences=context.getSharedPreferences(IM,Context.MODE_PRIVATE);
+        editor=preferences.edit();
+    }
+
+    public String getIdentifier(){
+        return preferences.getString(ID,"");
+    }
+
+    public String getUserSig(){
+        return preferences.getString(SIGN,"");
+    }
+
+
+
+    public void ynlLogin(final String identifier, String password, final YnlPwdLoginListener listener){
         String baseUrl="http://192.168.4.42:81/";
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -39,14 +66,19 @@ public class YnlAccountHelper {
                 YnlResult result=response.body();
                 String msg=result.getMsg();
                 if ("ok".equalsIgnoreCase(msg)){
+                    editor.putString(ID,identifier);
+                    editor.putString(SIGN,result.getData().getImtoken());
+                    editor.commit();
                     listener.OnPwdLoginSuccess(result);
                 }else {
+                    editor.clear();
                     listener.OnPwdLoginFail(result.getError());
                 }
             }
 
             @Override
             public void onFailure(Call<YnlResult> call, Throwable t) {
+                editor.clear();
                 listener.OnPwdLoginFail(t.getMessage());
             }
         });

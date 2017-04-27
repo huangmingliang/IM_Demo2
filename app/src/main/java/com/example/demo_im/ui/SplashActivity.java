@@ -34,6 +34,7 @@ import com.example.demo_im.model.UserInfo;
 import com.example.demo_im.utils.PushUtil;
 import com.tencent.qcloud.tlslibrary.activity.HostLoginActivity;
 import com.tencent.qcloud.tlslibrary.activity.IndependentLoginActivity;
+import com.tencent.qcloud.tlslibrary.http.YnlService;
 import com.tencent.qcloud.tlslibrary.service.TLSService;
 import com.tencent.qcloud.tlslibrary.service.TlsBusiness;
 import com.tencent.qcloud.ui.NotifyDialog;
@@ -95,6 +96,7 @@ public class SplashActivity extends FragmentActivity implements SplashView,TIMCa
 //        String userSig="eJxNzVFPgzAUBeD-0tcZLS0tYOLDMkSXiIE5lrmYNATa7moGDSuTsfjfRdyir*e759wTWj69XOdFUbeVFfZoJLpFGF2NMZSysqBANkPoeNz3Pc4dduHcGChFbgVtyn*tffkhRvopuRhjEjAWnFF2BhopcmV-RxljZDg560E2e6irAQh2mEMoxn9oYSfHyYBi4lHGLv9AD3F8n83m6axrVquILI5bq7q43-Cpr1UexpEpQq1Zlq37SG1lD1WbzvWr*3nwMt4tTZVCVvNF0LaQhOQZNu*0nDwGyeRhSpO3m-XOvUNf31HfWN4_";
         String id=UserInfo.getInstance().getId();
         String userSig=UserInfo.getInstance().getUserSig();
+        Log.e(TAG,"hml id="+id+" userSig="+userSig);
         LoginBusiness.loginIm(id, userSig, this);
     }
 
@@ -115,7 +117,7 @@ public class SplashActivity extends FragmentActivity implements SplashView,TIMCa
     @Override
     public boolean isUserLogin() {
         return false;
-        //return UserInfo.getInstance().getId()!= null && (!TLSService.getInstance().needLogin(UserInfo.getInstance().getId()));
+        //return YnlUserInfo.getInstance().getId()!= null && (!TLSService.getInstance().needLogin(YnlUserInfo.getInstance().getId()));
     }
 
     /**
@@ -201,15 +203,15 @@ public class SplashActivity extends FragmentActivity implements SplashView,TIMCa
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult code:" + requestCode);
         if (LOGIN_RESULT_CODE == requestCode) {
-         /* Log.d(TAG, "login error no " + TLSService.getInstance().getLastErrno());
+         Log.d(TAG, "login error no " + YnlService.getInstance().getLastErrno());
             if (0 == TLSService.getInstance().getLastErrno()){
-                String id = TLSService.getInstance().getLastUserIdentifier();
-                UserInfo.getInstance().setId(id);
-                UserInfo.getInstance().setUserSig(TLSService.getInstance().getUserSig(id));
+                String id = YnlService.getInstance().getIdentifier();
+                UserInfo.getInstance().setId(YnlService.getInstance().getIdentifier());
+                UserInfo.getInstance().setUserSig(YnlService.getInstance().getUserSig());
                 navToHome();
             } else if (resultCode == RESULT_CANCELED){
                 finish();
-            }*/
+            }
           navToHome();
 
         }
@@ -242,9 +244,8 @@ public class SplashActivity extends FragmentActivity implements SplashView,TIMCa
         TlsBusiness.init(getApplicationContext());
         //设置刷新监听
         RefreshEvent.getInstance();
-        String id =  TLSService.getInstance().getLastUserIdentifier();
-        UserInfo.getInstance().setId(id);
-        UserInfo.getInstance().setUserSig(TLSService.getInstance().getUserSig(id));
+        UserInfo.getInstance().setId(YnlService.getInstance().getIdentifier());
+        UserInfo.getInstance().setUserSig(YnlService.getInstance().getUserSig());
         presenter = new SplashPresenter(this);
         presenter.start();
     }

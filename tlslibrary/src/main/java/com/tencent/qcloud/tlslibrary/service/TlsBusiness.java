@@ -3,6 +3,7 @@ package com.tencent.qcloud.tlslibrary.service;
 import android.content.Context;
 
 import com.tencent.qcloud.sdk.Constant;
+import com.tencent.qcloud.tlslibrary.http.YnlService;
 
 /**
  * 初始化tls登录模块
@@ -19,6 +20,7 @@ public class TlsBusiness {
         TLSConfiguration.setQqAppIdAndAppKey("222222", "CXtj4p63eTEB2gSu");
         TLSConfiguration.setWxAppIdAndAppSecret("wx65f71c2ea2b122da", "1d30d40f8db6d3ad0ee6492e62ad5d57");
         TLSService.getInstance().initTlsSdk(context);
+        YnlService.getInstance().initYnlService(context);
     }
 
     public static void logout(String id){
