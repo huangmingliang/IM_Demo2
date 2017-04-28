@@ -43,6 +43,7 @@ public class HomeActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        Log.e(TAG,"hml onCreate");
         initView();
         //互踢下线逻辑
         TIMManager.getInstance().setUserStatusListener(new TIMUserStatusListener() {

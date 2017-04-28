@@ -57,4 +57,9 @@ public class YnlService {
         return lastErrno;
     }
 
+    public void clearUserInfo() {
+        loginHelper.clearYnlUserInfo();;
+        lastErrno = -1;
+    }
+
 }

@@ -2,6 +2,7 @@ package com.tencent.qcloud.tlslibrary.http;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,7 +39,7 @@ public class YnlAccountHelper {
 
     public void init(Context context){
         this.context=context.getApplicationContext();
-        preferences=context.getSharedPreferences(IM,Context.MODE_PRIVATE);
+        preferences=this.context.getSharedPreferences(IM,Context.MODE_PRIVATE);
         editor=preferences.edit();
     }
 
@@ -48,6 +49,11 @@ public class YnlAccountHelper {
 
     public String getUserSig(){
         return preferences.getString(SIGN,"");
+    }
+
+    public void clearYnlUserInfo(){
+        editor.clear();
+        editor.commit();
     }
 
 
@@ -63,7 +69,16 @@ public class YnlAccountHelper {
         call.enqueue(new Callback<YnlResult>() {
             @Override
             public void onResponse(Call<YnlResult> call, Response<YnlResult> response) {
+                if (response==null){
+                    Log.e(TAG,"hml respond="+response);
+                    return;
+                }
+                Log.e(TAG,"body="+response.body());
                 YnlResult result=response.body();
+                if (result==null){
+                    Log.e(TAG,"hml result="+result);
+                    return;
+                }
                 String msg=result.getMsg();
                 if ("ok".equalsIgnoreCase(msg)){
                     editor.putString(ID,identifier);

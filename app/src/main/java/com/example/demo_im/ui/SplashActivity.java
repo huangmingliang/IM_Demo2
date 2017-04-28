@@ -96,7 +96,7 @@ public class SplashActivity extends FragmentActivity implements SplashView,TIMCa
 //        String userSig="eJxNzVFPgzAUBeD-0tcZLS0tYOLDMkSXiIE5lrmYNATa7moGDSuTsfjfRdyir*e759wTWj69XOdFUbeVFfZoJLpFGF2NMZSysqBANkPoeNz3Pc4dduHcGChFbgVtyn*tffkhRvopuRhjEjAWnFF2BhopcmV-RxljZDg560E2e6irAQh2mEMoxn9oYSfHyYBi4lHGLv9AD3F8n83m6axrVquILI5bq7q43-Cpr1UexpEpQq1Zlq37SG1lD1WbzvWr*3nwMt4tTZVCVvNF0LaQhOQZNu*0nDwGyeRhSpO3m-XOvUNf31HfWN4_";
         String id=UserInfo.getInstance().getId();
         String userSig=UserInfo.getInstance().getUserSig();
-        Log.e(TAG,"hml id="+id+" userSig="+userSig);
+        Log.d(TAG,"hml id="+id+" userSig="+userSig);
         LoginBusiness.loginIm(id, userSig, this);
     }
 
@@ -116,8 +116,8 @@ public class SplashActivity extends FragmentActivity implements SplashView,TIMCa
      */
     @Override
     public boolean isUserLogin() {
-        return false;
-        //return YnlUserInfo.getInstance().getId()!= null && (!TLSService.getInstance().needLogin(YnlUserInfo.getInstance().getId()));
+       //return false;
+        return !TextUtils.isEmpty(YnlService.getInstance().getIdentifier());
     }
 
     /**
@@ -192,7 +192,7 @@ public class SplashActivity extends FragmentActivity implements SplashView,TIMCa
             TIMManager.getInstance().setOfflinePushToken(param);
         }*/
 //        MiPushClient.clearNotification(getApplicationContext());
-        Log.d(TAG, "imsdk env " + TIMManager.getInstance().getEnv());
+        Log.d(TAG, "hml imsdk env " + TIMManager.getInstance().getEnv());
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         finish();
@@ -201,18 +201,17 @@ public class SplashActivity extends FragmentActivity implements SplashView,TIMCa
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "onActivityResult code:" + requestCode);
+        Log.d(TAG, "hml onActivityResult code:" + requestCode);
         if (LOGIN_RESULT_CODE == requestCode) {
-         Log.d(TAG, "login error no " + YnlService.getInstance().getLastErrno());
-            if (0 == TLSService.getInstance().getLastErrno()){
-                String id = YnlService.getInstance().getIdentifier();
+         Log.d(TAG, "hml login error no " + YnlService.getInstance().getLastErrno());
+            if (0 == YnlService.getInstance().getLastErrno()){
                 UserInfo.getInstance().setId(YnlService.getInstance().getIdentifier());
                 UserInfo.getInstance().setUserSig(YnlService.getInstance().getUserSig());
                 navToHome();
             } else if (resultCode == RESULT_CANCELED){
                 finish();
             }
-          navToHome();
+          //navToHome();
 
         }
     }
@@ -244,6 +243,7 @@ public class SplashActivity extends FragmentActivity implements SplashView,TIMCa
         TlsBusiness.init(getApplicationContext());
         //设置刷新监听
         RefreshEvent.getInstance();
+        Log.d(TAG,"hml id="+YnlService.getInstance().getIdentifier());
         UserInfo.getInstance().setId(YnlService.getInstance().getIdentifier());
         UserInfo.getInstance().setUserSig(YnlService.getInstance().getUserSig());
         presenter = new SplashPresenter(this);
