@@ -83,6 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|right"
                 android:textColor="@color/tencent_tls_ui_defaultButtonColor"
+                android:visibility="gone"
                 android:text="注册新用户"/>
 
         </FrameLayout>
