@@ -30,15 +30,16 @@ public class YnlService {
         loginHelper.init(context);
     }
 
-    public void PwdLogin(String identifier, String password, YnlPwdLoginListener listener) {
-        loginHelper.ynlLogin(identifier, password, listener);
+    public void PwdLogin(String identifier, String password, String url,YnlPwdLoginListener listener) {
+        loginHelper.ynlLogin(identifier, password,url, listener);
     }
 
     public void initAccountLoginService(Context context,
                                         EditText txt_username,
                                         EditText txt_password,
+                                        EditText txt_url,
                                         Button btn_login) {
-        ynlAccountLoginService = new YnlAccountLoginService(context, txt_username, txt_password, btn_login);
+        ynlAccountLoginService = new YnlAccountLoginService(context, txt_username, txt_password,txt_url,btn_login);
     }
 
     public String getIdentifier(){
@@ -58,7 +59,7 @@ public class YnlService {
     }
 
     public void clearUserInfo() {
-        loginHelper.clearYnlUserInfo();;
+        loginHelper.clearYnlUserInfo();
         lastErrno = -1;
     }
 

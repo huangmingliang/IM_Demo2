@@ -104,4 +104,5 @@
         android:layout_marginRight="10dp"
         android:text="@string/setting_logout"/>
 
+
 </LinearLayout>

@@ -28,6 +28,7 @@ public class YnlAccountHelper {
     private final String SIGN="userSig";
     private Context context;
 
+
     static  public YnlAccountHelper getInstance(){
         synchronized (YnlAccountHelper.class){
             if (ynlAccountHelper==null){
@@ -58,10 +59,9 @@ public class YnlAccountHelper {
 
 
 
-    public void ynlLogin(final String identifier, String password, final YnlPwdLoginListener listener){
-        String baseUrl="http://192.168.4.42:81/";
+    public void ynlLogin(final String identifier, String password,String url,final YnlPwdLoginListener listener){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseUrl)
+                .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         LoginService loginService=retrofit.create(LoginService.class);

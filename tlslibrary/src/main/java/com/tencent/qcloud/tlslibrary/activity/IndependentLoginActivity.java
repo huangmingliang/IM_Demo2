@@ -86,6 +86,7 @@ public class IndependentLoginActivity extends Activity {
         ynlService.initAccountLoginService(this,
                 (EditText) findViewById(MResource.getIdByName(getApplication(), "id", "username")),
                 (EditText) findViewById(MResource.getIdByName(getApplication(), "id", "password")),
+                (EditText) findViewById(MResource.getIdByName(getApplication(), "id", "url")),
                 (Button) findViewById(MResource.getIdByName(getApplication(), "id", "btn_login")));
     }
 

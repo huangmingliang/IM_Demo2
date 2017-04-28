@@ -53,6 +53,17 @@
             android:singleLine="true"
             android:hint="密码"/>
 
+        <EditText
+            android:id="@+id/url"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/tencent_tls_ui_edittext_height"
+            android:paddingLeft="@dimen/tencent_tls_ui_edittext_leftpadding"
+            android:layout_marginBottom="@dimen/tencent_tls_ui_edittext_margin"
+            android:background="@drawable/tencent_tls_ui_rounded_rectangle_normal"
+            android:singleLine="true"
+            android:text="http://192.168.4.42:81/"
+            android:hint="地址（例如http://192.168.4.42:81/）"/>
+
         <Button
             android:id="@+id/btn_login"
             android:layout_width="fill_parent"

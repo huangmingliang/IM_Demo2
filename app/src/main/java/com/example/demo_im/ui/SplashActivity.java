@@ -193,7 +193,7 @@ public class SplashActivity extends FragmentActivity implements SplashView,TIMCa
         }*/
 //        MiPushClient.clearNotification(getApplicationContext());
         Log.d(TAG, "hml imsdk env " + TIMManager.getInstance().getEnv());
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, MeActivity.class);
         startActivity(intent);
         finish();
     }
