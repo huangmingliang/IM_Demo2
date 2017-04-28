@@ -3,17 +3,20 @@ package com.example.demo_im.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.demo_im.R;
 import com.example.demo_im.adapters.ContactAdapter;
 import com.example.demo_im.model.FriendProfile;
 import com.example.demo_im.model.FriendshipInfo;
+import com.tencent.qcloud.ui.SideIndexBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +29,11 @@ import java.util.Observer;
 
 public class ContactFragment2 extends Fragment implements View.OnClickListener,Observer{
 
+    private String TAG="ContactFragment2";
     private View view;
     private ListView mFriendListView;
+    private TextView mDialogTextView;
+    private SideIndexBar mSideIndexBar;
     private List<FriendProfile> friends=new ArrayList<>();
     private ContactAdapter adapter;
 
@@ -37,6 +43,10 @@ public class ContactFragment2 extends Fragment implements View.OnClickListener,O
         if (view==null){
             view = inflater.inflate(R.layout.fragment_contact2, container, false);
             mFriendListView=(ListView)view.findViewById(R.id.friendList);
+            mDialogTextView=(TextView)view.findViewById(R.id.text_dialog);
+            mSideIndexBar=(SideIndexBar)view.findViewById(R.id.index_bar);
+            mSideIndexBar.setTextDialog(mDialogTextView);
+
             refresh();
             adapter=new ContactAdapter(getActivity(),friends);
             mFriendListView.setAdapter(adapter);
@@ -50,6 +60,30 @@ public class ContactFragment2 extends Fragment implements View.OnClickListener,O
                         Toast.makeText(getActivity(),"敬请期待...",Toast.LENGTH_SHORT).show();
                     }else {
                         friends.get(position-2).onClick(getActivity());
+                    }
+                }
+            });
+
+            mSideIndexBar.setOnLetterChangedListener(new SideIndexBar.OnLetterChangedListener() {
+                @Override
+                public void onChanged(String s, int position) {
+                    int section=s.toCharArray()[0];
+                    int firstPosition=adapter.getPositionForSection(section);
+                    //Log.d(TAG,"hml firstPosition="+firstPosition);
+                    if (firstPosition!=-1){
+                        int temp=firstPosition+ContactAdapter.HEADER_SIZE;
+                        int target = 0;
+                        int first=mFriendListView.getFirstVisiblePosition();
+                        int last=mFriendListView.getLastVisiblePosition();
+                        //Log.d(TAG,"hml temp="+temp+" target="+target+" first="+first+" last="+last);
+                        if (temp>first){
+                            target=last+temp-first-1;
+                        }else if (temp<first){
+                            target=temp;
+                        }else {
+                            target=first;
+                        }
+                        mFriendListView.smoothScrollToPosition(target);
                     }
                 }
             });

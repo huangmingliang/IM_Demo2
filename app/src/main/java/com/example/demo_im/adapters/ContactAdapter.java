@@ -25,7 +25,7 @@ public class ContactAdapter extends BaseAdapter {
     private String TAG="ContactAdapter";
     private Context context;
     private List<FriendProfile> friends;
-    static final int HEADER_SIZE =2;
+    public static final int HEADER_SIZE =2;
 
     public ContactAdapter(Context context, List<FriendProfile> friends){
         this.context=context;
