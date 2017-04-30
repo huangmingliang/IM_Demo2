@@ -50,10 +50,10 @@ public class MeActivity extends Activity implements ConversationView,FriendshipM
         imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MeActivity.this,HomeActivity.class);
+                Intent intent=new Intent(MeActivity.this,Home2Activity.class);
                 intent.putExtra("fragment","conversation");
                 startActivity(intent);
-                finish();
+                //finish();
 
             }
         });
@@ -61,10 +61,10 @@ public class MeActivity extends Activity implements ConversationView,FriendshipM
         imageView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MeActivity.this,HomeActivity.class);
+                Intent intent=new Intent(MeActivity.this,Home2Activity.class);
                 intent.putExtra("fragment","contact");
                 startActivity(intent);
-                finish();
+                //finish();
             }
         });
 

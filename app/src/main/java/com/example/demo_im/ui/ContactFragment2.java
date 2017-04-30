@@ -40,6 +40,7 @@ public class ContactFragment2 extends Fragment implements View.OnClickListener,O
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.e(TAG,"hml onCreateView");
         if (view==null){
             view = inflater.inflate(R.layout.fragment_contact2, container, false);
             mFriendListView=(ListView)view.findViewById(R.id.friendList);

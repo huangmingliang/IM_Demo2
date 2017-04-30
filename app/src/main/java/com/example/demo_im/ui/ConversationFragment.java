@@ -3,6 +3,7 @@ package com.example.demo_im.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -67,6 +68,7 @@ public class ConversationFragment extends Fragment implements ConversationView,F
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.e(TAG,"hml onCreateView");
         if (view == null){
             view = inflater.inflate(R.layout.fragment_conversation, container, false);
             listView = (ListView) view.findViewById(R.id.list);
@@ -204,8 +206,8 @@ public class ConversationFragment extends Fragment implements ConversationView,F
     public void refresh() {
         Collections.sort(conversationList);
         adapter.notifyDataSetChanged();
-        if (getActivity() instanceof  HomeActivity)
-            ((HomeActivity) getActivity()).setMsgUnread(getTotalUnreadNum() == 0);
+        if (getActivity() instanceof  Home2Activity)
+            ((Home2Activity) getActivity()).setMsgUnread(this,getTotalUnreadNum() == 0);
     }
 
 

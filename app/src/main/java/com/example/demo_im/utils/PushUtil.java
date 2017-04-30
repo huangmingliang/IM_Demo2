@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.example.demo_im.ui.Home2Activity;
 import com.tencent.TIMConversationType;
 import com.tencent.TIMGroupReceiveMessageOpt;
 import com.tencent.TIMMessage;
@@ -61,7 +62,7 @@ public class PushUtil implements Observer {
         Log.d(TAG, "recv msg " + contentStr);
         NotificationManager mNotificationManager = (NotificationManager) MyApplication.getContext().getSystemService(MyApplication.getContext().NOTIFICATION_SERVICE);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(MyApplication.getContext());
-        Intent notificationIntent = new Intent(MyApplication.getContext(), HomeActivity.class);
+        Intent notificationIntent = new Intent(MyApplication.getContext(), Home2Activity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent intent = PendingIntent.getActivity(MyApplication.getContext(), 0,

@@ -67,8 +67,8 @@ public class SettingFragment extends Fragment implements FriendInfoView {
 
                         @Override
                         public void onSuccess() {
-                            if (getActivity() != null && getActivity() instanceof HomeActivity){
-                                ((HomeActivity) getActivity()).logout();
+                            if (getActivity() != null && getActivity() instanceof Home2Activity){
+                                ((Home2Activity) getActivity()).logout();
                             }
                         }
                     });

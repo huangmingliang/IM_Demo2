@@ -31,11 +31,11 @@
         <activity
             android:name=".ui.SplashActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
+           <!-- <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity android:name=".ui.HomeActivity" />
         <activity
@@ -230,7 +230,14 @@
         <activity android:name=".ui.BlackListActivity" />
         <activity android:name=".ui.ImagePreviewActivity" />
         <activity android:name=".ui.MessageNotifySettingActivity" />
-        <activity android:name=".ui.MeActivity"></activity>
+        <activity android:name=".ui.MeActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.Home2Activity"></activity>
     </application>
 
 </manifest>
