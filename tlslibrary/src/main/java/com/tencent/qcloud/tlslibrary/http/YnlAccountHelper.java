@@ -60,6 +60,7 @@ public class YnlAccountHelper {
 
 
     public void ynlLogin(final String identifier, String password,String url,final YnlPwdLoginListener listener){
+        Log.e(TAG,"hml url="+url+" id="+identifier+" password="+password);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())

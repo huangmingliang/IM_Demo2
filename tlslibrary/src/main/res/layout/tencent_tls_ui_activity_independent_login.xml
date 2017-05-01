@@ -61,7 +61,7 @@
             android:layout_marginBottom="@dimen/tencent_tls_ui_edittext_margin"
             android:background="@drawable/tencent_tls_ui_rounded_rectangle_normal"
             android:singleLine="true"
-            android:text="http://192.168.4.42:81/"
+            android:text="http://119.23.125.87:84/"
             android:hint="地址（例如http://192.168.4.42:81/）"/>
 
         <Button
