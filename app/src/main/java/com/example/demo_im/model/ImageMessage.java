@@ -9,9 +9,11 @@ import android.media.ExifInterface;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.demo_im.ui.customview.MaskImage;
 import com.tencent.TIMCallBack;
 import com.tencent.TIMImage;
 import com.tencent.TIMImageElem;
@@ -43,7 +45,7 @@ public class ImageMessage extends Message {
         this(path, false);
     }
 
-    /**
+     /**
      * 图片消息构造函数
      *
      * @param path 图片路径
@@ -68,12 +70,15 @@ public class ImageMessage extends Message {
     public void showMessage(final ChatAdapter.ViewHolder viewHolder, final Context context) {
         clearView(viewHolder);
         TIMImageElem e = (TIMImageElem) message.getElement(0);
+        getBubbleView(viewHolder).setPadding(0,0,0,0);
         switch (message.status()){
             case Sending:
-
-                ImageView imageView = new ImageView(MyApplication.getContext());
-                imageView.setImageBitmap(getThumb(e.getPath()));
+                MaskImage imageView = new MaskImage(context,message.isSelf()?0:1);
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                Bitmap bitmap=getThumb(e.getPath());
+                imageView.setImageBitmap(bitmap);
                 clearView(viewHolder);
+                getBubbleView(viewHolder).setBackground(null);
                 getBubbleView(viewHolder).addView(imageView);
                 break;
             case SendSucc:
@@ -208,7 +213,8 @@ public class ImageMessage extends Message {
 
     private void showThumb(final ChatAdapter.ViewHolder viewHolder,String filename){
         Bitmap bitmap = BitmapFactory.decodeFile(FileUtil.getCacheFilePath(filename));
-        ImageView imageView = new ImageView(MyApplication.getContext());
+        MaskImage imageView = new MaskImage(MyApplication.getContext(),message.isSelf()?0:1);
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         imageView.setImageBitmap(bitmap);
         getBubbleView(viewHolder).addView(imageView);
     }

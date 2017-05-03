@@ -15,4 +15,11 @@
         <!-- 是否是开关 -->
         <attr name="isSwitch" format="boolean"/>
     </declare-styleable>
+
+    <declare-styleable name="MaskImage">
+        <attr name="maskSource" format="enum">
+            <enum name="left" value="0"/>
+            <enum name="right" value="1"/>
+        </attr>
+    </declare-styleable>
 </resources>
