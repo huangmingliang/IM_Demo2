@@ -44,7 +44,6 @@ public class MaskImage extends ImageView {
         //TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MaskImage);
         //source = typedArray.getInt(R.styleable.MaskImage_maskSource, -1);
         //typedArray.recycle();
-        Log.e(TAG,"hml source");
         if (source == 0) {
             mMaskSource = R.drawable.bubble_green;
         } else if (source == 1) {

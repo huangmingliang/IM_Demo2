@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.module.zxing.QrMainActivity;
 import com.tencent.TIMFriendResult;
 import com.tencent.TIMFriendStatus;
 import com.tencent.TIMUserProfile;
@@ -43,6 +44,8 @@ public class SearchFriendActivity extends Activity implements FriendInfoView, Ad
     EditText mSearchInput;
     TextView tvNoResult;
     RelativeLayout searchLayout1;
+    RelativeLayout scanLayout;
+    RelativeLayout qrcodeLayout;
     LinearLayout searchLayout2;
     EditText search;
     ProfileSummaryAdapter adapter;
@@ -57,8 +60,23 @@ public class SearchFriendActivity extends Activity implements FriendInfoView, Ad
         context=this;
         searchLayout1=(RelativeLayout)findViewById(R.id.searchLayout1);
         searchLayout2=(LinearLayout)findViewById(R.id.searchLayout2);
+        scanLayout=(RelativeLayout)findViewById(R.id.scan);
+        qrcodeLayout=(RelativeLayout)findViewById(R.id.QRCode);
         search=(EditText)findViewById(R.id.search);
 
+        scanLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QrMainActivity.navToQrCodeScan(context);
+            }
+        });
+
+        qrcodeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

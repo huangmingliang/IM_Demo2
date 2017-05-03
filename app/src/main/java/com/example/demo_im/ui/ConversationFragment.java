@@ -68,7 +68,6 @@ public class ConversationFragment extends Fragment implements ConversationView,F
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.e(TAG,"hml onCreateView");
         if (view == null){
             view = inflater.inflate(R.layout.fragment_conversation, container, false);
             listView = (ListView) view.findViewById(R.id.list);
