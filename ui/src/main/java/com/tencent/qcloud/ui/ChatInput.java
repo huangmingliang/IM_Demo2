@@ -269,7 +269,7 @@ public class ChatInput extends RelativeLayout implements TextWatcher,View.OnClic
                 try{
                     AssetManager am = getContext().getAssets();
                     final int index = 7*i+j;
-                    InputStream is = am.open(String.format("emoticon/%d.gif", index));
+                    InputStream is = am.open(String.format("emoticon/%d.png", index));
                     Bitmap bitmap = BitmapFactory.decodeStream(is);
                     Matrix matrix = new Matrix();
                     int width = bitmap.getWidth();

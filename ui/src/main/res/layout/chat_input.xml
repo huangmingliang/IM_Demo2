@@ -180,14 +180,19 @@
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/emoticonPanel"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:visibility="gone"
-        android:orientation="vertical"
-        android:background="@color/background_gray1">
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/emoticonPanel"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:background="@color/background_gray1">
 
-    </LinearLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+
 
 </LinearLayout>
