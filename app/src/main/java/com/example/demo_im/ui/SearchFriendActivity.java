@@ -3,6 +3,8 @@ package com.example.demo_im.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.module.zxing.QrMainActivity;
+import com.module.zxing.android.CaptureActivity;
 import com.tencent.TIMFriendResult;
 import com.tencent.TIMFriendStatus;
 import com.tencent.TIMUserProfile;
@@ -39,6 +42,11 @@ public class SearchFriendActivity extends Activity implements FriendInfoView, Ad
 
     private final static String TAG = "SearchFriendActivity";
 
+    private static final int REQUEST_CODE_SCAN = 0x0000;
+
+    private static final String DECODED_CONTENT_KEY = "codedContent";
+    private static final String DECODED_BITMAP_KEY = "codedBitmap";
+
     private FriendshipManagerPresenter presenter,presenter2;
     ListView mSearchList;
     EditText mSearchInput;
@@ -51,6 +59,7 @@ public class SearchFriendActivity extends Activity implements FriendInfoView, Ad
     ProfileSummaryAdapter adapter;
     List<ProfileSummary> list = new ArrayList<>();
     private Context context;
+    private boolean isSearchByScan=false;    //是否通过扫描的方式添加
 
 
     @Override
@@ -67,7 +76,8 @@ public class SearchFriendActivity extends Activity implements FriendInfoView, Ad
         scanLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                QrMainActivity.navToQrCodeScan(context);
+                Intent intent=new Intent(SearchFriendActivity.this, CaptureActivity.class);
+                startActivityForResult(intent,REQUEST_CODE_SCAN);
             }
         });
 
@@ -184,15 +194,23 @@ public class SearchFriendActivity extends Activity implements FriendInfoView, Ad
     @Override
     public void showUserInfo(List<TIMUserProfile> users) {
         if (users == null) return;
-        for (TIMUserProfile item : users){
-            if (needAdd(item.getIdentifier()))
-                list.add(new FriendProfile(item));
-        }
-        adapter.notifyDataSetChanged();
-        if (list.size() == 0){
-            tvNoResult.setVisibility(View.VISIBLE);
-        }else{
-            tvNoResult.setVisibility(View.GONE);
+        if (!isSearchByScan) {
+            for (TIMUserProfile item : users) {
+                if (needAdd(item.getIdentifier()))
+                    list.add(new FriendProfile(item));
+            }
+            adapter.notifyDataSetChanged();
+            if (list.size() == 0) {
+                tvNoResult.setVisibility(View.VISIBLE);
+            } else {
+                tvNoResult.setVisibility(View.GONE);
+            }
+        }else {
+            FriendProfile profile=new FriendProfile(users.get(0));
+            Intent intent=new Intent(SearchFriendActivity.this,ScanAddFriendActivity.class);
+            intent.putExtra("id",profile.getIdentify());
+            intent.putExtra("name",profile.getRemark());
+            startActivity(intent);
         }
     }
 
@@ -211,4 +229,18 @@ public class SearchFriendActivity extends Activity implements FriendInfoView, Ad
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode==RESULT_OK){
+            if (requestCode==REQUEST_CODE_SCAN){
+                if (data != null) {
+                    String content = data.getStringExtra(DECODED_CONTENT_KEY);
+                    //Bitmap bitmap = data.getParcelableExtra(DECODED_BITMAP_KEY);
+                    presenter.searchFriendById(content);
+                    isSearchByScan=true;
+                }
+            }
+        }
+    }
 }

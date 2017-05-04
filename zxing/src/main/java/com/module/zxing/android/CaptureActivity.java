@@ -268,4 +268,6 @@ public final class CaptureActivity extends AppCompatActivity implements
 			}
 		}
 	}
+
+
 }
