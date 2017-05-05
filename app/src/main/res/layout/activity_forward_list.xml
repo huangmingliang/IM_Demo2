@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_layout"
+    tools:context="com.example.demo_im.ui.ForwardListActivity">
+
+    <com.tencent.qcloud.ui.TemplateTitle
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:canBack="true" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:background="@null"
+        android:drawablePadding="10dp"
+        android:layout_marginTop="8dp"
+        android:drawableStart="@drawable/search"
+        android:hint="@string/forward_search"
+        android:textSize="14sp"
+        android:paddingStart="15dp" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:text="@string/forward_new_chatting"
+        android:gravity="center_vertical"
+        android:textSize="14sp"
+        android:paddingStart="15dp"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:gravity="center_vertical"
+        android:textSize="13sp"
+        android:paddingStart="15dp"
+        android:text="@string/forward_conversation"/>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:dividerHeight="1dp"/>
+
+</LinearLayout>

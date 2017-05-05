@@ -416,6 +416,7 @@ public class ChatActivity extends FragmentActivity implements ChatView {
                                    ContextMenu.ContextMenuInfo menuInfo) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         Message message = messageList.get(info.position);
+        menu.add(0,4,Menu.NONE,getString(R.string.chat_forward));
         menu.add(0, 1, Menu.NONE, getString(R.string.chat_del));
         if (message.isSendFail()){
             menu.add(0, 2, Menu.NONE, getString(R.string.chat_resend));
@@ -423,6 +424,7 @@ public class ChatActivity extends FragmentActivity implements ChatView {
         if (message instanceof ImageMessage || message instanceof FileMessage){
             menu.add(0, 3, Menu.NONE, getString(R.string.chat_save));
         }
+
     }
 
 
@@ -442,6 +444,11 @@ public class ChatActivity extends FragmentActivity implements ChatView {
                 break;
             case 3:
                 message.save();
+                break;
+            case 4:
+                Intent intent=new Intent(ChatActivity.this,ForwardListActivity.class);
+
+                startActivity(intent);
                 break;
             default:
                 break;

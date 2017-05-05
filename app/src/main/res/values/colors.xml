@@ -29,7 +29,7 @@
     <!--蒙版-->
     <color name="colorMask">#66000000</color>
 
-    <color name="bg_chat">#f7f8fd</color>
+    <color name="bg_layout">#f7f8fd</color>
 
 
 

@@ -4,10 +4,12 @@ import android.content.Context;
 
 import com.tencent.TIMConversationType;
 
+import java.io.Serializable;
+
 /**
  * 会话数据
  */
-public abstract class Conversation implements Comparable {
+public abstract class Conversation implements Comparable,Serializable {
 
     //会话对象id
     protected String identify;

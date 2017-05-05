@@ -1,6 +1,7 @@
 package com.example.demo_im.model;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -9,6 +10,8 @@ import com.tencent.TIMMessage;
 import com.tencent.TIMMessageStatus;
 import com.example.demo_im.adapters.ChatAdapter;
 import com.example.demo_im.utils.TimeUtil;
+
+import java.io.Serializable;
 
 /**
  * 消息数据基类

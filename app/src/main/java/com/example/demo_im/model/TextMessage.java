@@ -5,6 +5,8 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -34,7 +36,7 @@ import java.util.List;
 /**
  * 文本消息数据
  */
-public class TextMessage extends Message {
+public class TextMessage extends Message{
 
     public TextMessage(TIMMessage message){
         this.message = message;
@@ -203,6 +205,4 @@ public class TextMessage extends Message {
         }
         return stringBuilder;
     }
-
-
 }

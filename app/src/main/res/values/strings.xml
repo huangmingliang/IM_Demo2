@@ -126,6 +126,7 @@
     <string name="chat_resend">重新发送</string>
     <string name="chat_del">删除</string>
     <string name="chat_save">保存</string>
+    <string name="chat_forward">转发</string>
     <string name="chat_file_too_large">文件过大，发送失败</string>
     <string name="chat_file_not_exist">文件不存在，发送失败</string>
     <string name="chat_image_preview_title">图片预览</string>
@@ -308,5 +309,13 @@
     <string name="message_notify_push">离线消息推送</string>
     <string name="message_notify_c2c_music">自定义C2C消息推送声音</string>
     <string name="message_notify_group_music">自定义群消息推送声音</string>
+
+    <!--forward activity-->
+    <string name="forward_search">搜索</string>
+    <string name="forward_new_chatting">创建新的聊天</string>
+    <string name="forward_conversation">最近聊天</string>
+    <string name="forward_sendTo">发送给:</string>
+    <string name="forward_send">确定</string>
+    <string name="forward_cancel">取消</string>
 
 </resources>
