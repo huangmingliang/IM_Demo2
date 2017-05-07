@@ -6,6 +6,6 @@
 
    <include
        android:id="@+id/item"
-       android:layout="@layout/include_item"/>
+       layout="@layout/include_item"/>
 
 </LinearLayout>

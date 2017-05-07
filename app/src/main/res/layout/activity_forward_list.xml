@@ -9,32 +9,43 @@
     tools:context="com.example.demo_im.ui.ForwardListActivity">
 
     <com.tencent.qcloud.ui.TemplateTitle
-        android:id="@+id/title"
+        android:id="@+id/aa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:canBack="true" />
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="match_parent"
-        android:layout_height="62dp"
-        android:background="@null"
-        android:drawablePadding="10dp"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:drawableStart="@drawable/search"
-        android:hint="@string/forward_search"
-        android:textSize="14sp"
-        android:paddingStart="15dp" />
+        android:background="@color/white">
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:background="@null"
+            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/search"
+            android:hint="@string/forward_search"
+            android:textSize="14sp"
+            android:paddingStart="15dp" />
+    </RelativeLayout>
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_height="62dp"
-        android:text="@string/forward_new_chatting"
-        android:gravity="center_vertical"
-        android:textSize="14sp"
-        android:paddingStart="15dp"
-        android:layout_marginTop="5dp"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/white">
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:text="@string/forward_new_chatting"
+            android:gravity="center_vertical"
+            android:textSize="14sp"
+            android:paddingStart="15dp"
+            android:layout_marginTop="5dp"/>
+    </RelativeLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -48,6 +59,7 @@
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:dividerHeight="1dp"/>
 
 </LinearLayout>

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -33,6 +35,7 @@ import java.util.List;
 
 public class ForwardListActivity extends Activity implements ConversationView {
 
+    private String TAG=ForwardListActivity.class.getSimpleName();
     private TemplateTitle title;
     private EditText search;
     private TextView createChatting;
@@ -42,6 +45,7 @@ public class ForwardListActivity extends Activity implements ConversationView {
     private ForwardAdapter adapter;
     private List<Conversation> conversations=new ArrayList<>();
     private ConversationPresenter conversationPresenter;
+    public static Conversation sConversation;
 
 
 
@@ -50,19 +54,20 @@ public class ForwardListActivity extends Activity implements ConversationView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forward_list);
-        message= (Message) getIntent().getSerializableExtra("message");
-        title=(TemplateTitle)findViewById(R.id.title);
+        title=(TemplateTitle)findViewById(R.id.aa);
         search=(EditText)findViewById(R.id.editText);
         createChatting=(TextView)findViewById(R.id.text);
         listView=(ListView)findViewById(R.id.listView);
+        adapter=new ForwardAdapter(this,R.layout.item_forward_list,conversations);
+        listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showDialogFragment(message,conversations.get(position));
+                sConversation=conversations.get(position);
+                showDialogFragment();
             }
         });
         conversationPresenter=new ConversationPresenter(this);
-        adapter=new ForwardAdapter(this,R.layout.item_forward_list,conversations);
         conversationPresenter.getConversation();
         adapter.notifyDataSetChanged();
     }
@@ -75,6 +80,7 @@ public class ForwardListActivity extends Activity implements ConversationView {
 
     @Override
     public void initView(List<TIMConversation> conversationList) {
+        Log.e(TAG,"hml conversationList="+conversationList.size());
         this.conversations.clear();
         for (TIMConversation item:conversationList){
             switch (item.getType()){
@@ -88,6 +94,7 @@ public class ForwardListActivity extends Activity implements ConversationView {
 
     @Override
     public void updateMessage(TIMMessage message) {
+        Log.e(TAG,"hml updateMessage="+message);
         if (message == null){
             adapter.notifyDataSetChanged();
             return;
@@ -130,24 +137,15 @@ public class ForwardListActivity extends Activity implements ConversationView {
         adapter.notifyDataSetChanged();
     }
 
-    public void showDialogFragment(Message message,Conversation conversation){
+    public void showDialogFragment(){
         FragmentTransaction mFragTransaction = getFragmentManager().beginTransaction();
         Fragment fragment =  getFragmentManager().findFragmentByTag("dialogFragment");
         if(fragment!=null){
             //为了不重复显示dialog，在显示对话框之前移除正在显示的对话框
             mFragTransaction.remove(fragment);
         }
-        ForwardDialogFragment dialogFragment =newInstance(message,conversation);
+        ForwardDialogFragment dialogFragment =new ForwardDialogFragment();
         dialogFragment.show(mFragTransaction, "dialogFragment");//显示一个Fragment并且给该Fragment添加一个Tag，可通过findFragmentByTag找到该Fragment
     }
 
-    private ForwardDialogFragment newInstance(Message message,Conversation conversation){
-        //创建一个带有参数的Fragment实例
-        ForwardDialogFragment fragment = new ForwardDialogFragment();
-        Bundle bundle = new Bundle();
-        //bundle.putSerializable("message",message);
-        bundle.putSerializable("conversations", conversation);
-        fragment.setArguments(bundle);//把参数传递给该DialogFragment
-        return fragment;
-    }
 }

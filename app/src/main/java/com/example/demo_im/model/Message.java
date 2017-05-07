@@ -16,7 +16,7 @@ import java.io.Serializable;
 /**
  * 消息数据基类
  */
-public abstract class Message {
+public abstract class Message implements Serializable{
 
     protected final String TAG = "Message";
 

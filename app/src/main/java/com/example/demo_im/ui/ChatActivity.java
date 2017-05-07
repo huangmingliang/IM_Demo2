@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -68,6 +70,8 @@ public class ChatActivity extends FragmentActivity implements ChatView {
     private TIMConversationType type;
     private String titleStr;
     private Handler handler = new Handler();
+    public static Message sMessage;
+    private static final int FORWARD_ACTIVITY_REQUEST_CODE=101;
 
 
     public static void navToChat(Context context, String identify, TIMConversationType type){
@@ -446,9 +450,9 @@ public class ChatActivity extends FragmentActivity implements ChatView {
                 message.save();
                 break;
             case 4:
+                sMessage=message;
                 Intent intent=new Intent(ChatActivity.this,ForwardListActivity.class);
-
-                startActivity(intent);
+                startActivityForResult(intent,FORWARD_ACTIVITY_REQUEST_CODE);
                 break;
             default:
                 break;
@@ -488,6 +492,8 @@ public class ChatActivity extends FragmentActivity implements ChatView {
                     Toast.makeText(this, getString(R.string.chat_file_not_exist),Toast.LENGTH_SHORT).show();
                 }
             }
+        }else if (requestCode==FORWARD_ACTIVITY_REQUEST_CODE){
+
         }
 
     }

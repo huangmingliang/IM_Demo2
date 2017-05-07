@@ -17,7 +17,7 @@
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
 
-    <include android:layout="@layout/include_item"/>
+    <include layout="@layout/include_item"/>
 
 
 </LinearLayout>

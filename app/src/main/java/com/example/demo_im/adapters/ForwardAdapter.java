@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,22 +24,29 @@ import java.util.List;
  */
 
 public class ForwardAdapter extends ArrayAdapter<Conversation> {
+    private String TAG=ForwardAdapter.class.getSimpleName();
     private List<Conversation> conversations;
     private int resource;
     private Context context;
-    public ForwardAdapter(@NonNull Context context, @LayoutRes int resource, List<Conversation> conversations) {
+    public ForwardAdapter(Context context, @LayoutRes int resource, List<Conversation> conversations) {
         super(context, resource);
+        Log.e(TAG,"hml ForwardAdapter");
         this.context=context;
         this.resource=resource;
         this.conversations=conversations;
 
     }
 
-    @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public int getCount() {
+        return conversations.size();
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder=null;
         Conversation conversation=conversations.get(position);
+        Log.e(TAG,"hml name="+conversation.getName());
         if (convertView==null){
             holder=new ViewHolder();
             convertView= LayoutInflater.from(context).inflate(resource,null);
@@ -46,19 +54,21 @@ public class ForwardAdapter extends ArrayAdapter<Conversation> {
             holder.textView=(TextView)convertView.findViewById(R.id.friendName);
             convertView.setTag(holder);
         }else {
-            convertView.getTag();
+            holder= (ViewHolder) convertView.getTag();
         }
         holder.textView.setText(conversation.getName());
         Picasso.with(context)
                 .load(conversation.getAvatar())
                 .placeholder(R.drawable.head_man)
+                .resize(70,70)
+                .error(R.drawable.head_man)
                 .centerCrop()
                 .into(holder.imageView);
         return convertView;
     }
 
     class ViewHolder{
-        CircleImageView imageView;
-        TextView textView;
+        public CircleImageView imageView;
+        public TextView textView;
     }
 }

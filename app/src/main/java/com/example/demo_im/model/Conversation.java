@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * 会话数据
  */
-public abstract class Conversation implements Comparable,Serializable {
+public abstract class Conversation implements Comparable {
 
     //会话对象id
     protected String identify;
