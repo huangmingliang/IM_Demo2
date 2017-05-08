@@ -315,7 +315,10 @@
     <string name="forward_new_chatting">创建新的聊天</string>
     <string name="forward_conversation">最近聊天</string>
     <string name="forward_sendTo">发送给:</string>
-    <string name="forward_send">确定</string>
+    <string name="forward_ok">确定</string>
     <string name="forward_cancel">取消</string>
+    <string name="forward_leave_message">给朋友留言</string>
+    <string name="forward_multiple_chosen">多选</string>
+    <string name="forward_single_chosen">单选</string>
 
 </resources>

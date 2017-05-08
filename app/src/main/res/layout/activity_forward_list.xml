@@ -8,11 +8,27 @@
     android:background="@color/bg_layout"
     tools:context="com.example.demo_im.ui.ForwardListActivity">
 
-    <com.tencent.qcloud.ui.TemplateTitle
-        android:id="@+id/aa"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:canBack="true" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="48dp">
+        <com.tencent.qcloud.ui.TemplateTitle
+            android:id="@+id/aa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:canBack="true" />
+        <TextView
+            android:id="@+id/multiple"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="@string/forward_multiple_chosen"
+            android:textSize="15sp"
+            android:textColor="@color/green"
+            android:layout_marginEnd="15dp"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -71,10 +71,10 @@ public class ChatActivity extends FragmentActivity implements ChatView {
     private String titleStr;
     private Handler handler = new Handler();
     public static Message sMessage;
-    private static final int FORWARD_ACTIVITY_REQUEST_CODE=101;
+    private static final int FORWARD_ACTIVITY_REQUEST_CODE = 101;
 
 
-    public static void navToChat(Context context, String identify, TIMConversationType type){
+    public static void navToChat(Context context, String identify, TIMConversationType type) {
         Intent intent = new Intent(context, ChatActivity.class);
         intent.putExtra("identify", identify);
         intent.putExtra("type", type);
@@ -130,7 +130,7 @@ public class ChatActivity extends FragmentActivity implements ChatView {
         switch (type) {
             case C2C:
                 title.setMoreImg(R.drawable.btn_person);
-                if (FriendshipInfo.getInstance().isFriend(identify)){
+                if (FriendshipInfo.getInstance().isFriend(identify)) {
                     title.setMoreImgAction(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -141,13 +141,13 @@ public class ChatActivity extends FragmentActivity implements ChatView {
                     });
                     FriendProfile profile = FriendshipInfo.getInstance().getProfile(identify);
                     title.setTitleText(titleStr = profile == null ? identify : profile.getName());
-                }else{
+                } else {
                     title.setMoreImgAction(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent person = new Intent(ChatActivity.this,AddFriendActivity.class);
-                            person.putExtra("id",identify);
-                            person.putExtra("name",identify);
+                            Intent person = new Intent(ChatActivity.this, AddFriendActivity.class);
+                            person.putExtra("id", identify);
+                            person.putExtra("name", identify);
                             startActivity(person);
                         }
                     });
@@ -173,13 +173,13 @@ public class ChatActivity extends FragmentActivity implements ChatView {
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
         //退出聊天界面时输入框有内容，保存草稿
-        if (input.getText().length() > 0){
+        if (input.getText().length() > 0) {
             TextMessage message = new TextMessage(input.getText());
             presenter.saveDraft(message.getMessage());
-        }else{
+        } else {
             presenter.saveDraft(null);
         }
 //        RefreshEvent.getInstance().onRefresh();
@@ -206,27 +206,27 @@ public class ChatActivity extends FragmentActivity implements ChatView {
         } else {
             Message mMessage = MessageFactory.getMessage(message);
             if (mMessage != null) {
-                if (mMessage instanceof CustomMessage){
+                if (mMessage instanceof CustomMessage) {
                     CustomMessage.Type messageType = ((CustomMessage) mMessage).getType();
-                    switch (messageType){
+                    switch (messageType) {
                         case TYPING:
                             TemplateTitle title = (TemplateTitle) findViewById(R.id.chat_title);
                             title.setTitleText(getString(R.string.chat_typing));
                             handler.removeCallbacks(resetTitle);
-                            handler.postDelayed(resetTitle,3000);
+                            handler.postDelayed(resetTitle, 3000);
                             break;
                         default:
                             break;
                     }
-                }else{
-                    if (messageList.size()==0){
+                } else {
+                    if (messageList.size() == 0) {
                         mMessage.setHasTime(null);
-                    }else{
-                        mMessage.setHasTime(messageList.get(messageList.size()-1).getMessage());
+                    } else {
+                        mMessage.setHasTime(messageList.get(messageList.size() - 1).getMessage());
                     }
                     messageList.add(mMessage);
                     adapter.notifyDataSetChanged();
-                    listView.setSelection(adapter.getCount()-1);
+                    listView.setSelection(adapter.getCount() - 1);
                 }
 
             }
@@ -242,16 +242,17 @@ public class ChatActivity extends FragmentActivity implements ChatView {
     @Override
     public void showMessage(List<TIMMessage> messages) {
         int newMsgNum = 0;
-        for (int i = 0; i < messages.size(); ++i){
+        for (int i = 0; i < messages.size(); ++i) {
             Message mMessage = MessageFactory.getMessage(messages.get(i));
-            if (mMessage == null || messages.get(i).status() == TIMMessageStatus.HasDeleted) continue;
+            if (mMessage == null || messages.get(i).status() == TIMMessageStatus.HasDeleted)
+                continue;
             if (mMessage instanceof CustomMessage && (((CustomMessage) mMessage).getType() == CustomMessage.Type.TYPING ||
                     ((CustomMessage) mMessage).getType() == CustomMessage.Type.INVALID)) continue;
             ++newMsgNum;
-            if (i != messages.size() - 1){
-                mMessage.setHasTime(messages.get(i+1));
+            if (i != messages.size() - 1) {
+                mMessage.setHasTime(messages.get(i + 1));
                 messageList.add(0, mMessage);
-            }else{
+            } else {
                 mMessage.setHasTime(null);
                 messageList.add(0, mMessage);
             }
@@ -287,9 +288,9 @@ public class ChatActivity extends FragmentActivity implements ChatView {
     @Override
     public void onSendMessageFail(int code, String desc, TIMMessage message) {
         long id = message.getMsgUniqueId();
-        for (Message msg : messageList){
-            if (msg.getMessage().getMsgUniqueId() == id){
-                switch (code){
+        for (Message msg : messageList) {
+            if (msg.getMessage().getMsgUniqueId() == id) {
+                switch (code) {
                     case 80001:
                         //发送内容包含敏感词
                         msg.setDesc(getString(R.string.chat_content_bad));
@@ -400,7 +401,7 @@ public class ChatActivity extends FragmentActivity implements ChatView {
      */
     @Override
     public void sending() {
-        if (type == TIMConversationType.C2C){
+        if (type == TIMConversationType.C2C) {
             Message message = new CustomMessage(CustomMessage.Type.TYPING);
             presenter.sendOnlineMessage(message.getMessage());
         }
@@ -417,15 +418,15 @@ public class ChatActivity extends FragmentActivity implements ChatView {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
-                                   ContextMenu.ContextMenuInfo menuInfo) {
+                                    ContextMenu.ContextMenuInfo menuInfo) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         Message message = messageList.get(info.position);
-        menu.add(0,4,Menu.NONE,getString(R.string.chat_forward));
+        menu.add(0, 4, Menu.NONE, getString(R.string.chat_forward));
         menu.add(0, 1, Menu.NONE, getString(R.string.chat_del));
-        if (message.isSendFail()){
+        if (message.isSendFail()) {
             menu.add(0, 2, Menu.NONE, getString(R.string.chat_resend));
         }
-        if (message instanceof ImageMessage || message instanceof FileMessage){
+        if (message instanceof ImageMessage || message instanceof FileMessage) {
             menu.add(0, 3, Menu.NONE, getString(R.string.chat_save));
         }
 
@@ -450,9 +451,9 @@ public class ChatActivity extends FragmentActivity implements ChatView {
                 message.save();
                 break;
             case 4:
-                sMessage=message;
-                Intent intent=new Intent(ChatActivity.this,ForwardListActivity.class);
-                startActivityForResult(intent,FORWARD_ACTIVITY_REQUEST_CODE);
+                sMessage = message;
+                Intent intent = new Intent(ChatActivity.this, ForwardListActivity.class);
+                startActivityForResult(intent, FORWARD_ACTIVITY_REQUEST_CODE);
                 break;
             default:
                 break;
@@ -476,48 +477,60 @@ public class ChatActivity extends FragmentActivity implements ChatView {
             if (resultCode == RESULT_OK) {
                 sendFile(FileUtil.getFilePath(this, data.getData()));
             }
-        } else if (requestCode == IMAGE_PREVIEW){
+        } else if (requestCode == IMAGE_PREVIEW) {
             if (resultCode == RESULT_OK) {
-                boolean isOri = data.getBooleanExtra("isOri",false);
+                boolean isOri = data.getBooleanExtra("isOri", false);
                 String path = data.getStringExtra("path");
                 File file = new File(path);
-                if (file.exists() && file.length() > 0){
-                    if (file.length() > 1024 * 1024 * 10){
-                        Toast.makeText(this, getString(R.string.chat_file_too_large),Toast.LENGTH_SHORT).show();
-                    }else{
-                        Message message = new ImageMessage(path,isOri);
+                if (file.exists() && file.length() > 0) {
+                    if (file.length() > 1024 * 1024 * 10) {
+                        Toast.makeText(this, getString(R.string.chat_file_too_large), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Message message = new ImageMessage(path, isOri);
                         presenter.sendMessage(message.getMessage());
                     }
-                }else{
-                    Toast.makeText(this, getString(R.string.chat_file_not_exist),Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, getString(R.string.chat_file_not_exist), Toast.LENGTH_SHORT).show();
                 }
             }
-        }else if (requestCode==FORWARD_ACTIVITY_REQUEST_CODE){
+        } else if (requestCode == FORWARD_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                ArrayList<String> ids = data.getStringArrayListExtra("ids");
+                for (String id:ids){
+                    ChatPresenter forwardPresenter = new ChatPresenter(this, id, TIMConversationType.C2C);
+                    TIMMessage timMessage = new TIMMessage();
+                    boolean isCopySuc = timMessage.copyFrom(sMessage.getMessage());
+                    if (isCopySuc) {
+                        forwardPresenter.sendMessage(timMessage);
+                    }
+                }
+
+            }
 
         }
 
     }
 
 
-    private void showImagePreview(String path){
+    private void showImagePreview(String path) {
         if (path == null) return;
         Intent intent = new Intent(this, ImagePreviewActivity.class);
         intent.putExtra("path", path);
         startActivityForResult(intent, IMAGE_PREVIEW);
     }
 
-    private void sendFile(String path){
+    private void sendFile(String path) {
         if (path == null) return;
         File file = new File(path);
-        if (file.exists()){
-            if (file.length() > 1024 * 1024 * 10){
-                Toast.makeText(this, getString(R.string.chat_file_too_large),Toast.LENGTH_SHORT).show();
-            }else{
+        if (file.exists()) {
+            if (file.length() > 1024 * 1024 * 10) {
+                Toast.makeText(this, getString(R.string.chat_file_too_large), Toast.LENGTH_SHORT).show();
+            } else {
                 Message message = new FileMessage(path);
                 presenter.sendMessage(message.getMessage());
             }
-        }else{
-            Toast.makeText(this, getString(R.string.chat_file_not_exist),Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, getString(R.string.chat_file_not_exist), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -532,7 +545,6 @@ public class ChatActivity extends FragmentActivity implements ChatView {
             title.setTitleText(titleStr);
         }
     };
-
 
 
 }

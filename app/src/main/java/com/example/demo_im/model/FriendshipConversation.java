@@ -22,6 +22,16 @@ public class FriendshipConversation extends Conversation {
     }
 
 
+    @Override
+    public void setSelected(boolean isSelected) {
+        this.isSelected=isSelected;
+    }
+
+    @Override
+    public boolean getSelected() {
+        return isSelected;
+    }
+
     /**
      * 获取最后一条消息的时间
      */

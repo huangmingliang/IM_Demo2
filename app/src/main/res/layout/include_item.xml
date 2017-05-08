@@ -9,13 +9,13 @@
         android:layout_height="62dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:weightSum="1">
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp">
 
         <com.tencent.qcloud.ui.CircleImageView
             android:id="@+id/friendImg"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="15dp"
             android:src="@drawable/head_man" />
 
         <TextView
@@ -25,6 +25,24 @@
             android:textSize="14sp"
             android:layout_marginStart="10dp"
             android:text="小米"/>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <CheckBox
+                android:id="@+id/checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:visibility="gone"
+                android:clickable="false"
+                android:layout_centerVertical="true" />
+
+        </RelativeLayout>
+
+
     </LinearLayout>
 
 </LinearLayout>

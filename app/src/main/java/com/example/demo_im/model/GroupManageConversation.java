@@ -24,6 +24,15 @@ public class GroupManageConversation extends Conversation {
 
     private long unreadCount;
 
+    @Override
+    public void setSelected(boolean isSelected) {
+        this.isSelected=isSelected;
+    }
+
+    @Override
+    public boolean getSelected() {
+        return isSelected;
+    }
 
     public GroupManageConversation(TIMGroupPendencyItem message){
         lastMessage = message;

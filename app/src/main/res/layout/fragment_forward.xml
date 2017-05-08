@@ -14,7 +14,7 @@
         android:id="@+id/contactsView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
     </LinearLayout>
 
@@ -39,7 +39,9 @@
     <EditText
         android:id="@+id/forwardEdit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:theme="@style/edit"
+        android:hint="@string/forward_leave_message"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -48,7 +50,8 @@
             android:id="@+id/send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/forward_send"
+            android:text="@string/forward_ok"
+            android:textColor="@color/green"
             android:layout_alignParentEnd="true"/>
         <TextView
             android:id="@+id/cancel"

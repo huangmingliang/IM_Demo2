@@ -9,11 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.demo_im.R;
 import com.example.demo_im.model.Conversation;
 import com.example.demo_im.model.Message;
+import com.example.demo_im.ui.ForwardListActivity;
 import com.squareup.picasso.Picasso;
 import com.tencent.qcloud.ui.CircleImageView;
 
@@ -30,7 +32,6 @@ public class ForwardAdapter extends ArrayAdapter<Conversation> {
     private Context context;
     public ForwardAdapter(Context context, @LayoutRes int resource, List<Conversation> conversations) {
         super(context, resource);
-        Log.e(TAG,"hml ForwardAdapter");
         this.context=context;
         this.resource=resource;
         this.conversations=conversations;
@@ -52,6 +53,7 @@ public class ForwardAdapter extends ArrayAdapter<Conversation> {
             convertView= LayoutInflater.from(context).inflate(resource,null);
             holder.imageView=(CircleImageView)convertView.findViewById(R.id.friendImg);
             holder.textView=(TextView)convertView.findViewById(R.id.friendName);
+            holder.checkBox=(CheckBox)convertView.findViewById(R.id.checkbox);
             convertView.setTag(holder);
         }else {
             holder= (ViewHolder) convertView.getTag();
@@ -64,11 +66,17 @@ public class ForwardAdapter extends ArrayAdapter<Conversation> {
                 .error(R.drawable.head_man)
                 .centerCrop()
                 .into(holder.imageView);
+        if (ForwardListActivity.isCheckBoxVisible){
+            holder.checkBox.setVisibility(View.VISIBLE);
+            holder.checkBox.setChecked(conversation.getSelected());
+        }
         return convertView;
     }
 
     class ViewHolder{
         public CircleImageView imageView;
         public TextView textView;
+        public CheckBox checkBox;
     }
+
 }

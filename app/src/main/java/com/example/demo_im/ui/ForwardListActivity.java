@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,25 +19,24 @@ import com.example.demo_im.model.Message;
 import com.example.demo_im.model.MessageFactory;
 import com.example.demo_im.model.NomalConversation;
 import com.tencent.TIMConversation;
-import com.tencent.TIMConversationType;
 import com.tencent.TIMGroupCacheInfo;
 import com.tencent.TIMMessage;
 import com.tencent.qcloud.presentation.presenter.ConversationPresenter;
 import com.tencent.qcloud.presentation.viewfeatures.ConversationView;
 import com.tencent.qcloud.ui.TemplateTitle;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class ForwardListActivity extends Activity implements ConversationView {
+public class ForwardListActivity extends Activity implements ConversationView ,View.OnClickListener{
 
     private String TAG=ForwardListActivity.class.getSimpleName();
     private TemplateTitle title;
-    private EditText search;
-    private TextView createChatting;
+    private EditText searchBtn;
+    private TextView createChattingBtn;
+    private TextView multipleBtn;
     private ListView listView;
 
     private Message message;
@@ -46,6 +44,8 @@ public class ForwardListActivity extends Activity implements ConversationView {
     private List<Conversation> conversations=new ArrayList<>();
     private ConversationPresenter conversationPresenter;
     public static Conversation sConversation;
+    public static List<Conversation> sConversations=new ArrayList<>();
+    public static boolean isCheckBoxVisible=false;
 
 
 
@@ -55,18 +55,51 @@ public class ForwardListActivity extends Activity implements ConversationView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forward_list);
         title=(TemplateTitle)findViewById(R.id.aa);
-        search=(EditText)findViewById(R.id.editText);
-        createChatting=(TextView)findViewById(R.id.text);
+        searchBtn =(EditText)findViewById(R.id.editText);
+        createChattingBtn =(TextView)findViewById(R.id.text);
+        multipleBtn=(TextView)findViewById(R.id.multiple);
         listView=(ListView)findViewById(R.id.listView);
+
+        isCheckBoxVisible=false;
+        sConversation=null;
+        sConversations.clear();
+
         adapter=new ForwardAdapter(this,R.layout.item_forward_list,conversations);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 sConversation=conversations.get(position);
-                showDialogFragment();
+                Log.e(TAG,"hml onItemClick position="+position);
+                if (!isCheckBoxVisible){
+                    sConversations.clear();
+                    sConversations.add(sConversation);
+                    showDialogFragment();
+                }else {
+                    boolean state=conversations.get(position).getSelected();
+                    conversations.get(position).setSelected(!state);
+                    adapter.notifyDataSetChanged();
+                    if (state){
+                       Iterator<Conversation> iterator=sConversations.iterator();
+                        while (iterator.hasNext()){
+                            Conversation c=iterator.next();
+                            if (sConversation.equals(c)){
+                                iterator.remove();
+                            }
+                        }
+                    }else {
+                        sConversations.add(sConversation);
+                    }
+                }
+                if (sConversations.size()>0){
+                    multipleBtn.setText(getString(R.string.forward_ok));
+                }else {
+                    multipleBtn.setText(getString(R.string.forward_single_chosen));
+                }
+
             }
         });
+        multipleBtn.setOnClickListener(this);
         conversationPresenter=new ConversationPresenter(this);
         conversationPresenter.getConversation();
         adapter.notifyDataSetChanged();
@@ -148,4 +181,24 @@ public class ForwardListActivity extends Activity implements ConversationView {
         dialogFragment.show(mFragTransaction, "dialogFragment");//显示一个Fragment并且给该Fragment添加一个Tag，可通过findFragmentByTag找到该Fragment
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v.getId()==R.id.multiple){
+            if (!isCheckBoxVisible) {
+                isCheckBoxVisible = true;
+                multipleBtn.setText(getString(R.string.forward_multiple_chosen));
+            }else {
+                isCheckBoxVisible = true;
+                if (sConversations.size()>0){
+                    showDialogFragment();
+                }
+            }
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    private void setCheckState(Conversation conversation,boolean state){
+        conversation.setSelected(state);
+        adapter.notifyDataSetChanged();
+    }
 }

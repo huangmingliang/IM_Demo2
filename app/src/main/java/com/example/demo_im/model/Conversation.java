@@ -20,6 +20,12 @@ public abstract class Conversation implements Comparable {
     //会话对象名称
     protected String name;
 
+    boolean isSelected;
+
+    abstract public void setSelected(boolean isSelected);
+
+    abstract public boolean getSelected();
+
 
     /**
      * 获取最后一条消息的时间

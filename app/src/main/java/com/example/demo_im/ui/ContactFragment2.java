@@ -47,8 +47,7 @@ public class ContactFragment2 extends Fragment implements View.OnClickListener,O
             mDialogTextView=(TextView)view.findViewById(R.id.text_dialog);
             mSideIndexBar=(SideIndexBar)view.findViewById(R.id.index_bar);
             mSideIndexBar.setTextDialog(mDialogTextView);
-
-            refresh();
+            friends=FriendshipInfo.getInstance().getFriendProfiles();
             adapter=new ContactAdapter(getActivity(),friends);
             mFriendListView.setAdapter(adapter);
             mFriendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

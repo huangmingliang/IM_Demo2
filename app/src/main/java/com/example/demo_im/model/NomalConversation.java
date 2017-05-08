@@ -22,6 +22,16 @@ public class NomalConversation extends Conversation {
     private Message lastMessage;
 
 
+    @Override
+    public void setSelected(boolean isSelected) {
+        this.isSelected=isSelected;
+    }
+
+    @Override
+    public boolean getSelected() {
+        return isSelected;
+    }
+
     public NomalConversation(TIMConversation conversation){
         this.conversation = conversation;
         type = conversation.getType();

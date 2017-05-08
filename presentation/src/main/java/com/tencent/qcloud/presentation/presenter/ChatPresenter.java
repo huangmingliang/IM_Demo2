@@ -142,7 +142,7 @@ public class ChatPresenter implements Observer {
      *
      * @param message 最后一条消息
      */
-    public void getMessage(@Nullable TIMMessage message){
+    public void getMessage(TIMMessage message){
         if (!isGetingMessage){
             isGetingMessage = true;
             conversation.getMessage(LAST_MESSAGE_NUM, message, new TIMValueCallBack<List<TIMMessage>>() {
