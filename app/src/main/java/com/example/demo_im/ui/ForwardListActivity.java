@@ -43,7 +43,6 @@ public class ForwardListActivity extends Activity implements ConversationView ,V
     private ForwardAdapter adapter;
     private List<Conversation> conversations=new ArrayList<>();
     private ConversationPresenter conversationPresenter;
-    public static Conversation sConversation;
     public static List<Conversation> sConversations=new ArrayList<>();
     public static boolean isCheckBoxVisible=false;
 
@@ -61,7 +60,6 @@ public class ForwardListActivity extends Activity implements ConversationView ,V
         listView=(ListView)findViewById(R.id.listView);
 
         isCheckBoxVisible=false;
-        sConversation=null;
         sConversations.clear();
 
         adapter=new ForwardAdapter(this,R.layout.item_forward_list,conversations);
@@ -69,11 +67,10 @@ public class ForwardListActivity extends Activity implements ConversationView ,V
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                sConversation=conversations.get(position);
-                Log.e(TAG,"hml onItemClick position="+position);
+                Conversation conversation=conversations.get(position);
                 if (!isCheckBoxVisible){
                     sConversations.clear();
-                    sConversations.add(sConversation);
+                    sConversations.add(conversation);
                     showDialogFragment();
                 }else {
                     boolean state=conversations.get(position).getSelected();
@@ -83,18 +80,19 @@ public class ForwardListActivity extends Activity implements ConversationView ,V
                        Iterator<Conversation> iterator=sConversations.iterator();
                         while (iterator.hasNext()){
                             Conversation c=iterator.next();
-                            if (sConversation.equals(c)){
+                            if (conversation.equals(c)){
                                 iterator.remove();
                             }
                         }
                     }else {
-                        sConversations.add(sConversation);
+                        sConversations.add(conversation);
                     }
-                }
-                if (sConversations.size()>0){
-                    multipleBtn.setText(getString(R.string.forward_ok));
-                }else {
-                    multipleBtn.setText(getString(R.string.forward_single_chosen));
+
+                    if (sConversations.size()>0){
+                        multipleBtn.setText(getString(R.string.forward_ok));
+                    }else {
+                        multipleBtn.setText(getString(R.string.forward_single_chosen));
+                    }
                 }
 
             }
@@ -113,7 +111,6 @@ public class ForwardListActivity extends Activity implements ConversationView ,V
 
     @Override
     public void initView(List<TIMConversation> conversationList) {
-        Log.e(TAG,"hml conversationList="+conversationList.size());
         this.conversations.clear();
         for (TIMConversation item:conversationList){
             switch (item.getType()){
@@ -127,7 +124,6 @@ public class ForwardListActivity extends Activity implements ConversationView ,V
 
     @Override
     public void updateMessage(TIMMessage message) {
-        Log.e(TAG,"hml updateMessage="+message);
         if (message == null){
             adapter.notifyDataSetChanged();
             return;
@@ -185,20 +181,20 @@ public class ForwardListActivity extends Activity implements ConversationView ,V
     public void onClick(View v) {
         if (v.getId()==R.id.multiple){
             if (!isCheckBoxVisible) {
+                sConversations.clear();
                 isCheckBoxVisible = true;
-                multipleBtn.setText(getString(R.string.forward_multiple_chosen));
+                multipleBtn.setText(getString(R.string.forward_single_chosen));
             }else {
-                isCheckBoxVisible = true;
                 if (sConversations.size()>0){
                     showDialogFragment();
+                }else {
+                    isCheckBoxVisible = false;
+                    multipleBtn.setText(getString(R.string.forward_multiple_chosen));
+                    sConversations.clear();
                 }
             }
             adapter.notifyDataSetChanged();
         }
     }
 
-    private void setCheckState(Conversation conversation,boolean state){
-        conversation.setSelected(state);
-        adapter.notifyDataSetChanged();
-    }
 }

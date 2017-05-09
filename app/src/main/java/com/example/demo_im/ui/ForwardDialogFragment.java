@@ -53,6 +53,7 @@ public class ForwardDialogFragment extends DialogFragment {
         forwardText = (TextView) view.findViewById(R.id.forwardText);
         forwardImg = (ImageView) view.findViewById(R.id.forwardImg);
         mContactsView = (LinearLayout) view.findViewById(R.id.contactsView);
+        mContactsView.removeAllViews();
         for (Conversation conversation:ForwardListActivity.sConversations){
             mContactsView.addView(getContactView(conversation,ForwardListActivity.sConversations.size()>1?false:true));
         }
@@ -69,6 +70,7 @@ public class ForwardDialogFragment extends DialogFragment {
                 }
                 intent.putStringArrayListExtra("ids",ids);
                 getActivity().setResult(Activity.RESULT_OK, intent);
+                ForwardListActivity.sConversations.clear();
                 getActivity().finish();
             }
         });

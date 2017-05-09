@@ -2,8 +2,6 @@ package com.example.demo_im.adapters;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +45,6 @@ public class ForwardAdapter extends ArrayAdapter<Conversation> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder=null;
         Conversation conversation=conversations.get(position);
-        Log.e(TAG,"hml name="+conversation.getName());
         if (convertView==null){
             holder=new ViewHolder();
             convertView= LayoutInflater.from(context).inflate(resource,null);
@@ -68,6 +65,9 @@ public class ForwardAdapter extends ArrayAdapter<Conversation> {
                 .into(holder.imageView);
         if (ForwardListActivity.isCheckBoxVisible){
             holder.checkBox.setVisibility(View.VISIBLE);
+            holder.checkBox.setChecked(conversation.getSelected());
+        }else {
+            holder.checkBox.setVisibility(View.GONE);
             holder.checkBox.setChecked(conversation.getSelected());
         }
         return convertView;
