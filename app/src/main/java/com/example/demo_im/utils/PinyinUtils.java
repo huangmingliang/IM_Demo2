@@ -33,21 +33,20 @@ public class PinyinUtils {
         String pinyinName = "";
         char[] nameChar = chines.toCharArray();
         HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();
-        defaultFormat.setCaseType(HanyuPinyinCaseType.UPPERCASE);
+        //defaultFormat.setCaseType(HanyuPinyinCaseType.UPPERCASE);
         defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
         for (int i = 0; i < nameChar.length; i++) {
             if (nameChar[i] > 128) {
                 try {
                     pinyinName += PinyinHelper.toHanyuPinyinStringArray(
                             nameChar[i], defaultFormat)[0].charAt(0);
-                } catch (BadHanyuPinyinOutputFormatCombination e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else {
                 pinyinName += nameChar[i];
             }
         }
-
             return pinyinName;
 
     }

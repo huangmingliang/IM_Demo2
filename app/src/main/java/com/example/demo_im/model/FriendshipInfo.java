@@ -72,6 +72,7 @@ public class FriendshipInfo extends Observable implements Observer {
                     case ADD_REQ:
                     case GROUP_UPDATE:
                         refresh();
+
                         break;
 
                 }
@@ -81,9 +82,8 @@ public class FriendshipInfo extends Observable implements Observer {
 
 
     private void refresh(){
-        groups.clear();
+        /*groups.clear();
         friends.clear();
-        friendProfiles.clear();
         Log.d(TAG, "get friendship info id :" + UserInfo.getInstance().getId());
         List<TIMFriendGroup> timFriendGroups = TIMFriendshipProxy.getInstance().getFriendsByGroups(null);
         if (timFriendGroups == null) return;
@@ -93,9 +93,8 @@ public class FriendshipInfo extends Observable implements Observer {
             for (TIMUserProfile profile : group.getProfiles()){
                 friendItemList.add(new FriendProfile(profile));
             }
-            friendProfiles.addAll(friendItemList);
             friends.put(group.getGroupName(), friendItemList);
-        }
+        }*/
         setChanged();
         notifyObservers();
     }
@@ -123,7 +122,6 @@ public class FriendshipInfo extends Observable implements Observer {
     * */
     public void getFriendProfiles(final OnRefreshFriendProfilesListener listener){
         final List<FriendProfile> newFriends=new ArrayList<>();
-        final List<FriendProfile> friendProfiles=new ArrayList<>();
         if (listener==null){
           Log.e(TAG,"listener is null");
         }
@@ -135,7 +133,7 @@ public class FriendshipInfo extends Observable implements Observer {
 
             @Override
             public void onSuccess(List<TIMUserProfile> timUserProfiles) {
-
+              friendProfiles.clear();
               for (TIMUserProfile profile:timUserProfiles){
                   friendProfiles.add(new FriendProfile(profile));
               }
@@ -163,14 +161,25 @@ public class FriendshipInfo extends Observable implements Observer {
      *
      * @param identify 需判断的identify
      */
-    public boolean isFriend(String identify){
+   /* public boolean isFriend(String identify){
         for (String key : friends.keySet()){
             for (FriendProfile profile : friends.get(key)){
                 if (identify.equals(profile.getIdentify())) return true;
             }
         }
         return false;
-    }
+    }*/
+
+   public  boolean isFriend(String identify){
+       for (FriendProfile profile:friendProfiles){
+           if (profile.getIdentify().equals(identify)){
+               return true;
+           }
+       }
+       return false;
+   }
+
+
 
 
     /**
@@ -178,14 +187,25 @@ public class FriendshipInfo extends Observable implements Observer {
      *
      * @param identify 好友id
      */
-    public FriendProfile getProfile(String identify){
+    /*public FriendProfile getProfile(String identify){
         for (String key : friends.keySet()){
             for (FriendProfile profile : friends.get(key)){
                 if (identify.equals(profile.getIdentify())) return profile;
             }
         }
         return null;
+    }*/
+
+    public FriendProfile getProfile(String identify){
+        for (FriendProfile profile:friendProfiles){
+            if (profile.getIdentify().equals(identify)){
+                return profile;
+            }
+        }
+        return null;
     }
+
+
 
     /**
      * 清除数据
