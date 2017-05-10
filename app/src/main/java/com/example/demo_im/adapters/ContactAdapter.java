@@ -52,7 +52,6 @@ public class ContactAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.e(TAG,"HML position="+position);
         ViewHolder viewHolder;
         if (convertView==null){
             viewHolder=new ViewHolder();
@@ -73,7 +72,6 @@ public class ContactAdapter extends BaseAdapter {
             FriendProfile friend = friends.get(position-HEADER_SIZE);
             //根据position获取分类的首字母的char ascii值
             int relativePosition=position-HEADER_SIZE;
-            Log.e(TAG,"HML relativePosition="+relativePosition);
             int section = getSectionForPosition(relativePosition);
             //如果当前位置等于该分类首字母的Char的位置 ，则认为是第一次出现
             if(relativePosition == getPositionForSection(section)){

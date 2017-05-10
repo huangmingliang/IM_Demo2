@@ -43,7 +43,6 @@ public class ContactFragment2 extends Fragment implements View.OnClickListener,O
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.e(TAG,"hml onCreateView");
         if (view==null){
             view = inflater.inflate(R.layout.fragment_contact2, container, false);
             mFriendListView=(ListView)view.findViewById(R.id.friendList);
@@ -72,13 +71,11 @@ public class ContactFragment2 extends Fragment implements View.OnClickListener,O
                 public void onChanged(String s, int position) {
                     int section=s.toCharArray()[0];
                     int firstPosition=adapter.getPositionForSection(section);
-                    //Log.d(TAG,"hml firstPosition="+firstPosition);
                     if (firstPosition!=-1){
                         int temp=firstPosition+ContactAdapter.HEADER_SIZE;
                         int target = 0;
                         int first=mFriendListView.getFirstVisiblePosition();
                         int last=mFriendListView.getLastVisiblePosition();
-                        //Log.d(TAG,"hml temp="+temp+" target="+target+" first="+first+" last="+last);
                         if (temp>first){
                             target=last+temp-first-1;
                         }else if (temp<first){

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.demo_im.model.SearchResult;
+import com.example.demo_im.utils.HttpManager;
 import com.module.zxing.QrMainActivity;
 import com.module.zxing.android.CaptureActivity;
 import com.tencent.TIMFriendResult;
@@ -32,8 +35,13 @@ import com.tencent.qcloud.presentation.viewfeatures.FriendshipManageView;
 import com.tencent.qcloud.ui.NotifyDialog;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 /**
  * 查找添加新朋友
@@ -174,12 +182,46 @@ public class SearchFriendActivity extends Activity implements FriendInfoView, Ad
                 adapter.notifyDataSetChanged();
                 String key = mSearchInput.getText().toString();
                 if (key.equals("")) return true;
-                presenter.searchFriendByName(key,true);
+               /* presenter.searchFriendByName(key,true);
                 //给手机号加上86-
                 if (maybePhone(key)){
                     key = "86-" + key;
-                }
-                presenter.searchFriendById(key);
+                }*/
+               final ArrayList ids=new ArrayList();
+                HttpManager.getInstance().searchUser(key, new Observer<SearchResult>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        Log.d(TAG,"onSubscribe");
+                    }
+
+                    @Override
+                    public void onNext(@NonNull SearchResult searchResult) {
+                        if (searchResult==null){
+                            presenter.searchFriendById(ids);
+                            return;
+                        }
+                        if ("OK".equalsIgnoreCase(searchResult.getMsg())){
+                            if (searchResult.getMobile()!=null&&searchResult.getMobile().length>0){
+                                ids.clear();
+                                ids.addAll(Arrays.asList(searchResult.getMobile()));
+                            }
+                        }else {
+                            Log.e(TAG,"searchUser error:"+searchResult.getError());
+                        }
+                        presenter.searchFriendById(ids);
+
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.e(TAG,"searchUser onError:"+e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG,"onComplete");
+                    }
+                });
                 return true;
             default:
                 return super.onKeyUp(keyCode, event);

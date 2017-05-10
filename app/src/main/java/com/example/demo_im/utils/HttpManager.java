@@ -2,6 +2,7 @@ package com.example.demo_im.utils;
 
 
 import com.example.demo_im.model.SearchResult;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 
 import io.reactivex.Observable;
@@ -10,16 +11,16 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
+import retrofit2.http.POST;
 
 /**
  * Created by huangmingliang on 2017/5/9.
  */
 
 public class HttpManager {
-    private String baseUrl="http://192.168.4.41:81";
+    private String baseUrl="http://119.23.125.87:84";
     private RequestService requestService;
     private static HttpManager httpManager;
 
@@ -39,6 +40,7 @@ public class HttpManager {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         requestService=retrofit.create(RequestService.class);
     }
@@ -53,7 +55,7 @@ public class HttpManager {
 
     private interface RequestService{
         @FormUrlEncoded
-        @GET("/im_search/{key}")
-        Observable<SearchResult> searchMobileByUser(@Path("key")String key);
+        @POST("/im_search")
+        Observable<SearchResult> searchMobileByUser(@Field("key") String key);
     }
 }

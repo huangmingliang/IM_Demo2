@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 public class SearchResult {
     @SerializedName("mobile")
     private String[] mobile;
-    @SerializedName("mobile")
+    @SerializedName("msg")
     private String msg;
     @SerializedName("error")
     private String error;

@@ -246,6 +246,24 @@ public class FriendshipManagerPresenter {
 
     }
 
+    public void searchFriendById(List<String> ids){
+        if (friendInfoView==null){
+            return;
+        }
+        TIMFriendshipManager.getInstance().getUsersProfile(ids, new TIMValueCallBack<List<TIMUserProfile>>() {
+            @Override
+            public void onError(int i, String s) {
+                Log.e(TAG,"onError:"+"i="+i+" s="+s);
+                friendInfoView.showUserInfo(new ArrayList<TIMUserProfile>());
+            }
+
+            @Override
+            public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+                friendInfoView.showUserInfo(timUserProfiles);
+            }
+        });
+    }
+
 
     /**
      * 添加好友
