@@ -1,6 +1,8 @@
 package com.example.demo_im.ui;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -36,6 +38,7 @@ public class ContactFragment2 extends Fragment implements View.OnClickListener,O
     private SideIndexBar mSideIndexBar;
     private List<FriendProfile> friends=new ArrayList<>();
     private ContactAdapter adapter;
+    private Listener listener=new Listener();
 
     @Nullable
     @Override
@@ -47,8 +50,8 @@ public class ContactFragment2 extends Fragment implements View.OnClickListener,O
             mDialogTextView=(TextView)view.findViewById(R.id.text_dialog);
             mSideIndexBar=(SideIndexBar)view.findViewById(R.id.index_bar);
             mSideIndexBar.setTextDialog(mDialogTextView);
-            friends=FriendshipInfo.getInstance().getFriendProfiles();
             adapter=new ContactAdapter(getActivity(),friends);
+            FriendshipInfo.getInstance().getFriendProfiles(listener);
             mFriendListView.setAdapter(adapter);
             mFriendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -112,7 +115,20 @@ public class ContactFragment2 extends Fragment implements View.OnClickListener,O
     }
 
     private void refresh(){
-        friends.clear();
-        friends.addAll(FriendshipInfo.getInstance().getFriendProfiles());
+        FriendshipInfo.getInstance().getFriendProfiles(listener);
     }
+
+    class Listener implements FriendshipInfo.OnRefreshFriendProfilesListener{
+
+        @Override
+        public void onRefreshFriendProfiles(List<FriendProfile> profiles) {
+            friends.clear();
+            friends.addAll(profiles);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+
+
+
 }

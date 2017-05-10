@@ -2,6 +2,7 @@ package com.example.demo_im;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDexApplication;
 
 import com.tencent.TIMGroupReceiveMessageOpt;
 import com.tencent.TIMManager;
@@ -14,7 +15,7 @@ import com.example.demo_im.utils.Foreground;
 /**
  * 全局Application
  */
-public class MyApplication extends Application {
+public class MyApplication extends MultiDexApplication {
 
     private static Context context;
 
@@ -35,6 +36,8 @@ public class MyApplication extends Application {
             });
         }
     }
+
+
 
     public static Context getContext() {
         return context;

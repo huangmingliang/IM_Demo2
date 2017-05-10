@@ -4,9 +4,11 @@ package com.example.demo_im.model;
 import android.util.Log;
 
 import com.tencent.TIMFriendGroup;
+import com.tencent.TIMFriendshipManager;
 import com.tencent.TIMFriendshipProxy;
 import com.tencent.TIMManager;
 import com.tencent.TIMUserProfile;
+import com.tencent.TIMValueCallBack;
 import com.tencent.qcloud.presentation.event.FriendshipEvent;
 
 import java.util.ArrayList;
@@ -17,8 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 好友列表缓存数据结构
@@ -121,22 +121,41 @@ public class FriendshipInfo extends Observable implements Observer {
     /*
     * 获取好友列表不分组
     * */
-    public  List<FriendProfile> getFriendProfiles(){
-        List<FriendProfile> newFriends=new ArrayList<>();
-        for (FriendProfile profile:friendProfiles){
-            char temp=profile.getSortLetters().charAt(0);
-            if (temp>=65&&temp<=90){       //首字符是字母
-                profile.setSection(temp);
-            }else if (temp>=97&&temp<=122){
-                profile.setSection((char) (temp-32));
-            }else {
-                profile.setSection('#');
-            }
-            newFriends.add(profile);
+    public void getFriendProfiles(final OnRefreshFriendProfilesListener listener){
+        final List<FriendProfile> newFriends=new ArrayList<>();
+        final List<FriendProfile> friendProfiles=new ArrayList<>();
+        if (listener==null){
+          Log.e(TAG,"listener is null");
         }
-        PinyinComparator pinyinComparator=new PinyinComparator();
-        Collections.sort(newFriends, pinyinComparator);
-        return  newFriends;
+        TIMFriendshipManager.getInstance().getFriendList(new TIMValueCallBack<List<TIMUserProfile>>() {
+            @Override
+            public void onError(int i, String s) {
+                Log.e(TAG,"getFriendList failure---"+"i="+i+" s="+s);
+            }
+
+            @Override
+            public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+
+              for (TIMUserProfile profile:timUserProfiles){
+                  friendProfiles.add(new FriendProfile(profile));
+              }
+                for (FriendProfile profile:friendProfiles){
+                    char temp=profile.getSortLetters().charAt(0);
+                    if (temp>=65&&temp<=90){       //首字符是字母
+                        profile.setSection(temp);
+                    }else if (temp>=97&&temp<=122){
+                        profile.setSection((char) (temp-32));
+                    }else {
+                        profile.setSection('#');
+                    }
+                    newFriends.add(profile);
+                }
+                PinyinComparator pinyinComparator=new PinyinComparator();
+                Collections.sort(newFriends, pinyinComparator);
+                listener.onRefreshFriendProfiles(newFriends);
+            }
+        });
+
     }
 
     /**
@@ -193,6 +212,10 @@ public class FriendshipInfo extends Observable implements Observer {
                 return o1.getSection()-o2.getSection();
             }
         }
+    }
+
+    public interface OnRefreshFriendProfilesListener{
+       void onRefreshFriendProfiles(List<FriendProfile> profiles);
     }
 
 
