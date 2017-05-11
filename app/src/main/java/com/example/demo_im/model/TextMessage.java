@@ -11,7 +11,9 @@ import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
+import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.widget.TextView;
 
 import com.tencent.TIMElem;
@@ -114,7 +116,9 @@ public class TextMessage extends Message{
         clearView(viewHolder);
         boolean hasText = false;
         TextView tv = new TextView(MyApplication.getContext());
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        float size=context.getResources().getDimension(R.dimen.message_size);
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,size);
+        tv.setGravity(Gravity.LEFT);
         tv.setTextColor(MyApplication.getContext().getResources().getColor(isSelf() ? R.color.white : R.color.black));
         List<TIMElem> elems = new ArrayList<>();
         for (int i = 0; i < message.getElementCount(); ++i){
@@ -125,7 +129,7 @@ public class TextMessage extends Message{
         }
         SpannableStringBuilder stringBuilder = getString(elems, context);
         if (!hasText){
-            stringBuilder.insert(0," ");
+            stringBuilder.insert(0,"");
         }
         tv.setText(stringBuilder);
         getBubbleView(viewHolder).addView(tv);
@@ -185,10 +189,11 @@ public class TextMessage extends Message{
                         Matrix matrix = new Matrix();
                         int width = bitmap.getWidth();
                         int height = bitmap.getHeight();
-                        matrix.postScale(2, 2);
+                        float scale=context.getResources().getDimension(R.dimen.message_emotion_size)/width;
+                        matrix.postScale(scale, scale);
                         Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0,
                                 width, height, matrix, true);
-                        ImageSpan span = new ImageSpan(context, resizedBitmap, ImageSpan.ALIGN_BASELINE);
+                        ImageSpan span = new ImageSpan(context, resizedBitmap, ImageSpan.ALIGN_BOTTOM);
                         stringBuilder.append(String.valueOf(faceElem.getIndex()));
                         stringBuilder.setSpan(span, startIndex, startIndex + getNumLength(faceElem.getIndex()), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         is.close();
@@ -204,5 +209,25 @@ public class TextMessage extends Message{
 
         }
         return stringBuilder;
+    }
+
+    /**
+     * 针对TextView显示中文中出现的排版错乱问题，通过调用此方法得以解决
+     * @param str
+     * @return 返回全部为全角字符的字符串
+     */
+    public static String toDBC(String str) {
+        char[] c = str.toCharArray();
+        for (int i = 0; i < c.length; i++) {
+            if (c[i] == 12288) {
+                c[i] = (char) 32;
+                continue;
+            }
+            if (c[i] > 65280 && c[i] < 65375) {
+                c[i] = (char) (c[i] - 65248);
+            }
+
+        }
+        return new String(c);
     }
 }

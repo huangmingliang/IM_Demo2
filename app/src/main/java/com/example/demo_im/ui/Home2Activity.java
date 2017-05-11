@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ public class Home2Activity extends FragmentActivity implements View.OnClickListe
 
     private String TAG="Home2Activity";
     private TextView tab1,tab2;
+    private RelativeLayout tab1Layout, tab2Layout;
     private ImageView unread1,unread2;
     private FrameLayout frameLayout;
     private ConversationFragment mConversationFragment;
@@ -82,6 +84,8 @@ public class Home2Activity extends FragmentActivity implements View.OnClickListe
     }
 
     private void initView(){
+        tab1Layout =(RelativeLayout)findViewById(R.id.tab1);
+        tab2Layout =(RelativeLayout)findViewById(R.id.tab2);
         tab1=(TextView)findViewById(R.id.tab1_txt);
         tab2=(TextView)findViewById(R.id.tab2_txt);
         unread1=(ImageView)findViewById(R.id.tabUnread1);
@@ -116,8 +120,8 @@ public class Home2Activity extends FragmentActivity implements View.OnClickListe
     }
 
    private void  switchToConversationFragment(){
-       tab1.setSelected(true);
-       tab2.setSelected(false);
+       tab1Layout.setSelected(true);
+       tab2Layout.setSelected(false);
        FragmentTransaction ft=getSupportFragmentManager().beginTransaction();
        if (mConversationFragment==null){
            mConversationFragment=new ConversationFragment();
@@ -133,8 +137,8 @@ public class Home2Activity extends FragmentActivity implements View.OnClickListe
    }
 
     private void  switchToContactFragment(){
-        tab1.setSelected(false);
-        tab2.setSelected(true);
+        tab1Layout.setSelected(false);
+        tab2Layout.setSelected(true);
         FragmentTransaction ft=getSupportFragmentManager().beginTransaction();
         if (mContactFragment2==null){
             mContactFragment2=new ContactFragment2();

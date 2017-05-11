@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/bg_layout"
     tools:context="com.tencent.qcloud.timchat.ui.FriendshipManageMessageActivity">
     <com.tencent.qcloud.ui.TemplateTitle
         android:id="@+id/friendshipManageMsgTitle"
@@ -12,11 +13,14 @@
         android:layout_height="wrap_content"
         app:canBack="true"
         app:moreText="@string/home_contact_tab"
+        app:moreImg="@drawable/ic_add_friend"
         app:titleText="@string/conversation_system_friend" />
 
 
     <ListView
         android:id="@id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:dividerHeight="@dimen/divide_line_size"
+        android:divider="@color/transparent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

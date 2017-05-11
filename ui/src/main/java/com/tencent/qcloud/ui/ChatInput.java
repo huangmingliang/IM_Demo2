@@ -281,12 +281,18 @@ public class ChatInput extends RelativeLayout implements TextWatcher,View.OnClic
                     image.setImageBitmap(resizedBitmap);
                     image.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1f));
                     linearLayout.addView(image);
+
+                    float scale=getContext().getResources().getDimension(R.dimen.input_emotion_size)/width;
+                    Matrix matrix1=new Matrix();
+                    matrix1.postScale(scale,scale);
+                    final Bitmap resizedBitmap1 = Bitmap.createBitmap(bitmap, 0, 0,
+                            width, height, matrix1, true);
                     image.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             String content = String.valueOf(index);
                             SpannableString str = new SpannableString(String.valueOf(index));
-                            ImageSpan span = new ImageSpan(getContext(), resizedBitmap, ImageSpan.ALIGN_BASELINE);
+                            ImageSpan span = new ImageSpan(getContext(), resizedBitmap1, ImageSpan.ALIGN_BOTTOM);
                             str.setSpan(span, 0, content.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                             editText.append(str);
                         }

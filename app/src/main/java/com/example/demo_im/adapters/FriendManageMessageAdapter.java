@@ -66,7 +66,7 @@ public class FriendManageMessageAdapter extends ArrayAdapter<FriendFuture> {
         switch (data.getType()){
             case TIM_FUTURE_FRIEND_PENDENCY_IN_TYPE:
                 viewHolder.status.setText(res.getString(R.string.newfri_agree));
-                viewHolder.status.setTextColor(res.getColor(R.color.text_blue1));
+                viewHolder.status.setTextColor(res.getColor(R.color.white));
                 viewHolder.status.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -87,9 +87,11 @@ public class FriendManageMessageAdapter extends ArrayAdapter<FriendFuture> {
                 break;
             case TIM_FUTURE_FRIEND_PENDENCY_OUT_TYPE:
                 viewHolder.status.setText(res.getString(R.string.newfri_wait));
+                viewHolder.status.setBackground(null);
                 break;
             case TIM_FUTURE_FRIEND_DECIDE_TYPE:
                 viewHolder.status.setText(res.getString(R.string.newfri_accept));
+                viewHolder.status.setBackground(null);
                 break;
         }
         return view;

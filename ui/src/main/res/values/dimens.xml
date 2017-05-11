@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="input_emotion_size">20dp</dimen>
+    <dimen name="message_size">18sp</dimen>
+    <dimen name="message_emotion_size">20dp</dimen>
+</resources>

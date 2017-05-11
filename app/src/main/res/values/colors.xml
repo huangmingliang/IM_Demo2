@@ -15,6 +15,9 @@
     <color name="line_btn">#BBBBBB</color>
     <color name="text_gray1">#777777</color>
     <color name="text_gray2">#767676</color>
+    <color name="text_gray3">#cccccc</color>
+    <color name="text_gray4">#666666</color>
+    <color name="text_gray5">#999999</color>
     <color name="text_blue1">#1173CB</color>
     <color name="text_blue2">#1173CA</color>
     <color name="panel_black">#25272A</color>
@@ -30,7 +33,8 @@
     <color name="colorMask">#66000000</color>
 
     <color name="bg_layout">#f7f8fd</color>
-    <color name="green">#02d7c5</color>
+    <color name="bg_layout1">#f3f5f6</color>
+    <color name="bg_system_message">#33000000</color>
 
 
 

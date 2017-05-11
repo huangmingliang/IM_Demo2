@@ -8,41 +8,46 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:background="@color/line" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:orientation="horizontal"
         android:background="@color/background_gray1"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
         <ImageButton
             android:id="@+id/btn_voice"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:background="@drawable/ic_voice_input"/>
+            android:background="@drawable/ic_voice_input" />
+
         <ImageButton
             android:id="@+id/btn_keyboard"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:visibility="gone"
-            android:background="@drawable/ic_keyboard_input"/>
+            android:background="@drawable/ic_keyboard_input"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/voice_panel"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:visibility="gone"
-            android:text="@string/chat_press_talk"
+            android:background="@drawable/btn_voice_normal"
+            android:clickable="true"
             android:gravity="center"
+            android:text="@string/chat_press_talk"
             android:textColor="@color/text_gray1"
             android:textSize="16sp"
-            android:clickable="true"
-            android:background="@drawable/btn_voice_normal">
+            android:visibility="gone">
 
         </TextView>
+
         <LinearLayout
             android:id="@+id/text_panel"
             android:layout_width="0dp"
@@ -51,22 +56,24 @@
             android:background="@drawable/bg_inputbox"
             android:gravity="center_vertical"
             android:orientation="horizontal">
+
             <EditText
                 android:id="@+id/input"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
-                android:textCursorDrawable="@null"
                 android:background="@null"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp" />
+                android:paddingRight="10dp"
+                android:textCursorDrawable="@null" />
+
             <ImageButton
                 android:id="@+id/btnEmoticon"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="8dp"
-                android:background="@drawable/ic_face_input"/>
+                android:background="@drawable/ic_face_input" />
         </LinearLayout>
 
         <ImageButton
@@ -75,15 +82,17 @@
             android:layout_height="25dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:background="@drawable/ic_add_input"/>
+            android:background="@drawable/ic_add_input" />
+
         <ImageButton
             android:id="@+id/btn_send"
             android:layout_width="44dp"
             android:layout_height="40dp"
             android:layout_marginLeft="6dp"
             android:layout_marginRight="5dp"
-            android:background="@drawable/btn_send"/>
+            android:background="@drawable/btn_send" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/morePanel"
         android:layout_width="match_parent"
@@ -142,7 +151,8 @@
                 android:orientation="vertical"
                 android:layout_marginRight="40dp"
                 android:gravity="center_horizontal"
-                android:layout_alignParentRight="true">
+                android:layout_alignParentRight="true"
+                android:visibility="gone">
                 <ImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
@@ -158,7 +168,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="15dp"
+            android:visibility="gone">
             <LinearLayout
                 android:id="@+id/btn_file"
                 android:layout_width="wrap_content"
@@ -193,6 +204,8 @@
 
         </LinearLayout>
     </HorizontalScrollView>
+
+
 
 
 </LinearLayout>
