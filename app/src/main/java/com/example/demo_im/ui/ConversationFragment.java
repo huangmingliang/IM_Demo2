@@ -80,7 +80,7 @@ public class ConversationFragment extends Fragment implements ConversationView,F
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position==0){
-
+                        toSearch();
                     }else {
                         conversationList.get(position-1).navToDetail(getActivity());
                         if (conversationList.get(position-1) instanceof GroupManageConversation) {
@@ -314,6 +314,10 @@ public class ConversationFragment extends Fragment implements ConversationView,F
     }
 
 
+    private void toSearch(){
+        getActivity().findViewById(R.id.home).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.homeSearch).setVisibility(View.VISIBLE);
+    }
 
 
 }

@@ -44,6 +44,7 @@ public class ContactFragment2 extends Fragment implements View.OnClickListener,O
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.e(TAG,"hml onCreateView");
         if (view==null){
             view = inflater.inflate(R.layout.fragment_contact2, container, false);
             initHeaderView(inflater);
@@ -129,7 +130,7 @@ public class ContactFragment2 extends Fragment implements View.OnClickListener,O
         headerView.findViewById(R.id.contactSearch).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                toSearch();
             }
         });
 
@@ -149,5 +150,9 @@ public class ContactFragment2 extends Fragment implements View.OnClickListener,O
         });
     }
 
+    private void toSearch(){
+        getActivity().findViewById(R.id.home).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.homeSearch).setVisibility(View.VISIBLE);
+    }
 
 }

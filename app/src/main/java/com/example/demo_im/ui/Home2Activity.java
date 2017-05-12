@@ -7,25 +7,44 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.demo_im.R;
+import com.example.demo_im.adapters.MessageSearchAdapter;
+import com.example.demo_im.model.Conversation;
+import com.example.demo_im.model.CustomMessage;
 import com.example.demo_im.model.FriendshipInfo;
 import com.example.demo_im.model.GroupInfo;
+import com.example.demo_im.model.MessageFactory;
+import com.example.demo_im.model.NomalConversation;
 import com.example.demo_im.model.UserInfo;
 import com.example.demo_im.ui.customview.DialogActivity;
+import com.tencent.TIMConversation;
+import com.tencent.TIMConversationType;
+import com.tencent.TIMGroupCacheInfo;
 import com.tencent.TIMManager;
+import com.tencent.TIMMessage;
 import com.tencent.TIMUserStatusListener;
 import com.tencent.qcloud.presentation.event.MessageEvent;
+import com.tencent.qcloud.presentation.viewfeatures.ConversationView;
 import com.tencent.qcloud.tlslibrary.service.TlsBusiness;
 import com.tencent.qcloud.ui.NotifyDialog;
 
-public class Home2Activity extends FragmentActivity implements View.OnClickListener {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+import static android.R.id.message;
+
+public class Home2Activity extends FragmentActivity implements View.OnClickListener,ConversationView {
 
     private String TAG="Home2Activity";
     private TextView tab1,tab2;
@@ -35,6 +54,11 @@ public class Home2Activity extends FragmentActivity implements View.OnClickListe
     private ConversationFragment mConversationFragment;
     private ContactFragment2 mContactFragment2;
     private String firstFragment;
+    private LinearLayout homeFragment;
+    private RelativeLayout homeSearch;
+    private TextView searchCancel;
+    private List<Conversation> conversationList=new ArrayList<>();
+    private MessageSearchAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +108,9 @@ public class Home2Activity extends FragmentActivity implements View.OnClickListe
     }
 
     private void initView(){
+        homeFragment=(LinearLayout)findViewById(R.id.home);
+        homeSearch=(RelativeLayout)findViewById(R.id.homeSearch);
+        searchCancel=(TextView)findViewById(R.id.cancel);
         tab1Layout =(RelativeLayout)findViewById(R.id.tab1);
         tab2Layout =(RelativeLayout)findViewById(R.id.tab2);
         tab1=(TextView)findViewById(R.id.tab1_txt);
@@ -93,6 +120,7 @@ public class Home2Activity extends FragmentActivity implements View.OnClickListe
 
         tab1.setOnClickListener(this);
         tab2.setOnClickListener(this);
+        searchCancel.setOnClickListener(this);
 
     }
 
@@ -115,6 +143,9 @@ public class Home2Activity extends FragmentActivity implements View.OnClickListe
                 break;
             case R.id.tab2_txt:
                 switchToContactFragment();
+                break;
+            case R.id.cancel:
+                toFragment();
                 break;
         }
     }
@@ -162,4 +193,79 @@ public class Home2Activity extends FragmentActivity implements View.OnClickListe
             ft.hide(mContactFragment2);
         }
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode==KeyEvent.KEYCODE_BACK){
+            if (homeSearch.getVisibility()==View.VISIBLE){
+                toFragment();
+                return true;
+            }
+        }else if (keyCode==KeyEvent.KEYCODE_ENTER){
+
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void toFragment(){
+        findViewById(R.id.home).setVisibility(View.VISIBLE);
+        findViewById(R.id.homeSearch).setVisibility(View.GONE);
+    }
+
+    @Override
+    public void initView(List<TIMConversation> conversationList) {
+        this.conversationList.clear();
+        for (TIMConversation item : conversationList) {
+            switch (item.getType()) {
+                case C2C:
+                case Group:
+                    this.conversationList.add(new NomalConversation(item));
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void updateMessage(TIMMessage message) {
+        if (message == null){
+            adapter.notifyDataSetChanged();
+            return;
+        }
+        if (MessageFactory.getMessage(message) instanceof CustomMessage) return;
+        NomalConversation conversation = new NomalConversation(message.getConversation());
+        Iterator<Conversation> iterator =conversationList.iterator();
+        while (iterator.hasNext()){
+            Conversation c = iterator.next();
+            if (conversation.equals(c)){
+                conversation = (NomalConversation) c;
+                iterator.remove();
+                break;
+            }
+        }
+        conversation.setLastMessage(MessageFactory.getMessage(message));
+        conversationList.add(conversation);
+        Collections.sort(conversationList);
+        refresh();
+    }
+
+    @Override
+    public void updateFriendshipMessage() {
+
+    }
+
+    @Override
+    public void removeConversation(String identify) {
+
+    }
+
+    @Override
+    public void updateGroupInfo(TIMGroupCacheInfo info) {
+
+    }
+
+    @Override
+    public void refresh() {
+
+    }
+
 }

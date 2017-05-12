@@ -13,7 +13,7 @@
         android:orientation="vertical"
         android:visibility="gone">
         <TextView
-            android:id="@+id/tab"
+            android:id="@+id/titleContent"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:gravity="bottom"
@@ -48,7 +48,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -56,7 +56,7 @@
                 android:textSize="@dimen/item_name_size" />
 
             <TextView
-                android:id="@+id/last_message"
+                android:id="@+id/messageSrc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
