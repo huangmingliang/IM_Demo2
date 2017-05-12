@@ -5,88 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_layout"
-    android:orientation="vertical"
     tools:context="com.tencent.qcloud.timchat.ui.ChatActivity">
 
-    <RelativeLayout
-        android:id="@+id/searchLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <LinearLayout
-            android:id="@id/title"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/search_layout_height"
-            android:layout_alignParentTop="true"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/item_margin_left"
-            android:paddingRight="@dimen/item_margin_right">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="@dimen/search_input_height"
-                android:layout_weight="1"
-                android:background="@drawable/bg_search_inputbox"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/inputSearch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:drawablePadding="@dimen/item_margin_left"
-                    android:paddingLeft="@dimen/item_margin_left"
-                    android:background="@null"
-                    android:drawableStart="@drawable/search"
-                    android:hint="@string/search_hint"
-                    android:imeOptions="actionSearch"
-                    android:singleLine="true"
-                    android:textColor="@color/black"
-                    android:textCursorDrawable="@color/black"
-                    android:textSize="@dimen/item_message_size" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/item_margin_left"
-                android:text="@string/search_cancel"
-                android:textColor="@color/black"
-                android:textSize="@dimen/item_message_size" />
-
-        </LinearLayout>
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_below="@id/title"
-            android:background="@color/line" />
-
-        <TextView
-            android:id="@+id/noResult"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="280dp"
-            android:text="@string/search_no_result"
-            android:textColor="@color/text_gray1"
-            android:textSize="14sp"
-            android:visibility="gone" />
-
-        <ListView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:dividerHeight="@dimen/divide_line_size"
-            android:divider="@color/transparent"
-            android:layout_below="@id/divider" />
-    </RelativeLayout>
+    <include android:id="@+id/searchLayout1"
+        layout="@layout/include_search"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:id="@+id/searchLayout2"

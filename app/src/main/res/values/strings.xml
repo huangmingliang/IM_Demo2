@@ -58,7 +58,7 @@
     <string name="addfriend">添加好友</string>
     <string name="contact_add_group">添加群组</string>
     <string name="manangergroup">管理分组</string>
-
+    <string name="group">群组</string>
     <string name="home_contact_tab2">好友</string>
 
 
@@ -320,5 +320,8 @@
     <string name="forward_leave_message">给朋友留言</string>
     <string name="forward_multiple_chosen">多选</string>
     <string name="forward_single_chosen">单选</string>
+
+    <!--home2 activity-->
+    <string name="message_records">聊天记录</string>
 
 </resources>

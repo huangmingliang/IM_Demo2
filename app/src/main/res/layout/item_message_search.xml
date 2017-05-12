@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingLeft="@dimen/item_padding_left"
+    android:paddingRight="@dimen/item_margin_right">
+
+    <LinearLayout
+        android:id="@+id/itemTitle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/search_input_height"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/tab"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="bottom"
+            android:layout_weight="1"
+            android:text="@string/message_records"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bg_layout1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="7dp"
+        android:paddingTop="7dp"
+        android:orientation="horizontal">
+
+        <com.tencent.qcloud.ui.CircleImageView
+            android:id="@id/avatar"
+            android:layout_width="@dimen/item_img_width"
+            android:layout_height="@dimen/item_img_width" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/item_name_size" />
+
+            <TextView
+                android:id="@+id/last_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:singleLine="true"
+                android:textColor="@color/text_gray1"
+                android:textSize="@dimen/item_message_size" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>

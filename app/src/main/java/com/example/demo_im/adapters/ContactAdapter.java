@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,42 +21,24 @@ import java.util.List;
  * Created by huangmingliang on 2017/4/24.
  */
 
-public class ContactAdapter extends BaseAdapter {
+public class ContactAdapter extends ArrayAdapter<FriendProfile> {
 
     private String TAG="ContactAdapter";
-    private Context context;
-    private List<FriendProfile> friends;
-    public static final int HEADER_SIZE =2;
+    public static final int HEADER_SIZE =1;
+    private int resource;
+    ViewHolder viewHolder = null;
 
-    public ContactAdapter(Context context, List<FriendProfile> friends){
-        this.context=context;
-        this.friends =friends;
-    }
-    @Override
-    public int getCount() {
-        return friends.size()+ HEADER_SIZE;
+    public ContactAdapter(Context context,int resource, List<FriendProfile> friends){
+        super(context,resource,friends);
+        this.resource=resource;
     }
 
-    @Override
-    public Object getItem(int position) {
-        if (position< HEADER_SIZE){
-            return "HEADER";
-        }else {
-            return friends.get(position-HEADER_SIZE);
-        }
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
         if (convertView==null){
             viewHolder=new ViewHolder();
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_friend, null);
+            convertView = LayoutInflater.from(getContext()).inflate(resource, null);
             viewHolder.sectionLayout=(LinearLayout)convertView.findViewById(R.id.sectionLayout);
             viewHolder.friendSection=(TextView)convertView.findViewById(R.id.friendSection);
             viewHolder.friendImg=(CircleImageView)convertView.findViewById(R.id.friendImg);
@@ -64,14 +47,10 @@ public class ContactAdapter extends BaseAdapter {
         }else {
             viewHolder= (ViewHolder) convertView.getTag();
         }
-        if (getItem(position).equals("HEADER")){
-            viewHolder.sectionLayout.setVisibility(View.GONE);
-            viewHolder.friendName.setText(position==0?"新的朋友":"群聊");
-            viewHolder.friendImg.setImageResource(position==0?R.drawable.new_friend:R.drawable.group_chat);
-        }else {
-            FriendProfile friend = friends.get(position-HEADER_SIZE);
+
+            FriendProfile friend = getItem(position);
             //根据position获取分类的首字母的char ascii值
-            int relativePosition=position-HEADER_SIZE;
+            int relativePosition=position;
             int section = getSectionForPosition(relativePosition);
             //如果当前位置等于该分类首字母的Char的位置 ，则认为是第一次出现
             if(relativePosition == getPositionForSection(section)){
@@ -83,13 +62,12 @@ public class ContactAdapter extends BaseAdapter {
             viewHolder.friendName.setText(friend.getRemark());
 
             //viewHolder.friendImg.setImageResource(R.drawable.head_other);
-            Picasso.with(context)
+            Picasso.with(getContext())
                     .load(friend.getAvatarUrl())
                     .placeholder(friend.getAvatarRes())
                     .error(friend.getAvatarRes())
                     .centerCrop()
                     .into(viewHolder.friendImg);
-        }
         return convertView;
     }
 
@@ -104,15 +82,15 @@ public class ContactAdapter extends BaseAdapter {
      * 根据ListView的当前位置获取分类的首字母的char ascii值
      */
     public int getSectionForPosition(int position) {
-        return friends.get(position).getSection();
+        return getItem(position).getSection();
     }
 
     /**
      * 根据分类的首字母的Char ascii值获取其第一次出现该首字母的位置
      */
     public int getPositionForSection(int section) {
-        for (int i = 0; i < getCount()-HEADER_SIZE; i++) {
-            char firstChar = friends.get(i).getSection();
+        for (int i = 0; i < getCount(); i++) {
+            char firstChar = getItem(i).getSection();
             if (firstChar == section) {
                 return i;
             }

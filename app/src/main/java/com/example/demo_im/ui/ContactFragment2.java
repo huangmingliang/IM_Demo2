@@ -33,6 +33,7 @@ public class ContactFragment2 extends Fragment implements View.OnClickListener,O
 
     private String TAG="ContactFragment2";
     private View view;
+    private View headerView;
     private ListView mFriendListView;
     private TextView mDialogTextView;
     private SideIndexBar mSideIndexBar;
@@ -45,23 +46,22 @@ public class ContactFragment2 extends Fragment implements View.OnClickListener,O
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view==null){
             view = inflater.inflate(R.layout.fragment_contact2, container, false);
+            initHeaderView(inflater);
             mFriendListView=(ListView)view.findViewById(R.id.friendList);
             mDialogTextView=(TextView)view.findViewById(R.id.text_dialog);
             mSideIndexBar=(SideIndexBar)view.findViewById(R.id.index_bar);
             mSideIndexBar.setTextDialog(mDialogTextView);
-            adapter=new ContactAdapter(getActivity(),friends);
+            adapter=new ContactAdapter(getActivity(),R.layout.item_friend,friends);
             FriendshipInfo.getInstance().getFriendProfiles(listener);
+            mFriendListView.addHeaderView(headerView);
             mFriendListView.setAdapter(adapter);
             mFriendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position==0){
-                        FriendshipManageMessageActivity.navToFriendshipManageMessage(getActivity());
-                    }else if(position==1){
-                        //GroupManageMessageActivity.navToGroupManageMessage(getActivity());
-                        Toast.makeText(getActivity(),"敬请期待...",Toast.LENGTH_SHORT).show();
+
                     }else {
-                        friends.get(position-2).onClick(getActivity());
+                        friends.get(position-1).onClick(getActivity());
                     }
                 }
             });
@@ -72,14 +72,13 @@ public class ContactFragment2 extends Fragment implements View.OnClickListener,O
                     int section=s.toCharArray()[0];
                     int firstPosition=adapter.getPositionForSection(section);
                     if (firstPosition!=-1){
-                        int temp=firstPosition+ContactAdapter.HEADER_SIZE;
-                        int target = 0;
+                        int target;
                         int first=mFriendListView.getFirstVisiblePosition();
                         int last=mFriendListView.getLastVisiblePosition();
-                        if (temp>first){
-                            target=last+temp-first-1;
-                        }else if (temp<first){
-                            target=temp;
+                        if (firstPosition>first){
+                            target=last+firstPosition-first-1;
+                        }else if (firstPosition<first){
+                            target=firstPosition;
                         }else {
                             target=first;
                         }
@@ -125,7 +124,30 @@ public class ContactFragment2 extends Fragment implements View.OnClickListener,O
         }
     }
 
+    private void initHeaderView(LayoutInflater inflater){
+        headerView=inflater.inflate(R.layout.item_contact_header,null);
+        headerView.findViewById(R.id.contactSearch).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
+
+        headerView.findViewById(R.id.newFriend).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FriendshipManageMessageActivity.navToFriendshipManageMessage(getActivity());
+            }
+        });
+
+        headerView.findViewById(R.id.group_chat);
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "敬请期待...", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 
 }

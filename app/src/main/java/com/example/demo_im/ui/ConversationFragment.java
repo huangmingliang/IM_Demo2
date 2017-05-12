@@ -49,6 +49,7 @@ public class ConversationFragment extends Fragment implements ConversationView,F
     private final String TAG = "ConversationFragment";
 
     private View view;
+    private View headerView;
     private List<Conversation> conversationList = new LinkedList<>();
     private ConversationAdapter adapter;
     private ListView listView;
@@ -70,17 +71,22 @@ public class ConversationFragment extends Fragment implements ConversationView,F
                              Bundle savedInstanceState) {
         if (view == null){
             view = inflater.inflate(R.layout.fragment_conversation, container, false);
+            headerView=inflater.inflate(R.layout.include_item_search,null);
             listView = (ListView) view.findViewById(R.id.list);
+            listView.addHeaderView(headerView);
             adapter = new ConversationAdapter(getActivity(), R.layout.item_conversation, conversationList);
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    conversationList.get(position).navToDetail(getActivity());
-                    if (conversationList.get(position) instanceof GroupManageConversation) {
-                        groupManagerPresenter.getGroupManageLastMessage();
-                    }
+                    if (position==0){
 
+                    }else {
+                        conversationList.get(position-1).navToDetail(getActivity());
+                        if (conversationList.get(position-1) instanceof GroupManageConversation) {
+                            groupManagerPresenter.getGroupManageLastMessage();
+                        }
+                    }
                 }
             });
             friendshipManagerPresenter = new FriendshipManagerPresenter(this);
