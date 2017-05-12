@@ -47,14 +47,14 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:drawableStart="@drawable/ic_add_more"
-            android:textColor="@color/text_blue1"
+            android:drawableStart="@drawable/ic_add_friend_green"
+            android:textColor="@color/green"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:drawablePadding="2dp"
             android:background="@drawable/bg_add"
             android:textSize="@dimen/item_message_size"
-            android:padding="5dp"
+            android:padding="7dp"
             android:layout_marginRight="@dimen/item_margin_right"
             android:text="加好友"/>
     </RelativeLayout>
