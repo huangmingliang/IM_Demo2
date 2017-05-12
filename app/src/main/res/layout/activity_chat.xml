@@ -27,6 +27,7 @@
         android:dividerHeight="19dp"
         android:scrollbars="none"
         android:layout_above="@id/input_panel"
+        android:layout_marginBottom="5dp"
         android:layout_below="@id/chat_title">
 
     </ListView>
