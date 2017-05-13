@@ -18,8 +18,7 @@
         <com.tencent.qcloud.ui.CircleImageView
             android:id="@+id/friendImg"
             android:layout_width="@dimen/item_img_width"
-            android:layout_height="@dimen/item_img_width"
-            android:src="@drawable/head_man" />
+            android:layout_height="@dimen/item_img_width" />
 
         <TextView
             android:id="@+id/friendName"

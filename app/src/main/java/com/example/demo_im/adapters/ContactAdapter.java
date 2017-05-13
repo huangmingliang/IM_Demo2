@@ -62,6 +62,7 @@ public class ContactAdapter extends ArrayAdapter<FriendProfile> {
             viewHolder.friendName.setText(friend.getRemark());
 
             //viewHolder.friendImg.setImageResource(R.drawable.head_other);
+        Log.e(TAG,"hml url="+friend.getAvatarUrl());
             Picasso.with(getContext())
                     .load(friend.getAvatarUrl())
                     .placeholder(friend.getAvatarRes())

@@ -82,19 +82,7 @@ public class FriendshipInfo extends Observable implements Observer {
 
 
     private void refresh(){
-        /*groups.clear();
-        friends.clear();
-        Log.d(TAG, "get friendship info id :" + UserInfo.getInstance().getId());
-        List<TIMFriendGroup> timFriendGroups = TIMFriendshipProxy.getInstance().getFriendsByGroups(null);
-        if (timFriendGroups == null) return;
-        for (TIMFriendGroup group : timFriendGroups){
-            groups.add(group.getGroupName());
-            List<FriendProfile> friendItemList = new ArrayList<>();
-            for (TIMUserProfile profile : group.getProfiles()){
-                friendItemList.add(new FriendProfile(profile));
-            }
-            friends.put(group.getGroupName(), friendItemList);
-        }*/
+        getFriendProfiles(null);
         setChanged();
         notifyObservers();
     }
@@ -122,13 +110,9 @@ public class FriendshipInfo extends Observable implements Observer {
     * */
     public void getFriendProfiles(final OnRefreshFriendProfilesListener listener){
         final List<FriendProfile> newFriends=new ArrayList<>();
-        if (listener==null){
-          Log.e(TAG,"listener is null");
-        }
         TIMFriendshipManager.getInstance().getFriendList(new TIMValueCallBack<List<TIMUserProfile>>() {
             @Override
             public void onError(int i, String s) {
-                Log.e(TAG,"getFriendList failure---"+"i="+i+" s="+s);
             }
 
             @Override
@@ -150,7 +134,9 @@ public class FriendshipInfo extends Observable implements Observer {
                 }
                 PinyinComparator pinyinComparator=new PinyinComparator();
                 Collections.sort(newFriends, pinyinComparator);
-                listener.onRefreshFriendProfiles(newFriends);
+                if (listener!=null){
+                    listener.onRefreshFriendProfiles(newFriends);
+                }
             }
         });
 

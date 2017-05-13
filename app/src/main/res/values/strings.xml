@@ -323,5 +323,6 @@
 
     <!--home2 activity-->
     <string name="message_records">聊天记录</string>
+    <string name="message_describe">%1$d条相关的记录</string>
 
 </resources>

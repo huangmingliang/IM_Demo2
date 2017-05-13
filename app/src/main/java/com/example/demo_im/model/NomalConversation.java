@@ -14,6 +14,7 @@ import com.example.demo_im.ui.ChatActivity;
 public class NomalConversation extends Conversation {
 
 
+    private String avatarUrl;
     private TIMConversation conversation;
 
 
@@ -99,6 +100,11 @@ public class NomalConversation extends Conversation {
         return name;
     }
 
+    public String getAvatarUrl(){
+        FriendProfile profile=FriendshipInfo.getInstance().getProfile(identify);
+        avatarUrl=profile==null?null:profile.getAvatarUrl();
+        return avatarUrl;
+    }
 
     /**
      * 获取未读消息数量

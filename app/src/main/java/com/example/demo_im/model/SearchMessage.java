@@ -1,5 +1,8 @@
 package com.example.demo_im.model;
 
+import com.tencent.TIMConversation;
+import com.tencent.TIMMessage;
+
 /**
  * Created by huangmingliang on 2017/5/12.
  */
@@ -9,9 +12,12 @@ public class SearchMessage {
     private String avatarUrl;
     private String message;
     private String messageSrc;
-    private String identify;
+    private String peer;
     private boolean isShowTitle;
-    private int tab;
+
+    public SearchMessage(TIMMessage message) {
+        this.peer=message.getConversation().getPeer();
+    }
 
     public String getTitleContent() {
         return titleContent;
@@ -54,18 +60,11 @@ public class SearchMessage {
     }
 
     public String getIdentify() {
-        return identify;
+        return peer;
     }
 
     public void setIdentify(String identify) {
-        this.identify = identify;
+        this.peer = identify;
     }
 
-    public int getTab() {
-        return tab;
-    }
-
-    public void setTab(int tab) {
-        this.tab = tab;
-    }
 }

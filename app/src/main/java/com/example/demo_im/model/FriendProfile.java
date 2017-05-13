@@ -41,7 +41,7 @@ public class FriendProfile implements ProfileSummary {
      */
     @Override
     public String getAvatarUrl() {
-        return null;
+        return TextUtils.isEmpty(profile.getFaceUrl())?null:profile.getFaceUrl();
     }
 
     /**
