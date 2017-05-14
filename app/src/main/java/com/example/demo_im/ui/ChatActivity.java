@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -71,9 +71,18 @@ public class ChatActivity extends FragmentActivity implements ChatView {
     private Handler handler = new Handler();
     public static Message sMessage;
     private static final int FORWARD_ACTIVITY_REQUEST_CODE = 101;
+    private static TIMMessage sTimmessage;
 
 
     public static void navToChat(Context context, String identify, TIMConversationType type) {
+        Intent intent = new Intent(context, ChatActivity.class);
+        intent.putExtra("identify", identify);
+        intent.putExtra("type", type);
+        context.startActivity(intent);
+    }
+
+    public static void navToChat(Context context, String identify, TIMConversationType type,TIMMessage timMessage) {
+        sTimmessage=timMessage;
         Intent intent = new Intent(context, ChatActivity.class);
         intent.putExtra("identify", identify);
         intent.putExtra("type", type);
@@ -190,6 +199,7 @@ public class ChatActivity extends FragmentActivity implements ChatView {
     protected void onDestroy() {
         super.onDestroy();
         presenter.stop();
+        sTimmessage=null;
     }
 
 
@@ -226,6 +236,7 @@ public class ChatActivity extends FragmentActivity implements ChatView {
                     messageList.add(mMessage);
                     adapter.notifyDataSetChanged();
                     listView.setSelection(adapter.getCount() - 1);
+
                 }
 
             }
@@ -257,7 +268,22 @@ public class ChatActivity extends FragmentActivity implements ChatView {
             }
         }
         adapter.notifyDataSetChanged();
-        listView.setSelection(newMsgNum);
+        if (sTimmessage!=null){
+            Log.e(TAG,"sTimmessage id="+sTimmessage.getMsgUniqueId());
+            int index=0;
+            for (Message message:messageList){
+                if (message.getMessage().getMsgUniqueId()==sTimmessage.getMsgUniqueId()){
+                    Log.e(TAG,"message id="+message.getMessage().getMsgUniqueId()+"index="+index);
+                    sTimmessage =null;
+                    break;
+                }
+                index++;
+            }
+            listView.setSelection(index);
+        }else {
+            listView.setSelection(newMsgNum);
+        }
+
     }
 
     /**
@@ -544,6 +570,8 @@ public class ChatActivity extends FragmentActivity implements ChatView {
             title.setTitleText(titleStr);
         }
     };
+
+
 
 
 }

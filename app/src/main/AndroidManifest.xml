@@ -236,7 +236,8 @@
         <activity android:name=".ui.Home2Activity" />
         <activity android:name=".ui.QRcodeActivity" />
         <activity android:name=".ui.ScanAddFriendActivity" />
-        <activity android:name=".ui.ForwardListActivity"></activity>
+        <activity android:name=".ui.ForwardListActivity" />
+        <activity android:name=".ui.SearchRecordActivity"></activity>
     </application>
 
 </manifest>

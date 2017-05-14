@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -58,6 +59,7 @@ public class SearchFriendActivity extends Activity implements FriendInfoView, Ad
     private FriendshipManagerPresenter presenter,presenter2;
     ListView mSearchList;
     EditText mSearchInput;
+    LinearLayout searchContainer;
     TextView tvNoResult;
     RelativeLayout searchLayout1;
     RelativeLayout scanLayout;
@@ -104,9 +106,11 @@ public class SearchFriendActivity extends Activity implements FriendInfoView, Ad
         });
 
         mSearchInput = (EditText) findViewById(R.id.inputSearch);
-        mSearchList =(ListView) findViewById(R.id.list);
+        searchContainer=(LinearLayout)findViewById(R.id.searchContainer);
+        mSearchList =(ListView) LayoutInflater.from(context).inflate(R.layout.include_list,null);
         tvNoResult = (TextView) findViewById(R.id.noResult);
         adapter = new ProfileSummaryAdapter(this, R.layout.item_profile_summary, list);
+        searchContainer.addView(mSearchList);
         mSearchList.setAdapter(adapter);
         mSearchList.setOnItemClickListener(this);
         presenter = new FriendshipManagerPresenter(this);

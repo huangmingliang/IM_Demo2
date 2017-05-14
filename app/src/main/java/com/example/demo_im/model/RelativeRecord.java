@@ -13,13 +13,19 @@ public class RelativeRecord {
     private String peer;
     private List<TIMMessage> messages;
     private NomalConversation conversation;
+    private String keyStr;
     private String Name;
     private int messageCount;
 
 
-    public RelativeRecord(List<TIMMessage> messages, NomalConversation conversation) {
+    public RelativeRecord(List<TIMMessage> messages, NomalConversation conversation,String keyStr) {
         this.messages = messages;
         this.conversation = conversation;
+        this.keyStr=keyStr;
+    }
+
+    public String getKeyStr() {
+        return keyStr;
     }
 
     public int getMessageCount() {
@@ -27,7 +33,7 @@ public class RelativeRecord {
     }
 
 
-    public NomalConversation getTimConversation() {
+    public NomalConversation getNomalConversation() {
         return conversation;
     }
 
@@ -36,7 +42,7 @@ public class RelativeRecord {
     }
 
     public String getPeer() {
-        return peer;
+        return conversation.getIdentify();
     }
 
     public void setPeer(String peer) {

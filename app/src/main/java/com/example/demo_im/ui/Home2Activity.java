@@ -1,9 +1,8 @@
 package com.example.demo_im.ui;
 
-import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,7 +12,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -24,43 +25,35 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.demo_im.R;
+import com.example.demo_im.adapters.FriendSearchAdapter;
 import com.example.demo_im.adapters.MessageSearchAdapter;
-import com.example.demo_im.model.Conversation;
-import com.example.demo_im.model.CustomMessage;
+import com.example.demo_im.model.FriendProfile;
 import com.example.demo_im.model.FriendshipInfo;
 import com.example.demo_im.model.GroupInfo;
-import com.example.demo_im.model.MessageFactory;
 import com.example.demo_im.model.NomalConversation;
 import com.example.demo_im.model.RelativeRecord;
-import com.example.demo_im.model.SearchMessage;
 import com.example.demo_im.model.UserInfo;
 import com.example.demo_im.ui.customview.DialogActivity;
 import com.tencent.TIMConversation;
 import com.tencent.TIMConversationType;
 import com.tencent.TIMElem;
 import com.tencent.TIMElemType;
-import com.tencent.TIMGroupCacheInfo;
 import com.tencent.TIMManager;
 import com.tencent.TIMMessage;
 import com.tencent.TIMTextElem;
 import com.tencent.TIMUserStatusListener;
 import com.tencent.TIMValueCallBack;
 import com.tencent.qcloud.presentation.event.MessageEvent;
-import com.tencent.qcloud.presentation.viewfeatures.ConversationView;
 import com.tencent.qcloud.tlslibrary.service.TlsBusiness;
 import com.tencent.qcloud.ui.NotifyDialog;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-
-import static android.R.id.message;
 
 public class Home2Activity extends FragmentActivity implements View.OnClickListener, View.OnKeyListener {
 
     private String TAG = "Home2Activity";
+    private Context context;
     private TextView tab1, tab2;
     private RelativeLayout tab1Layout, tab2Layout;
     private ImageView unread1, unread2;
@@ -71,26 +64,32 @@ public class Home2Activity extends FragmentActivity implements View.OnClickListe
     private LinearLayout homeFragment;
     private RelativeLayout homeSearch;
     private TextView searchCancel;
-    private MessageSearchAdapter adapter;
+    private MessageSearchAdapter messageSearchAdapter;
+    private FriendSearchAdapter friendSearchAdapter;
     private List<TIMConversation> conversationList;
-    private List<SearchMessage> searchMessageList = new ArrayList<>();
     private List<RelativeRecord> relativeRecords = new ArrayList<>();
-    private SearchHandler handler;
-    private ListView listView;
+    private List<FriendProfile> friendProfiles=new ArrayList<>();
+    private SearchHandler handler= new SearchHandler();
+    private ListView recordListView,friendListView;
+    private LinearLayout searchContainer;
     private EditText inputEditText;
     private TextView noResultTv;
     private int count = 100;
-    private int REFLESH = 200;
-    private int EMPTY = 201;
+    private int REFRESH_RELATIVE_RECORD = 200;
+    private int REFRESH_FRIEND_PROFILE=201;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity2);
-        handler = new SearchHandler();
+        context=this;
         initView();
-        adapter = new MessageSearchAdapter(this, R.layout.item_message_search, relativeRecords);
-        listView.setAdapter(adapter);
+
+        messageSearchAdapter = new MessageSearchAdapter(this, R.layout.item_message_search, relativeRecords);
+        friendSearchAdapter =new FriendSearchAdapter(this,R.layout.item_friend_search,friendProfiles);
+        recordListView.setAdapter(messageSearchAdapter);
+        friendListView.setAdapter(friendSearchAdapter);
+
         firstFragment = getIntent().getStringExtra("fragment");
         if ("contact".equals(firstFragment)) {
             switchToContactFragment();
@@ -136,7 +135,7 @@ public class Home2Activity extends FragmentActivity implements View.OnClickListe
     private void initView() {
         homeFragment = (LinearLayout) findViewById(R.id.home);
         homeSearch = (RelativeLayout) findViewById(R.id.homeSearch);
-        listView = (ListView) findViewById(R.id.list);
+        searchContainer=(LinearLayout)findViewById(R.id.searchContainer);
         inputEditText = (EditText) findViewById(R.id.inputSearch);
         inputEditText.setOnKeyListener(this);
         noResultTv = (TextView) findViewById(R.id.noResult);
@@ -147,6 +146,33 @@ public class Home2Activity extends FragmentActivity implements View.OnClickListe
         tab2 = (TextView) findViewById(R.id.tab2_txt);
         unread1 = (ImageView) findViewById(R.id.tabUnread1);
         unread2 = (ImageView) findViewById(R.id.tabUnread2);
+
+        LayoutInflater inflater=LayoutInflater.from(this);
+        recordListView=(ListView)inflater.inflate(R.layout.include_list,null);
+        friendListView=(ListView)inflater.inflate(R.layout.include_list,null);
+
+        searchContainer.addView(recordListView);
+        searchContainer.addView(friendListView);
+
+        recordListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                RelativeRecord relativeRecord=relativeRecords.get(position);
+                if (relativeRecord.getMessageCount()>1){
+                    SearchRecordActivity.navToSearchRecord(context,relativeRecord);
+                }else {
+                    ChatActivity.navToChat(context,relativeRecord.getPeer(),TIMConversationType.C2C,relativeRecord.getMessages().get(0));
+                }
+
+            }
+        });
+
+        friendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ChatActivity.navToChat(context,friendProfiles.get(position).getIdentify(),TIMConversationType.C2C);
+            }
+        });
 
         tab1.setOnClickListener(this);
         tab2.setOnClickListener(this);
@@ -260,6 +286,7 @@ public class Home2Activity extends FragmentActivity implements View.OnClickListe
 
     private void searchRecords(final String str) {
         relativeRecords.clear();
+        friendProfiles.clear();
         conversationList = TIMManager.getInstance().getConversionList();
         for (final TIMConversation conversation : conversationList) {
             if (conversation.getType() == TIMConversationType.C2C) {
@@ -284,27 +311,41 @@ public class Home2Activity extends FragmentActivity implements View.OnClickListe
                             }
                         }
                         if (messages.size() > 0) {
-                            relativeRecords.add(new RelativeRecord(messages, new NomalConversation(conversation)));
+                            relativeRecords.add(new RelativeRecord(messages, new NomalConversation(conversation),str));
                         }
-                        handler.sendEmptyMessage(REFLESH);
+                        handler.sendEmptyMessage(REFRESH_RELATIVE_RECORD);
                     }
 
                 });
             }
         }
+
+        FriendshipInfo.getInstance().getFriendProfiles(new FriendshipInfo.OnRefreshFriendProfilesListener() {
+            @Override
+            public void onRefreshFriendProfiles(List<FriendProfile> profiles) {
+                for (FriendProfile profile:profiles){
+                    if (profile.getRemark().contains(str)){
+                        friendProfiles.add(profile);
+                    }
+                }
+                handler.sendEmptyMessage(REFRESH_FRIEND_PROFILE);
+            }
+        });
     }
 
     class SearchHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what == REFLESH) {
-                adapter.notifyDataSetChanged();
-                if (relativeRecords.size() == 0) {
-                    noResultTv.setVisibility(View.VISIBLE);
-                } else {
-                    noResultTv.setVisibility(View.GONE);
-                }
+            if (msg.what == REFRESH_RELATIVE_RECORD) {
+                messageSearchAdapter.notifyDataSetChanged();
+            }else if (msg.what==REFRESH_FRIEND_PROFILE){
+                friendSearchAdapter.notifyDataSetChanged();
+            }
+            if (relativeRecords.size() == 0&&friendProfiles.size()==0) {
+                noResultTv.setVisibility(View.VISIBLE);
+            } else {
+                noResultTv.setVisibility(View.GONE);
             }
         }
     }
