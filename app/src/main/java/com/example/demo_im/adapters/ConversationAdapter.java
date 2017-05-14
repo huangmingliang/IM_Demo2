@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.demo_im.R;
 import com.example.demo_im.model.Conversation;
 import com.example.demo_im.utils.TimeUtil;
+import com.squareup.picasso.Picasso;
 import com.tencent.qcloud.ui.CircleImageView;
 
 import java.util.List;
@@ -53,9 +54,14 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
         }
         final Conversation data = getItem(position);
         viewHolder.tvName.setText(data.getName());
-        viewHolder.avatar.setImageResource(data.getAvatar());
         viewHolder.lastMessage.setText(data.getLastMessageSummary());
         viewHolder.time.setText(TimeUtil.getTimeStr(data.getLastMessageTime()));
+        Picasso.with(getContext())
+                .load(data.getAvatarUrl())
+                .placeholder(data.getAvatar())
+                .error(data.getAvatar())
+                .centerCrop()
+                .into(viewHolder.avatar);
         long unRead = data.getUnreadNum();
         if (unRead <= 0){
             viewHolder.unread.setVisibility(View.INVISIBLE);

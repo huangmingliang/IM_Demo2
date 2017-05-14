@@ -65,6 +65,11 @@ public class FriendshipConversation extends Conversation {
         return R.drawable.ic_news;
     }
 
+    @Override
+    public String getAvatarUrl() {
+        return null;
+    }
+
     /**
      * 跳转到聊天界面或会话详情
      *

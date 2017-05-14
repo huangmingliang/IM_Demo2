@@ -56,10 +56,11 @@ public class ForwardAdapter extends ArrayAdapter<Conversation> {
             holder= (ViewHolder) convertView.getTag();
         }
         holder.textView.setText(conversation.getName());
+        int avatarSize= (int) getContext().getResources().getDimension(R.dimen.item_img_width);
         Picasso.with(context)
                 .load(conversation.getAvatar())
                 .placeholder(R.drawable.head_man)
-                .resize(70,70)
+                .resize(avatarSize,avatarSize)
                 .error(R.drawable.head_man)
                 .centerCrop()
                 .into(holder.imageView);

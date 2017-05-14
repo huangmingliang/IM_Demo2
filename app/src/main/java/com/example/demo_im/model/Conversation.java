@@ -49,6 +49,8 @@ public abstract class Conversation implements Comparable {
      */
     abstract public int getAvatar();
 
+    abstract public String getAvatarUrl();
+
 
     /**
      * 跳转到聊天界面或会话详情

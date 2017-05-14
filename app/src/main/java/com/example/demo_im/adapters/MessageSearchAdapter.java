@@ -123,11 +123,11 @@ public class MessageSearchAdapter extends ArrayAdapter{
                     stringBuilder.insert(0,"");
                 }
                 viewHolder.messageDes.setText(stringBuilder);
-                Log.e(TAG,"hml url="+relativeRecord.getAvatarUrl());
+                int avatarSize= (int) getContext().getResources().getDimension(R.dimen.item_img_width);
                 Picasso.with(getContext())
                         .load(relativeRecord.getAvatarUrl())
                         .placeholder(R.drawable.head_man)
-                        .resize(70,70)
+                        .resize(avatarSize,avatarSize)
                         .error(R.drawable.head_man)
                         .centerCrop()
                         .into(viewHolder.avatar);

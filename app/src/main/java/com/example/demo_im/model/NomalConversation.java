@@ -49,7 +49,7 @@ public class NomalConversation extends Conversation {
     public int getAvatar() {
         switch (type){
             case C2C:
-                return R.drawable.head_other;
+                return R.drawable.head_man;
             case Group:
                 return R.drawable.head_group;
         }
