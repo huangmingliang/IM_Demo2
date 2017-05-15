@@ -44,7 +44,7 @@ import java.util.List;
  */
 public class MomentsAdapter extends BaseRecycleViewAdapter {
 
-    private String TAG="MomentsAdapter";
+    private String TAG = "MomentsAdapter";
     public final static int TYPE_HEAD = 0;
 
     private static final int STATE_IDLE = 0;
@@ -53,32 +53,28 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
     private int videoState = STATE_IDLE;
     public static final int HEADVIEW_SIZE = 1;
 
-    int curPlayIndex=-1;
+    int curPlayIndex = -1;
 
     private MomentsPresenter presenter;
     private Context context;
-    public void setMomentsPresenter(MomentsPresenter presenter){
+
+    public void setMomentsPresenter(MomentsPresenter presenter) {
         this.presenter = presenter;
     }
 
-    public MomentsAdapter(Context context){
+    public MomentsAdapter(Context context) {
         this.context = context;
     }
 
     @Override
     public int getItemViewType(int position) {
-        /*if(position == 0){
-            return TYPE_HEAD;
-        }*/
-
         int itemType = 0;
         MomentsItem item = (MomentsItem) datas.get(position);
-        Log.e(TAG,"HML getType="+item.getType());
         if (MomentsItem.TYPE_URL.equals(item.getType())) {
             itemType = MomentsViewHolder.TYPE_URL;
         } else if (MomentsItem.TYPE_IMG.equals(item.getType())) {
             itemType = MomentsViewHolder.TYPE_IMAGE;
-        } else if(MomentsItem.TYPE_VIDEO.equals(item.getType())){
+        } else if (MomentsItem.TYPE_VIDEO.equals(item.getType())) {
             itemType = MomentsViewHolder.TYPE_VIDEO;
         }
         return itemType;
@@ -87,17 +83,17 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
-        if(viewType == TYPE_HEAD){
+        if (viewType == TYPE_HEAD) {
             View headView = LayoutInflater.from(parent.getContext()).inflate(R.layout.head_moments, parent, false);
             viewHolder = new HeaderViewHolder(headView);
-        }else{
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_moments_item, parent, false);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_moment, parent, false);
 
-            if(viewType == MomentsViewHolder.TYPE_URL){
+            if (viewType == MomentsViewHolder.TYPE_URL) {
                 viewHolder = new URLViewHolder(view);
-            }else if(viewType == MomentsViewHolder.TYPE_IMAGE){
+            } else if (viewType == MomentsViewHolder.TYPE_IMAGE) {
                 viewHolder = new ImageViewHolder(view);
-            }else if(viewType == MomentsViewHolder.TYPE_VIDEO){
+            } else if (viewType == MomentsViewHolder.TYPE_VIDEO) {
                 viewHolder = new VideoViewHolder(view);
             }
         }
@@ -108,9 +104,9 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
 
-        if(getItemViewType(position)==TYPE_HEAD){
+        if (getItemViewType(position) == TYPE_HEAD) {
             //HeaderViewHolder holder = (HeaderViewHolder) viewHolder;
-        }else{
+        } else {
 
             final int MomentsPosition = position;      //有头部时此减一
             final MomentsViewHolder holder = (MomentsViewHolder) viewHolder;
@@ -130,7 +126,7 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
             holder.nameTv.setText(name);
             holder.timeTv.setText(createTime);
 
-            if(!TextUtils.isEmpty(content)){
+            if (!TextUtils.isEmpty(content)) {
                 holder.contentTv.setExpand(MomentsItem.isExpand());
                 holder.contentTv.setExpandStatusListener(new ExpandTextView.ExpandStatusListener() {
                     @Override
@@ -143,82 +139,76 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
             }
             holder.contentTv.setVisibility(TextUtils.isEmpty(content) ? View.GONE : View.VISIBLE);
 
-            if(DatasUtil.curUser.getId().equals(MomentsItem.getUser().getId())){
+            if (DatasUtil.curUser.getId().equals(MomentsItem.getUser().getId())) {
                 holder.deleteBtn.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 holder.deleteBtn.setVisibility(View.GONE);
             }
             holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //删除
-                    if(presenter!=null){
+                    if (presenter != null) {
                         presenter.deleteMoments(MomentsId);
                     }
                 }
             });
-            if(hasFavort || hasComment){
-                if(hasFavort){//处理点赞列表
-                    holder.praiseListView.setOnItemClickListener(new PraiseListView.OnItemClickListener() {
-                        @Override
-                        public void onClick(int position) {
-                            String userName = favortDatas.get(position).getUser().getName();
-                            String userId = favortDatas.get(position).getUser().getId();
-                            Toast.makeText(MyApplication.getContext(), userName + " &id = " + userId, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    Log.e(TAG,"HML 170");
-                    holder.praiseListView.setDatas(favortDatas);
-                    Log.e(TAG,"HML 172");
-                    holder.praiseListView.setVisibility(View.VISIBLE);
-                }else{
-                    holder.praiseListView.setVisibility(View.GONE);
-                }
-
-                if(hasComment){//处理评论列表
-                    holder.commentList.setOnItemClickListener(new CommentListView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(int commentPosition) {
-                            CommentItem commentItem = commentsDatas.get(commentPosition);
-                            if(DatasUtil.curUser.getId().equals(commentItem.getUser().getId())){//复制或者删除自己的评论
-
-                                CommentDialog dialog = new CommentDialog(context, presenter, commentItem, MomentsPosition);
-                                dialog.show();
-                            }else{//回复别人的评论
-                                if(presenter != null){
-                                    CommentConfig config = new CommentConfig();
-                                    config.MomentsPosition = MomentsPosition;
-                                    config.commentPosition = commentPosition;
-                                    config.commentType = CommentConfig.Type.REPLY;
-                                    config.replyUser = commentItem.getUser();
-                                    presenter.showEditTextBody(config);
-                                }
-                            }
-                        }
-                    });
-                    holder.commentList.setOnItemLongClickListener(new CommentListView.OnItemLongClickListener() {
-                        @Override
-                        public void onItemLongClick(int commentPosition) {
-                            //长按进行复制或者删除
-                            CommentItem commentItem = commentsDatas.get(commentPosition);
-                            CommentDialog dialog = new CommentDialog(context, presenter, commentItem, MomentsPosition);
-                            dialog.show();
-                        }
-                    });
-                    holder.commentList.setDatas(commentsDatas);
-                    holder.commentList.setVisibility(View.VISIBLE);
-
-                }else {
-                    holder.commentList.setVisibility(View.GONE);
-                }
-                holder.digCommentBody.setVisibility(View.VISIBLE);
-            }else{
-                holder.digCommentBody.setVisibility(View.GONE);
+            if (hasFavort) {//处理点赞列表
+                holder.praiseListView.setOnItemClickListener(new PraiseListView.OnItemClickListener() {
+                    @Override
+                    public void onClick(int position) {
+                        String userName = favortDatas.get(position).getUser().getName();
+                        String userId = favortDatas.get(position).getUser().getId();
+                        Toast.makeText(MyApplication.getContext(), userName + " &id = " + userId, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                Log.e(TAG, "HML 170");
+                holder.praiseListView.setDatas(favortDatas);
+                Log.e(TAG, "HML 172");
+                holder.praiseListView.setVisibility(View.VISIBLE);
+            } else {
+                holder.praiseListView.setVisibility(View.GONE);
             }
 
-            holder.digLine.setVisibility(hasFavort && hasComment ? View.VISIBLE : View.GONE);
+            if (hasComment) {//处理评论列表
+                holder.commentList.setOnItemClickListener(new CommentListView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int commentPosition) {
+                        CommentItem commentItem = commentsDatas.get(commentPosition);
+                        if (DatasUtil.curUser.getId().equals(commentItem.getUser().getId())) {//复制或者删除自己的评论
 
-            final SnsPopupWindow snsPopupWindow = holder.snsPopupWindow;
+                            CommentDialog dialog = new CommentDialog(context, presenter, commentItem, MomentsPosition);
+                            dialog.show();
+                        } else {//回复别人的评论
+                            if (presenter != null) {
+                                CommentConfig config = new CommentConfig();
+                                config.MomentsPosition = MomentsPosition;
+                                config.commentPosition = commentPosition;
+                                config.commentType = CommentConfig.Type.REPLY;
+                                config.replyUser = commentItem.getUser();
+                                presenter.showEditTextBody(config);
+                            }
+                        }
+                    }
+                });
+                holder.commentList.setOnItemLongClickListener(new CommentListView.OnItemLongClickListener() {
+                    @Override
+                    public void onItemLongClick(int commentPosition) {
+                        //长按进行复制或者删除
+                        CommentItem commentItem = commentsDatas.get(commentPosition);
+                        CommentDialog dialog = new CommentDialog(context, presenter, commentItem, MomentsPosition);
+                        dialog.show();
+                    }
+                });
+                holder.commentList.setDatas(commentsDatas);
+                holder.commentList.setVisibility(View.VISIBLE);
+
+            } else {
+                holder.commentList.setVisibility(View.GONE);
+            }
+
+
+           /* final SnsPopupWindow snsPopupWindow = holder.snsPopupWindow;
             //判断是否已点赞
             String curUserFavortId = MomentsItem.getCurUserFavortId(DatasUtil.curUser.getId());
             if(!TextUtils.isEmpty(curUserFavortId)){
@@ -234,35 +224,33 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
                     //弹出popupwindow
                     snsPopupWindow.showPopupWindow(view);
                 }
-            });
+            });*/
 
-            holder.urlTipTv.setVisibility(View.GONE);
             switch (holder.viewType) {
                 case MomentsViewHolder.TYPE_URL:// 处理链接动态的链接内容和和图片
-                    if(holder instanceof URLViewHolder){
+                    if (holder instanceof URLViewHolder) {
                         String linkImg = MomentsItem.getLinkImg();
                         String linkTitle = MomentsItem.getLinkTitle();
-                        Glide.with(context).load(linkImg).into(((URLViewHolder)holder).urlImageIv);
-                        ((URLViewHolder)holder).urlContentTv.setText(linkTitle);
-                        ((URLViewHolder)holder).urlBody.setVisibility(View.VISIBLE);
-                        ((URLViewHolder)holder).urlTipTv.setVisibility(View.VISIBLE);
+                        Glide.with(context).load(linkImg).into(((URLViewHolder) holder).urlImageIv);
+                        ((URLViewHolder) holder).urlContentTv.setText(linkTitle);
+                        ((URLViewHolder) holder).urlBody.setVisibility(View.VISIBLE);
                     }
 
                     break;
                 case MomentsViewHolder.TYPE_IMAGE:// 处理图片
-                    if(holder instanceof ImageViewHolder){
+                    if (holder instanceof ImageViewHolder) {
                         final List<PhotoInfo> photos = MomentsItem.getPhotos();
                         if (photos != null && photos.size() > 0) {
-                            ((ImageViewHolder)holder).multiImageView.setVisibility(View.VISIBLE);
-                            ((ImageViewHolder)holder).multiImageView.setList(photos);
-                            ((ImageViewHolder)holder).multiImageView.setOnItemClickListener(new MultiImageView.OnItemClickListener() {
+                            ((ImageViewHolder) holder).multiImageView.setVisibility(View.VISIBLE);
+                            ((ImageViewHolder) holder).multiImageView.setList(photos);
+                            ((ImageViewHolder) holder).multiImageView.setOnItemClickListener(new MultiImageView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View view, int position) {
                                     //imagesize是作为loading时的图片size
                                     ImagePagerActivity.ImageSize imageSize = new ImagePagerActivity.ImageSize(view.getMeasuredWidth(), view.getMeasuredHeight());
 
                                     List<String> photoUrls = new ArrayList<String>();
-                                    for(PhotoInfo photoInfo : photos){
+                                    for (PhotoInfo photoInfo : photos) {
                                         photoUrls.add(photoInfo.url);
                                     }
                                     ImagePagerActivity.startImagePagerActivity(context, photoUrls, position, imageSize);
@@ -271,17 +259,17 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
                                 }
                             });
                         } else {
-                            ((ImageViewHolder)holder).multiImageView.setVisibility(View.GONE);
+                            ((ImageViewHolder) holder).multiImageView.setVisibility(View.GONE);
                         }
                     }
 
                     break;
                 case MomentsViewHolder.TYPE_VIDEO:
-                    if(holder instanceof VideoViewHolder){
-                        ((VideoViewHolder)holder).videoView.setVideoUrl(MomentsItem.getVideoUrl());
-                        ((VideoViewHolder)holder).videoView.setVideoImgUrl(MomentsItem.getVideoImgUrl());//视频封面图片
-                        ((VideoViewHolder)holder).videoView.setPostion(position);
-                        ((VideoViewHolder)holder).videoView.setOnPlayClickListener(new MomentsVideoView.OnPlayClickListener() {
+                    if (holder instanceof VideoViewHolder) {
+                        ((VideoViewHolder) holder).videoView.setVideoUrl(MomentsItem.getVideoUrl());
+                        ((VideoViewHolder) holder).videoView.setVideoImgUrl(MomentsItem.getVideoImgUrl());//视频封面图片
+                        ((VideoViewHolder) holder).videoView.setPostion(position);
+                        ((VideoViewHolder) holder).videoView.setOnPlayClickListener(new MomentsVideoView.OnPlayClickListener() {
                             @Override
                             public void onPlayClick(int pos) {
                                 curPlayIndex = pos;
@@ -306,21 +294,21 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
         super.onViewAttachedToWindow(holder);
     }
 
-    public class HeaderViewHolder extends RecyclerView.ViewHolder{
+    public class HeaderViewHolder extends RecyclerView.ViewHolder {
 
         public HeaderViewHolder(View itemView) {
             super(itemView);
         }
     }
 
-    private class PopupItemClickListener implements SnsPopupWindow.OnItemClickListener{
+    private class PopupItemClickListener implements SnsPopupWindow.OnItemClickListener {
         private String mFavorId;
         //动态在列表中的位置
         private int mMomentsPosition;
         private long mLasttime = 0;
         private MomentsItem mMomentsItem;
 
-        public PopupItemClickListener(int MomentsPosition, MomentsItem MomentsItem, String favorId){
+        public PopupItemClickListener(int MomentsPosition, MomentsItem MomentsItem, String favorId) {
             this.mFavorId = favorId;
             this.mMomentsPosition = MomentsPosition;
             this.mMomentsItem = MomentsItem;
@@ -330,10 +318,10 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
         public void onItemClick(ActionItem actionitem, int position) {
             switch (position) {
                 case 0://点赞、取消点赞
-                    if(System.currentTimeMillis()-mLasttime<700)//防止快速点击操作
+                    if (System.currentTimeMillis() - mLasttime < 700)//防止快速点击操作
                         return;
                     mLasttime = System.currentTimeMillis();
-                    if(presenter != null){
+                    if (presenter != null) {
                         if ("赞".equals(actionitem.mTitle.toString())) {
                             presenter.addFavort(mMomentsPosition);
                         } else {//取消点赞
@@ -342,7 +330,7 @@ public class MomentsAdapter extends BaseRecycleViewAdapter {
                     }
                     break;
                 case 1://发布评论
-                    if(presenter != null){
+                    if (presenter != null) {
                         CommentConfig config = new CommentConfig();
                         config.MomentsPosition = mMomentsPosition;
                         config.commentType = CommentConfig.Type.PUBLIC;

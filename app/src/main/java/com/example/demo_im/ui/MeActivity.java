@@ -30,7 +30,7 @@ public class MeActivity extends Activity implements ConversationView,FriendshipM
     private List<Conversation> conversationList = new LinkedList<>();
     private ConversationPresenter presenter;
     private FriendshipManagerPresenter friendshipManagerPresenter;
-    private ImageView imageView1,imageView2;
+    private ImageView imageView1,imageView2,imageView3;
     private TextView textView1,textView2;
     private long unRead1,unRead2;
     private Context context;
@@ -42,6 +42,7 @@ public class MeActivity extends Activity implements ConversationView,FriendshipM
         context=this;
         imageView1=(ImageView)findViewById(R.id.meImg1);
         imageView2=(ImageView)findViewById(R.id.meImg2);
+        imageView3=(ImageView)findViewById(R.id.meImg3);
         textView1=(TextView)findViewById(R.id.msgCount1);
         textView2=(TextView)findViewById(R.id.msgCount2);
         friendshipManagerPresenter = new FriendshipManagerPresenter(this);
@@ -65,6 +66,15 @@ public class MeActivity extends Activity implements ConversationView,FriendshipM
                 intent.putExtra("fragment","contact");
                 startActivity(intent);
                 //finish();
+            }
+        });
+
+        imageView3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MeActivity.this,MomentActivity.class);
+                intent.putExtra("fragment","contact");
+                startActivity(intent);
             }
         });
 

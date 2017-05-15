@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -90,7 +92,6 @@ public class MomentsFragment extends Fragment implements MomentsContract.View, E
             presenter = new MomentsPresenter(this);
             initView();
             initPermission();
-
             //实现自动下拉刷新功能
             recyclerView.getSwipeToRefresh().post(new Runnable(){
                 @Override
@@ -244,13 +245,15 @@ public class MomentsFragment extends Fragment implements MomentsContract.View, E
 
     private void initView() {
 
-        //initTitle();
+        initTitle();
         initUploadDialog();
 
         recyclerView = (SuperRecyclerView) view.findViewById(R.id.recyclerView);
         layoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(new DivItemDecoration(2, true));
+        int divideHeight=(int)getResources().getDimension(R.dimen.divide_height);
+        int color= ContextCompat.getColor(getActivity(),R.color.gray_line);
+        recyclerView.addItemDecoration(new DivItemDecoration(getActivity(), LinearLayoutManager.HORIZONTAL,divideHeight,color));
         recyclerView.getMoreProgressView().getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
         recyclerView.setOnTouchListener(new View.OnTouchListener() {

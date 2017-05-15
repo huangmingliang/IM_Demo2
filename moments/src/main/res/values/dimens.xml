@@ -6,4 +6,7 @@
     <dimen name="gudieview_width">6dp</dimen>
     <dimen name="gudieview_heigh">6dp</dimen>
 
+    <dimen name="item_img_width">40dp</dimen>
+    <dimen name="divide_height">3dp</dimen>
+
 </resources>
