@@ -326,4 +326,9 @@
     <string name="message_contact">联系人</string>
     <string name="message_describe">%1$d条相关的记录</string>
 
+    <!--qrcode activity-->
+    <string name="title_qr_code">我的二维码</string>
+    <string name="scan_tips">扫一扫我的二维码，加优信</string>
+    <string name="save_qr_code">保存图片</string>
+
 </resources>

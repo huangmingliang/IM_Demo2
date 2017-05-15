@@ -1,21 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.demo_im.ui.QRcodeActivity">
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context="com.example.demo_im.ui.QRcodeActivity"
+    android:background="@color/bg_layout">
+
     <com.tencent.qcloud.ui.TemplateTitle
         android:id="@+id/chat_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        app:canBack="true" />
-
-    <WebView
-        android:id="@+id/webView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        app:canBack="true"
+        app:titleText="@string/message_records" />
 
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="240dp"
+        android:layout_height="280dp"
+        android:layout_marginTop="40dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.tencent.qcloud.ui.CircleImageView
+                android:id="@+id/qrCodeAvatar"
+                android:layout_width="@dimen/qr_code_avatar_size"
+                android:layout_height="@dimen/qr_code_avatar_size" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/black"
+                android:layout_toRightOf="@+id/qrCodeAvatar" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/qrCode"
+            android:layout_width="178dp"
+            android:layout_height="178dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="27dp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_marginTop="23dp"
+        android:text="@string/scan_tips"/>
+
+    <TextView
+        android:id="@+id/saveCode"
+        android:layout_width="225dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="23dp"
+        android:background="@drawable/bg_status"
+        android:gravity="center"
+        android:text="@string/save_qr_code"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+
+
+</LinearLayout>
+
+

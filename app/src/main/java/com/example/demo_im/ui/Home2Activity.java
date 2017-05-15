@@ -1,8 +1,12 @@
 package com.example.demo_im.ui;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -77,12 +81,14 @@ public class Home2Activity extends FragmentActivity implements View.OnClickListe
     private int count = 100;
     private int REFRESH_RELATIVE_RECORD = 200;
     private int REFRESH_FRIEND_PROFILE=201;
+    private final int REQUEST_CODE_ASK_PERMISSIONS = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity2);
         context=this;
+        requestPermission();
         initView();
 
         messageSearchAdapter = new MessageSearchAdapter(this, R.layout.item_message_search, relativeRecords);
@@ -348,5 +354,72 @@ public class Home2Activity extends FragmentActivity implements View.OnClickListe
                 noResultTv.setVisibility(View.GONE);
             }
         }
+    }
+
+    private void requestPermission(){
+        requestAudio(this);
+        requestCamera(this);
+        requestStorage(this);
+        requestVideo(this);
+    }
+
+    private boolean requestVideo(Activity activity){
+        if (afterM()){
+            final List<String> permissionsList = new ArrayList<>();
+            if ((activity.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)) permissionsList.add(Manifest.permission.CAMERA);
+            if ((activity.checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)) permissionsList.add(Manifest.permission.RECORD_AUDIO);
+            if (permissionsList.size() != 0){
+                activity.requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
+                        REQUEST_CODE_ASK_PERMISSIONS);
+                return false;
+            }
+            int hasPermission = activity.checkSelfPermission(Manifest.permission.CAMERA);
+            if (hasPermission != PackageManager.PERMISSION_GRANTED) {
+                activity.requestPermissions(new String[]{Manifest.permission.CAMERA},
+                        REQUEST_CODE_ASK_PERMISSIONS);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean requestCamera(Activity activity){
+        if (afterM()){
+            int hasPermission = activity.checkSelfPermission(Manifest.permission.CAMERA);
+            if (hasPermission != PackageManager.PERMISSION_GRANTED) {
+                activity.requestPermissions(new String[]{Manifest.permission.CAMERA},
+                        REQUEST_CODE_ASK_PERMISSIONS);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean requestAudio(Activity activity){
+        if (afterM()){
+            int hasPermission = activity.checkSelfPermission(Manifest.permission.RECORD_AUDIO);
+            if (hasPermission != PackageManager.PERMISSION_GRANTED) {
+                activity.requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO},
+                        REQUEST_CODE_ASK_PERMISSIONS);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean requestStorage(Activity activity){
+        if (afterM()){
+            int hasPermission = activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (hasPermission != PackageManager.PERMISSION_GRANTED) {
+                activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        REQUEST_CODE_ASK_PERMISSIONS);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean afterM(){
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
 }

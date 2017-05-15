@@ -21,5 +21,6 @@
     <dimen name="radius">3dp</dimen>
     <dimen name="search_input_height">31dp</dimen>
     <dimen name="search_layout_height">44dp</dimen>
+    <dimen name="qr_code_avatar_size">35dp</dimen>
 
 </resources>

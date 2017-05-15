@@ -128,12 +128,7 @@ public final class CaptureActivity extends AppCompatActivity implements
 		if (hasSurface) {
 			// activity在paused时但不会stopped,因此surface仍旧存在；
 			// surfaceCreated()不会调用，因此在这里初始化camera
-			if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)== PackageManager.PERMISSION_GRANTED){
 				initCamera(surfaceHolder);
-			}else {
-				ActivityCompat.requestPermissions(this,perssion,REQUEST_CODE);
-			}
-
 		} else {
 			// 重置callback，等待surfaceCreated()来初始化camera
 			surfaceHolder.addCallback(this);
@@ -254,19 +249,6 @@ public final class CaptureActivity extends AppCompatActivity implements
 		builder.setPositiveButton(R.string.button_ok, new FinishListener(this));
 		builder.setOnCancelListener(new FinishListener(this));
 		builder.show();
-	}
-
-	@Override
-	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		if (requestCode==REQUEST_CODE){
-			if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.CAMERA)){
-				initCamera(surfaceHolder);
-			}else {
-				Toast.makeText(this,"无开启摄像头权限",Toast.LENGTH_SHORT).show();
-				finish();
-			}
-		}
 	}
 
 

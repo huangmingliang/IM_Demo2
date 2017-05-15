@@ -18,10 +18,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.demo_im.model.FriendshipInfo;
 import com.example.demo_im.model.SearchResult;
 import com.example.demo_im.utils.HttpManager;
 import com.module.zxing.QrMainActivity;
 import com.module.zxing.android.CaptureActivity;
+import com.tencent.TIMConversationType;
 import com.tencent.TIMFriendResult;
 import com.tencent.TIMFriendStatus;
 import com.tencent.TIMUserProfile;
@@ -94,7 +96,8 @@ public class SearchFriendActivity extends Activity implements FriendInfoView, Ad
         qrcodeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent=new Intent(SearchFriendActivity.this,QRcodeActivity.class);
+                startActivity(intent);
             }
         });
         search.setOnClickListener(new View.OnClickListener() {
@@ -120,19 +123,19 @@ public class SearchFriendActivity extends Activity implements FriendInfoView, Ad
                 switch (status) {
                     case TIM_ADD_FRIEND_STATUS_PENDING:
                         Toast.makeText(context, getResources().getString(R.string.add_friend_succeed), Toast.LENGTH_SHORT).show();
-                        finish();
+                        //finish();
                         break;
                     case TIM_FRIEND_STATUS_SUCC:
                         Toast.makeText(context, getResources().getString(R.string.add_friend_added), Toast.LENGTH_SHORT).show();
-                        finish();
+                        //finish();
                         break;
                     case TIM_ADD_FRIEND_STATUS_FRIEND_SIDE_FORBID_ADD:
                         Toast.makeText(context, getResources().getString(R.string.add_friend_refuse_all), Toast.LENGTH_SHORT).show();
-                        finish();
+                        //finish();
                         break;
                     case TIM_ADD_FRIEND_STATUS_IN_OTHER_SIDE_BLACK_LIST:
                         Toast.makeText(context, getResources().getString(R.string.add_friend_to_blacklist), Toast.LENGTH_SHORT).show();
-                        finish();
+                        //finish();
                         break;
                     case TIM_ADD_FRIEND_STATUS_IN_SELF_BLACK_LIST:
                         Toast.makeText(context, getResources().getString(R.string.add_friend_del_black_list), Toast.LENGTH_SHORT).show();
@@ -170,6 +173,13 @@ public class SearchFriendActivity extends Activity implements FriendInfoView, Ad
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        String identify=list.get(i).getIdentify();
+        if (FriendshipInfo.getInstance().isFriend(identify)){
+            Toast.makeText(this,"你們已經是好友啦!",Toast.LENGTH_SHORT).show();
+            ChatActivity.navToChat(context,identify, TIMConversationType.C2C);
+            //finish();
+            return;
+        }
         presenter2.addFriend(list.get(i).getIdentify(), "", "", "");
 
     }
