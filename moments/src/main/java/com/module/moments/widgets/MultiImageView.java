@@ -1,6 +1,10 @@
 package com.module.moments.widgets;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -172,7 +176,8 @@ public class MultiImageView extends LinearLayout {
 		}
 	}
 
-	private ImageView createImageView(int position, final boolean isMultiImage) {
+	@RequiresApi(api = Build.VERSION_CODES.M)
+    private ImageView createImageView(int position, final boolean isMultiImage) {
 		PhotoInfo photoInfo = imagesList.get(position);
 		ImageView imageView = new ColorFilterImageView(getContext());
 		if(isMultiImage){
@@ -189,8 +194,8 @@ public class MultiImageView extends LinearLayout {
             if(expectW == 0 || expectH == 0){
                 imageView.setLayoutParams(onePicPara);
             }else{
-                int actualW = 0;
-                int actualH = 0;
+                int actualW ;
+                int actualH ;
                 float scale = ((float) expectH)/((float) expectW);
                 if(expectW > pxOneMaxWandH){
                     actualW = pxOneMaxWandH;
@@ -209,6 +214,10 @@ public class MultiImageView extends LinearLayout {
 		imageView.setId(photoInfo.url.hashCode());
 		imageView.setOnClickListener(new ImageOnClickListener(position));
 		imageView.setBackgroundColor(getResources().getColor(R.color.im_font_color_text_hint));
+		if (imagesList.size()>9&&position==8){
+			Drawable drawable= ContextCompat.getDrawable(getContext(),R.drawable.fg);
+			imageView.setForeground(drawable);
+		}
 		Glide.with(getContext()).load(photoInfo.url).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
 
 		return imageView;

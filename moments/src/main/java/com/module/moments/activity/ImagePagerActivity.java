@@ -43,7 +43,7 @@ public class ImagePagerActivity extends BaseActivity {
     private ArrayList<String> imgUrls;
 
 
-    public static void startImagePagerActivity(Context context, List<String> imgUrls, int position, ImageSize imageSize){
+    public static void navToImagePagerActivity(Context context, List<String> imgUrls, int position, ImageSize imageSize){
         Intent intent = new Intent(context, ImagePagerActivity.class);
         intent.putStringArrayListExtra(INTENT_IMGURLS, new ArrayList<String>(imgUrls));
         intent.putExtra(INTENT_POSITION, position);
@@ -185,10 +185,6 @@ public class ImagePagerActivity extends BaseActivity {
                             @Override
                             public void onLoadStarted(Drawable placeholder) {
                                 super.onLoadStarted(placeholder);
-                               /* if(smallImageView!=null){
-                                    smallImageView.setVisibility(View.VISIBLE);
-                                    Glide.with(context).load(imgurl).into(smallImageView);
-                                }*/
                                 loading.setVisibility(View.VISIBLE);
                             }
 

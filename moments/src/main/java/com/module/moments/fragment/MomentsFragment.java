@@ -14,7 +14,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,7 +34,7 @@ import com.module.moments.adapter.MomentsAdapter;
 import com.module.moments.bean.MomentsItem;
 import com.module.moments.bean.CommentConfig;
 import com.module.moments.bean.CommentItem;
-import com.module.moments.bean.FavortItem;
+import com.module.moments.bean.FavorItem;
 import com.module.moments.mvp.contract.MomentsContract;
 import com.module.moments.mvp.presenter.MomentsPresenter;
 import com.module.moments.utils.CommonUtils;
@@ -135,21 +134,21 @@ public class MomentsFragment extends Fragment implements MomentsContract.View, E
     }
 
     @Override
-    public void update2AddFavorite(int MomentsPosition, FavortItem addItem) {
+    public void update2AddFavorite(int MomentsPosition, FavorItem addItem) {
         if(addItem != null){
             MomentsItem item = (MomentsItem) momentsAdapter.getDatas().get(MomentsPosition);
-            item.getFavorters().add(addItem);
+            item.getfavorers().add(addItem);
             momentsAdapter.notifyDataSetChanged();
             //momentsAdapter.notifyItemChanged(MomentsPosition+1);
         }
     }
 
     @Override
-    public void update2DeleteFavort(int MomentsPosition, String favortId) {
+    public void update2Deletefavor(int MomentsPosition, String favorId) {
         MomentsItem item = (MomentsItem) momentsAdapter.getDatas().get(MomentsPosition);
-        List<FavortItem> items = item.getFavorters();
+        List<FavorItem> items = item.getfavorers();
         for(int i=0; i<items.size(); i++){
-            if(favortId.equals(items.get(i).getId())){
+            if(favorId.equals(items.get(i).getId())){
                 items.remove(i);
                 momentsAdapter.notifyDataSetChanged();
                 //momentsAdapter.notifyItemChanged(MomentsPosition+1);

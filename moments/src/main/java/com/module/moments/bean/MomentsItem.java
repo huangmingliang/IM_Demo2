@@ -23,7 +23,7 @@ public class MomentsItem extends BaseBean{
 	private String linkImg;
 	private String linkTitle;
 	private List<PhotoInfo> photos;
-	private List<FavortItem> favorters;
+	private List<FavorItem> favorers;
 	private List<CommentItem> comments;
 	private User user;
 	private String videoUrl;
@@ -55,11 +55,11 @@ public class MomentsItem extends BaseBean{
 	public void setType(String type) {
 		this.type = type;
 	}
-	public List<FavortItem> getFavorters() {
-		return favorters;
+	public List<FavorItem> getfavorers() {
+		return favorers;
 	}
-	public void setFavorters(List<FavortItem> favorters) {
-		this.favorters = favorters;
+	public void setfavorers(List<FavorItem> favorers) {
+		this.favorers = favorers;
 	}
 	public List<CommentItem> getComments() {
 		return comments;
@@ -116,8 +116,8 @@ public class MomentsItem extends BaseBean{
 		return this.isExpand;
 	}
 
-	public boolean hasFavort(){
-		if(favorters!=null && favorters.size()>0){
+	public boolean hasfavor(){
+		if(favorers!=null && favorers.size()>0){
 			return true;
 		}
 		return false;
@@ -130,16 +130,16 @@ public class MomentsItem extends BaseBean{
 		return false;
 	}
 	
-	public String getCurUserFavortId(String curUserId){
-		String favortid = "";
-		if(!TextUtils.isEmpty(curUserId) && hasFavort()){
-			for(FavortItem item : favorters){
+	public String getCurUserfavorId(String curUserId){
+		String favorid = "";
+		if(!TextUtils.isEmpty(curUserId) && hasfavor()){
+			for(FavorItem item : favorers){
 				if(curUserId.equals(item.getUser().getId())){
-					favortid = item.getId();
-					return favortid;
+					favorid = item.getId();
+					return favorid;
 				}
 			}
 		}
-		return favortid;
+		return favorid;
 	}
 }

@@ -97,25 +97,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <com.module.moments.widgets.PraiseListView
-                android:id="@+id/praiseListView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:lineSpacingMultiplier="1.1"
-                android:textSize="14sp"
-                android:textColor="@color/praise_item"
-                app:item_color="@color/praise_item"
-                />
+        <com.module.moments.widgets.FavorListView
+               android:id="@+id/favorView"
+               android:layout_width="0dp"
+               android:orientation="horizontal"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"/>
 
-        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -127,11 +119,22 @@
             android:textSize="13sp" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/commentDes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textSize="13sp"
+        android:visibility="gone"
+        android:text="@string/comment_description"
+        android:textColor="@color/gray"/>
+
 
     <com.module.moments.widgets.CommentListView
         android:id="@+id/commentList"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"/>
 
     <TextView

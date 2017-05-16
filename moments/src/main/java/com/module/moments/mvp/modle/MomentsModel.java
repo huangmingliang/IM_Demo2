@@ -26,11 +26,11 @@ public class MomentsModel {
 		requestServer(listener);
 	}
 
-	public void addFavort( final IDataRequestListener listener) {
+	public void addfavor( final IDataRequestListener listener) {
 		requestServer(listener);
 	}
 
-	public void deleteFavort(final IDataRequestListener listener) {
+	public void deletefavor(final IDataRequestListener listener) {
 		requestServer(listener);
 	}
 

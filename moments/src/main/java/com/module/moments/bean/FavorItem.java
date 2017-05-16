@@ -3,13 +3,13 @@ package com.module.moments.bean;
 import java.io.Serializable;
 /**
  * 
-* @ClassName: FavortItem 
+* @ClassName: favorItem
 * @Description: TODO(这里用一句话描述这个类的作用) 
 * @author yiw
 * @date 2015-12-28 下午3:44:56 
 *
  */
-public class FavortItem implements Serializable{
+public class FavorItem implements Serializable{
 
 	/**
 	 * 
@@ -17,6 +17,7 @@ public class FavortItem implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String id;
 	private User user;
+
 	public String getId() {
 		return id;
 	}
@@ -29,5 +30,6 @@ public class FavortItem implements Serializable{
 	public void setUser(User user) {
 		this.user = user;
 	}
+
 	
 }

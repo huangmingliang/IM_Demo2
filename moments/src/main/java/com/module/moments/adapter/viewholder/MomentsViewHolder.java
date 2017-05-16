@@ -5,12 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.module.moments.R;
 import com.module.moments.widgets.CommentListView;
 import com.module.moments.widgets.ExpandTextView;
+import com.module.moments.widgets.FavorListView;
 import com.module.moments.widgets.PraiseListView;
 import com.module.moments.widgets.SnsPopupWindow;
 import com.module.moments.widgets.videolist.model.VideoLoadMvpView;
@@ -34,11 +34,14 @@ public abstract class MomentsViewHolder extends RecyclerView.ViewHolder implemen
     public TextView timeTv;
     public TextView deleteBtn;
     /** 点赞列表*/
-    public PraiseListView praiseListView;
+    public FavorListView favorListView;
 
 
     /** 评论列表 */
     public CommentListView commentList;
+    public TextView commentDescription;
+
+    public TextView commentBtn;
     // ===========================
     public SnsPopupWindow snsPopupWindow;
 
@@ -56,9 +59,11 @@ public abstract class MomentsViewHolder extends RecyclerView.ViewHolder implemen
         contentTv = (ExpandTextView) itemView.findViewById(R.id.contentTv);
         timeTv = (TextView) itemView.findViewById(R.id.timeTv);
         deleteBtn = (TextView) itemView.findViewById(R.id.deleteBtn);
-        praiseListView = (PraiseListView) itemView.findViewById(R.id.praiseListView);
+        favorListView = (FavorListView) itemView.findViewById(R.id.favorView);
 
         commentList = (CommentListView)itemView.findViewById(R.id.commentList);
+        commentDescription=(TextView)itemView.findViewById(R.id.commentDes);
+        commentBtn=(TextView)itemView.findViewById(R.id.commentBtn);
 
         snsPopupWindow = new SnsPopupWindow(itemView.getContext());
 

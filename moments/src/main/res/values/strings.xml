@@ -4,5 +4,7 @@
     <string name="app_name">MomentsDemo</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    
+    <string name="comment_description">全部%1$d条评论</string>
 
 </resources>

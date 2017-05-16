@@ -3,6 +3,7 @@ package com.module.moments.widgets;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -20,6 +21,7 @@ import com.module.moments.R;
 import com.module.moments.bean.CommentItem;
 import com.module.moments.spannable.MomentsMovementMethod;
 import com.module.moments.spannable.SpannableClickable;
+import com.module.moments.utils.DensityUtil;
 import com.module.moments.utils.UrlUtils;
 
 import java.util.ArrayList;
@@ -101,16 +103,15 @@ public class CommentListView extends LinearLayout {
             return;
         }
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        for(int i=0; i<mDatas.size(); i++){
+        layoutParams.setMargins(0,DensityUtil.dip2px(getContext(),8),0,0);
+        for(int i=0; i<mDatas.size(); i++) {
             final int index = i;
             View view = getView(index);
-            if(view == null){
+            if (view == null) {
                 throw new NullPointerException("listview item layout is null, please check getView()...");
             }
-
-            addView(view, index, layoutParams);
+                addView(view, index, layoutParams);
         }
-
     }
 
     private View getView(final int position){

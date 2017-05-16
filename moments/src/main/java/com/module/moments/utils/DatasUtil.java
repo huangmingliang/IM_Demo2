@@ -2,7 +2,7 @@ package com.module.moments.utils;
 
 import com.module.moments.bean.MomentsItem;
 import com.module.moments.bean.CommentItem;
-import com.module.moments.bean.FavortItem;
+import com.module.moments.bean.FavorItem;
 import com.module.moments.bean.PhotoInfo;
 import com.module.moments.bean.User;
 
@@ -64,7 +64,7 @@ public class DatasUtil {
 	/**
 	 * 点赞id自增长
 	 */
-	private static int favortId = 0;
+	private static int favorId = 0;
 	/**
 	 * 评论id自增长
 	 */
@@ -160,7 +160,7 @@ public class DatasUtil {
 			item.setContent(getContent());
 			item.setCreateTime("12月24日");
 
-			item.setFavorters(createFavortItemList());
+			item.setfavorers(createfavorItemList());
 			item.setComments(createCommentItemList());
 			int type = getRandomNum(10) % 2;
 			if (type == 0) {
@@ -216,13 +216,13 @@ public class DatasUtil {
 		return photos;
 	}
 
-	public static List<FavortItem> createFavortItemList() {
+	public static List<FavorItem> createfavorItemList() {
 		int size = getRandomNum(users.size());
-		List<FavortItem> items = new ArrayList<FavortItem>();
+		List<FavorItem> items = new ArrayList<FavorItem>();
 		List<String> history = new ArrayList<String>();
 		if (size > 0) {
 			for (int i = 0; i < size; i++) {
-				FavortItem newItem = createFavortItem();
+				FavorItem newItem = createfavorItem();
 				String userid = newItem.getUser().getId();
 				if (!history.contains(userid)) {
 					items.add(newItem);
@@ -235,16 +235,16 @@ public class DatasUtil {
 		return items;
 	}
 
-	public static FavortItem createFavortItem() {
-		FavortItem item = new FavortItem();
-		item.setId(String.valueOf(favortId++));
+	public static FavorItem createfavorItem() {
+		FavorItem item = new FavorItem();
+		item.setId(String.valueOf(favorId++));
 		item.setUser(getUser());
 		return item;
 	}
 	
-	public static FavortItem createCurUserFavortItem() {
-		FavortItem item = new FavortItem();
-		item.setId(String.valueOf(favortId++));
+	public static FavorItem createCurUserfavorItem() {
+		FavorItem item = new FavorItem();
+		item.setId(String.valueOf(favorId++));
 		item.setUser(curUser);
 		return item;
 	}
@@ -311,7 +311,7 @@ public class DatasUtil {
 		//item.setContent(getContent());
 		item.setCreateTime("12月24日");
 
-		//item.setFavorters(createFavortItemList());
+		//item.setfavorers(createfavorItemList());
 		//item.setComments(createCommentItemList());
         item.setType("3");// 图片
         item.setVideoUrl(videoUrl);

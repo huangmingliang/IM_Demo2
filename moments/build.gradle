@@ -40,4 +40,5 @@ dependencies {
     }
     compile 'pub.devrel:easypermissions:0.2.1'
     compile project(':ui')
+    compile project(':sdk')
 }

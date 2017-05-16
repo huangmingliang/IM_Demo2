@@ -9,13 +9,11 @@ import android.text.SpannableStringBuilder;
 import android.text.style.DynamicDrawableSpan;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.module.moments.MyApplication;
 import com.module.moments.R;
-import com.module.moments.bean.FavortItem;
+import com.module.moments.bean.FavorItem;
 import com.module.moments.spannable.MomentsMovementMethod;
 import com.module.moments.spannable.SpannableClickable;
 
@@ -30,7 +28,7 @@ public class PraiseListView extends TextView{
     private String TAG="PraiseListView";
     private int itemColor;
     private int itemSelectorColor;
-    private List<FavortItem> datas;
+    private List<FavorItem> datas;
     private OnItemClickListener onItemClickListener;
     private Context context;
 
@@ -71,10 +69,10 @@ public class PraiseListView extends TextView{
         }
     }
 
-    public List<FavortItem> getDatas() {
+    public List<FavorItem> getDatas() {
         return datas;
     }
-    public void setDatas(List<FavortItem> datas) {
+    public void setDatas(List<FavorItem> datas) {
         this.datas = datas;
         notifyDataSetChanged();
     }
@@ -85,7 +83,7 @@ public class PraiseListView extends TextView{
         if(datas != null && datas.size() > 0){
             //添加点赞图标
             builder.append(setImageSpan());
-            FavortItem item = null;
+            FavorItem item = null;
             for (int i=0; i<datas.size(); i++){
                 item = datas.get(i);
                 if(item != null){
@@ -96,11 +94,8 @@ public class PraiseListView extends TextView{
                 }
             }
         }
-        Log.e(TAG,"HML 95");
         setText(builder);
-        Log.e(TAG,"HML 97");
         setMovementMethod(new MomentsMovementMethod(itemSelectorColor,getContext()));
-        Log.e(TAG,"HML 99");
     }
 
 

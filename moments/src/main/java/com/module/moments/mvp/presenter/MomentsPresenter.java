@@ -5,7 +5,7 @@ import android.view.View;
 import com.module.moments.bean.MomentsItem;
 import com.module.moments.bean.CommentConfig;
 import com.module.moments.bean.CommentItem;
-import com.module.moments.bean.FavortItem;
+import com.module.moments.bean.FavorItem;
 import com.module.moments.mvp.contract.MomentsContract;
 import com.module.moments.mvp.modle.MomentsModel;
 import com.module.moments.listener.IDataRequestListener;
@@ -60,18 +60,18 @@ public class MomentsPresenter implements MomentsContract.Presenter{
 	}
 	/**
 	 * 
-	* @Title: addFavort 
+	* @Title: addfavor
 	* @Description: 点赞
 	* @param  MomentsPosition
 	* @return void    返回类型 
 	* @throws
 	 */
-	public void addFavort(final int MomentsPosition){
-		MomentsModel.addFavort(new IDataRequestListener() {
+	public void addfavor(final int MomentsPosition){
+		MomentsModel.addfavor(new IDataRequestListener() {
 
 			@Override
 			public void loadSuccess(Object object) {
-				FavortItem item = DatasUtil.createCurUserFavortItem();
+				FavorItem item = DatasUtil.createCurUserfavorItem();
                 if(view !=null ){
                     view.update2AddFavorite(MomentsPosition, item);
                 }
@@ -81,20 +81,20 @@ public class MomentsPresenter implements MomentsContract.Presenter{
 	}
 	/**
 	 * 
-	* @Title: deleteFavort 
+	* @Title: deletefavor
 	* @Description: 取消点赞 
 	* @param @param MomentsPosition
-	* @param @param favortId     
+	* @param @param favorId
 	* @return void    返回类型 
 	* @throws
 	 */
-	public void deleteFavort(final int MomentsPosition, final String favortId){
-		MomentsModel.deleteFavort(new IDataRequestListener() {
+	public void deletefavor(final int MomentsPosition, final String favorId){
+		MomentsModel.deletefavor(new IDataRequestListener() {
 
 			@Override
 			public void loadSuccess(Object object) {
                 if(view !=null ){
-                    view.update2DeleteFavort(MomentsPosition, favortId);
+                    view.update2Deletefavor(MomentsPosition, favorId);
                 }
 			}
 		});
